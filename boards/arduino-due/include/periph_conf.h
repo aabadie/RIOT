@@ -113,6 +113,33 @@ static const uart_conf_t uart_config[] = {
 #define SPI_0_SCK_PORT_CLKEN()   (PMC->PMC_PCER0 |= (1 << ID_PIOA));
 /** @} */
 
+/* TWI (I2C) devices configuration */
+#define I2C_NUMOF          (1U)
+#define I2C_0_EN            1
+#define I2C_1_EN            1
+#define I2C_0_IRQ_PRIO      1
+#define I2C_1_IRQ_PRIO      1
+  
+#define I2C_0_DEV           SERCOM0->I2CM
+#define I2C_0_IRQ           SERCOM0_IRQn
+#define I2C_0_ISR           isr_twi0
+
+#define I2C_1_DEV           SERCOM1->I2CM
+#define I2C_1_IRQ           SERCOM1_IRQn
+#define I2C_1_ISR           isr_twi1
+
+/* TWI 0 pin configuration */
+#define I2C_0_PORT          PIOA
+#define I2C_0_SDA           PIO_PA17A_TWD0
+#define I2C_0_SCL           PI0_PA18A_TWCK0
+#define I2C_0_PINS          (PIO_PA17A_TWD0 | PIO_PA18A_TWCK0)
+
+/* TWI 1 pin configuration */
+#define I2C_1_PORT          PIOB
+#define I2C_1_SDA           PIO_PB12A_TWD1
+#define I2C_1_SCL           PI0_PB13A_TWCK1
+#define I2C_1_PINS          (PIO_PB12A_TWD1 | PIO_PB13A_TWCK1)
+
 /**
  * @name GPIO configuration
  * @{
