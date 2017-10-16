@@ -78,12 +78,9 @@ void *keepalive_handler(void *arg)
 {
     /* remove warning unused parameter arg */
     (void)arg;
-    
-    puts("initializing CoAP, registering to dashboard");
-    register_init();
-    
+
     while(1) {
-        xtimer_sleep(180);
+        xtimer_sleep(30);
         register_keepalive();
         
     }
@@ -102,6 +99,11 @@ int main(void)
     /* print network addresses */
     puts("Configured network interfaces:");
     _netif_config(0, NULL);
+
+    puts("initializing CoAP, registering to dashboard");
+    register_init();
+
+    xtimer_sleep(3);
     
     /* launch dashboard registration & keepalive thread */
     thread_create(keepalive, sizeof(keepalive),

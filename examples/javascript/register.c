@@ -38,9 +38,9 @@ static void _resp_handler(unsigned req_state, coap_pkt_t *pdu);
 
 static char alive_payload[] = "Alive";
 static char reset_payload[] = "reset";
-static char dashboard_addr[] = "affe::1";
+static char dashboard_addr[] = "fd00:abad:1e:102::1";
 static char dashboard_port[] = "5683";
-static char device_id[10];
+static char device_id[32];
 
 extern char script[];
 extern void js_restart(void);
@@ -246,7 +246,6 @@ void register_keepalive(void)
     if (!_send(&buf[0], len, dashboard_addr, dashboard_port)) {
         puts("Dashboard keepalive: msg send failed");
     }
-
 }
 
 void register_init(void)
@@ -261,6 +260,7 @@ void register_init(void)
     pos += fmt_str(pos, "RIOT-");
     pos += fmt_byte_hex(pos, id[0]);
     pos += fmt_byte_hex(pos, id[1]);
+    pos += fmt_str(pos, " Javascript Container");
     *pos = '\0';
 
     printf("Device ID = %s \n", device_id);
