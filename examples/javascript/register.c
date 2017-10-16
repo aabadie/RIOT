@@ -115,95 +115,36 @@ static ssize_t _riot_script_handler(coap_pkt_t *pkt, uint8_t *buf, size_t len)
 
     return coap_reply_simple(pkt, code, buf, len,
                              COAP_FORMAT_TEXT, (uint8_t *)js_mock_script, rsp_len);
-
-
-/*    return gcoap_response(pkt, buf, len, code);
- */
-
 }
 
 static ssize_t _os_handler(coap_pkt_t *pkt, uint8_t *buf, size_t len)
 {
-    ssize_t rsp_len = 0;
-    unsigned code = COAP_CODE_EMPTY;
     const char *os = "riot";
-
-    /* read coap method type in packet */
-    unsigned method_flag = coap_method2flag(coap_get_code_detail(pkt));
-
-    switch (method_flag) {
-        case COAP_GET:
-            code = COAP_CODE_205;
-            rsp_len = strlen((char *)os);
-            break;
-        case COAP_POST:
-        case COAP_PUT:
-            break;
-    }
+    unsigned code = COAP_CODE_205;
+    ssize_t rsp_len = strlen((char *)os);
 
     return coap_reply_simple(pkt, code, buf, len,
                              COAP_FORMAT_TEXT, (uint8_t *)os, rsp_len);
-
-
-/*    return gcoap_response(pkt, buf, len, code);
- */
-
 }
 
 
 static ssize_t _board_handler(coap_pkt_t *pkt, uint8_t *buf, size_t len)
 {
-    ssize_t rsp_len = 0;
-    unsigned code = COAP_CODE_EMPTY;
     const char *board = RIOT_BOARD;
-
-    /* read coap method type in packet */
-    unsigned method_flag = coap_method2flag(coap_get_code_detail(pkt));
-
-    switch (method_flag) {
-        case COAP_GET:
-            code = COAP_CODE_205;
-            rsp_len = strlen((char *)board);
-            break;
-        case COAP_POST:
-        case COAP_PUT:
-            break;
-    }
+    ssize_t rsp_len = strlen((char *)board);
+    unsigned code = COAP_CODE_205;
 
     return coap_reply_simple(pkt, code, buf, len,
                              COAP_FORMAT_TEXT, (uint8_t *)board, rsp_len);
-
-
-/*    return gcoap_response(pkt, buf, len, code);
- */
-
 }
 
 static ssize_t _name_handler(coap_pkt_t *pkt, uint8_t *buf, size_t len)
 {
-    ssize_t rsp_len = 0;
-    unsigned code = COAP_CODE_EMPTY;
-
-    /* read coap method type in packet */
-    unsigned method_flag = coap_method2flag(coap_get_code_detail(pkt));
-
-    switch (method_flag) {
-        case COAP_GET:
-            code = COAP_CODE_205;
-            rsp_len = strlen((char *)device_id);
-            break;
-        case COAP_POST:
-        case COAP_PUT:
-            break;
-    }
+    ssize_t rsp_len = strlen((char *)device_id);
+    unsigned code = COAP_CODE_205;
 
     return coap_reply_simple(pkt, code, buf, len,
                              COAP_FORMAT_TEXT, (uint8_t *)device_id, rsp_len);
-
-
-/*    return gcoap_response(pkt, buf, len, code);
- */
-
 }
 
 /* CoAP resources */
