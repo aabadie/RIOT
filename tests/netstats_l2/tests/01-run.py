@@ -17,15 +17,26 @@ EXPECTED_HELP = (
     '>'
 )
 
-EXPECTED_IFCONFIG = (
+EXPECTED_IFCONFIG = [
     r'ifconfig',
-    r'Iface  \d+   HWaddr\: ([a-f0-9]{2}[:-]){5}([a-f0-9]{2}) ',
+    (r'Iface  \d+   HWaddr\: ([0-9a-f]{2}:){1,}([0-9a-f]{2}) '
+     r'(Channel\: [11-26]  )?(Page\: \d+  )?(NID\: 0x[0-9a-f]{2})?')
+]
+
+if os.environ['BOARD'] != 'native':
+    EXPECTED_IFCONFIG += [
+        r'           Long HWaddr\: ([0-9a-f]{2}:){7}([0-9a-f]{2})',
+        r'           TX-Power\: (-?\d+)dBm  State\: IDLE  max\. Retrans\.\: \d+  CSMA Retries\: \d+',
+        r'           ACK\_REQ  CSMA',
+    ]
+
+EXPECTED_IFCONFIG += [
     r'       Source address length: \d+',
     r'       Statistics for Layer 2',
     r'        RX packets \d+  bytes \d+',
     r'        TX packets \d+ \(Multicast: \d+\)  bytes \d+',
     r'        TX succeeded \d+ errors 0'
-)
+]
 
 
 def testfunc(child):
