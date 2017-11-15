@@ -29,13 +29,11 @@ EXPECTED_IFCONFIG = (
 
 
 def testfunc(child):
-    child.sendline('help')
-    for line in EXPECTED_HELP:
-        child.expect_exact(line)
-
     child.sendline('ifconfig')
-    for line in EXPECTED_IFCONFIG:
-        child.expect(line)
+    child.expect(r'       Statistics for Layer 2')
+    child.expect(r'        RX packets \d+  bytes \d+')
+    child.expect(r'        TX packets \d+ \(Multicast: \d+\)  bytes \d+')
+    child.expect(r'        TX succeeded \d+ errors \d+')
 
 if __name__ == "__main__":
     sys.path.append(os.path.join(os.environ['RIOTBASE'], 'dist/tools/testrunner'))
