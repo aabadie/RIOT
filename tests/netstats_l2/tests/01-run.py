@@ -19,14 +19,13 @@ EXPECTED_HELP = (
 
 EXPECTED_IFCONFIG = [
     r'ifconfig',
-    (r'Iface  \d+   HWaddr\: ([0-9a-f]{2}:){1,}([0-9a-f]{2}) '
-     r'(Channel\: [11-26]  )?(Page\: \d+  )?(NID\: 0x[0-9a-f]{2})?')
+    r'Iface  \d+   HWaddr: ([0-9a-f]{2}:){1,}([0-9a-f]{2}) (Channel: [11,26]  )?(Page: \d+  )?(NID: 0x[0-9a-f]{2})?'
 ]
 
 if os.environ['BOARD'] != 'native':
     EXPECTED_IFCONFIG += [
-        r'           Long HWaddr\: ([0-9a-f]{2}:){7}([0-9a-f]{2})',
-        r'           TX-Power\: (-?\d+)dBm  State\: IDLE  max\. Retrans\.\: \d+  CSMA Retries\: \d+',
+        r'           Long HWaddr: ([0-9a-f]{2}:){7}([0-9a-f]{2})',
+        r'           TX-Power: (-?\d+)dBm  State: IDLE  max\. Retrans\.: \d+  CSMA Retries: \d+',
         r'           ACK\_REQ  CSMA',
     ]
 
