@@ -9,25 +9,6 @@
 import os
 import sys
 
-EXPECTED_HELP = (
-    'Command              Description',
-    '---------------------------------------',
-    'reboot               Reboot the node',
-    'ifconfig             Configure network interfaces',
-    '>'
-)
-
-EXPECTED_IFCONFIG = (
-    r'ifconfig',
-    r'Iface  \d+   HWaddr: ([0-9a-f]{2}:){1,}([0-9a-f]{2})',
-    r'       Source address length: \d+',
-    r'       Statistics for Layer 2',
-    r'        RX packets \d+  bytes \d+',
-    r'        TX packets \d+ \(Multicast: \d+\)  bytes \d+',
-    r'        TX succeeded \d+ errors \d+'
-)
-
-
 def testfunc(child):
     child.sendline('ifconfig')
     child.expect(r'       Statistics for Layer 2')
