@@ -31,12 +31,12 @@
 #include "shell.h"
 
 #include "semtech_loramac.h"
-#include "semtech_loramac_params.h"
 
 #include "sx127x.h"
 #include "sx127x_params.h"
 #include "sx127x_netdev.h"
 
+#include "net/gnrc.h"
 #include "net/netdev.h"
 #include "net/loramac.h"
 
@@ -47,9 +47,6 @@
 
 #define ENABLE_DEBUG (0)
 #include "debug.h"
-
-#define LORAMAC_MSG_QUEUE       (16U)
-#define LORAMAC_STACKSIZE       (THREAD_STACKSIZE_DEFAULT)
 
 #if defined(REGION_EU868)
 #define LORAWAN_DUTYCYCLE_ON                        true
@@ -76,22 +73,28 @@
 #error "Please define a region in the compiler options."
 #endif
 
-static char stack[LORAMAC_STACKSIZE];
-kernel_pid_t _mac_pid;
+#define LORAMAC_STACKSIZE           (THREAD_STACKSIZE_DEFAULT)
+#ifndef LORAMAC_PRIO
+#define LORAMAC_PRIO                (GNRC_NETIF_PRIO)
+#endif
+static char loramac_stack[LORAMAC_STACKSIZE];
+extern kernel_pid_t semtech_loramac_pid;
 kernel_pid_t _handler_pid;
+extern gnrc_netif_t *gnrc_netif_semtech_loramac_create(char *stack, int stacksize,
+                                                       char priority, char *name,
+                                                       netdev_t *dev);
 
 RadioEvents_t radio_events;
 
 static uint8_t dev_eui[] = LORAMAC_DEV_EUI_DEFAULT;
 static uint8_t app_eui[] = LORAMAC_APP_EUI_DEFAULT;
 static uint8_t app_key[] = LORAMAC_APP_KEY_DEFAULT;
-static uint8_t nwk_skey[] = LORAMAC_NET_SKEY_DEFAULT;
+static uint8_t nwk_skey[] = LORAMAC_NWK_SKEY_DEFAULT;
 static uint8_t app_skey[] = LORAMAC_APP_SKEY_DEFAULT;
 static uint8_t dev_addr[] = LORAMAC_DEV_ADDR_DEFAULT;
 
-#define LORAWAN_APP_DATA_MAX_SIZE                       242
-static uint8_t payload[LORAWAN_APP_DATA_MAX_SIZE] = { 0 };
-static uint8_t rx_payload[LORAWAN_APP_DATA_MAX_SIZE] = { 0 };
+uint8_t payload[LORAWAN_APP_DATA_MAX_SIZE] = { 0 };
+uint8_t rx_payload[LORAWAN_APP_DATA_MAX_SIZE] = { 0 };
 
 typedef struct {
     uint8_t port;
@@ -100,18 +103,6 @@ typedef struct {
     uint8_t *payload;
     uint8_t len;
 } loramac_send_params_t;
-
-typedef void (*semtech_loramac_func_t)(void *);
-
-/**
- * @brief   Struct containing a semtech loramac function call
- *
- * This function is called inside the semtech loramac thread context.
- */
-typedef struct {
-    semtech_loramac_func_t func;            /**< the function to call. */
-    void *arg;                              /**< argument of the function **/
-} semtech_loramac_call_t;
 
 /* Prepares the payload of the frame */
 static bool _semtech_loramac_send(uint8_t cnf, uint8_t port, uint8_t dr,
@@ -404,155 +395,29 @@ static void _semtech_loramac_call(semtech_loramac_func_t func, void *arg)
     msg_t msg;
     msg.type = MSG_TYPE_LORAMAC_CMD;
     msg.content.ptr = &call;
-    msg_send(&msg, _mac_pid);
-}
-
-static void _event_cb(netdev_t *dev, netdev_event_t event)
-{
-    netdev_sx127x_lora_packet_info_t packet_info;
-
-    msg_t msg;
-    msg.content.ptr = dev;
-
-    switch (event) {
-
-        case NETDEV_EVENT_ISR:
-            msg.type = MSG_TYPE_ISR;
-            if (msg_send(&msg, _mac_pid) <= 0) {
-                DEBUG("[semtech-loramac] possibly lost interrupt.\n");
-            }
-            break;
-
-        case NETDEV_EVENT_TX_COMPLETE:
-            sx127x_set_sleep((sx127x_t*)dev);
-            radio_events.TxDone();
-            DEBUG("[semtech-loramac] Transmission completed\n");
-            break;
-
-        case NETDEV_EVENT_TX_TIMEOUT:
-            msg.type = MSG_TYPE_TX_TIMEOUT;
-
-            if (msg_send(&msg, _mac_pid) <= 0) {
-                DEBUG("[semtech-loramac] TX timeout, possibly lost interrupt.\n");
-            }
-            break;
-
-        case NETDEV_EVENT_RX_COMPLETE:
-        {
-            size_t len;
-            len = dev->driver->recv(dev, NULL, 0, 0);
-            dev->driver->recv(dev, payload, len, &packet_info);
-            radio_events.RxDone((uint8_t*)payload, len, packet_info.rssi,
-                                 packet_info.snr);
-        }
-            break;
-
-        case NETDEV_EVENT_RX_TIMEOUT:
-            msg.type = MSG_TYPE_RX_TIMEOUT;
-
-            if (msg_send(&msg, _mac_pid) <= 0) {
-                DEBUG("[semtech-loramac] RX timeout, possibly lost interrupt.\n");
-            }
-            break;
-
-        case NETDEV_EVENT_CRC_ERROR:
-            DEBUG("[semtech-loramac] RX CRC error\n");
-            radio_events.RxError();
-            break;
-
-        case NETDEV_EVENT_FHSS_CHANGE_CHANNEL:
-            DEBUG("[semtech-loramac] FHSS channel change\n");
-            radio_events.FhssChangeChannel(((sx127x_t*)dev)->_internal.last_channel);
-            break;
-
-        case NETDEV_EVENT_CAD_DONE:
-            DEBUG("[DEBUG] test: CAD done\n");
-            radio_events.CadDone(((sx127x_t*)dev)->_internal.is_last_cad_success);
-            break;
-
-        default:
-            DEBUG("[semtech-loramac] unexpected netdev event received: %d\n",
-                  event);
-            break;
-    }
-}
-
-void *_event_loop(void *arg)
-{
-    static msg_t _msg_q[LORAMAC_MSG_QUEUE];
-    msg_init_queue(_msg_q, LORAMAC_MSG_QUEUE);
-    LoRaMacPrimitives_t primitives;
-    LoRaMacCallback_t callbacks;
-
-    _init_loramac(&primitives, &callbacks);
-    semtech_loramac_set_dr(LORAMAC_DEFAULT_DR);
-    semtech_loramac_set_adr(LORAMAC_DEFAULT_ADR);
-    semtech_loramac_set_public_network(LORAMAC_DEFAULT_PUBLIC_NETWORK);
-
-    while (1) {
-        msg_t msg;
-        msg_receive(&msg);
-        switch(msg.type) {
-            case MSG_TYPE_ISR:
-            {
-                netdev_t *dev = msg.content.ptr;
-                dev->driver->isr(dev);
-            }
-                break;
-
-            case MSG_TYPE_RX_TIMEOUT:
-                DEBUG("[semtech-loramac] RX timer timeout\n");
-                radio_events.RxTimeout();
-                break;
-
-            case MSG_TYPE_TX_TIMEOUT:
-                DEBUG("[semtech-loramac] TX timer timeout\n");
-                radio_events.TxTimeout();
-                break;
-
-            case MSG_TYPE_MAC_TIMEOUT:
-            {
-                DEBUG("[semtech-loramac] MAC timer timeout\n");
-                void (*callback)(void) = msg.content.ptr;
-                callback();
-            }
-                break;
-            case MSG_TYPE_LORAMAC_CMD:
-            {
-                DEBUG("[semtech-loramac] loramac cmd\n");
-                semtech_loramac_call_t *call = msg.content.ptr;
-                call->func(call->arg);
-            }
-                break;
-
-            default:
-                DEBUG("[semtech-loramac] Unexpected msg type '%04x'\n", msg.type);
-                break;
-        }
-    }
+    msg_send(&msg, semtech_loramac_pid);
 }
 
 int semtech_loramac_init(sx127x_t *dev)
 {
     dev->netdev.driver = &sx127x_driver;
-    dev->netdev.event_callback = _event_cb;
 
-    _handler_pid = thread_getpid();
-    _mac_pid = thread_create(stack, sizeof(stack), THREAD_PRIORITY_MAIN - 1,
-                             THREAD_CREATE_STACKTEST, _event_loop, NULL,
-                             "recv_thread");
+    LoRaMacPrimitives_t primitives;
+    LoRaMacCallback_t callbacks;
+    _init_loramac(&primitives, &callbacks);
+    semtech_loramac_set_dr(LORAMAC_DEFAULT_DR);
+    semtech_loramac_set_adr(LORAMAC_DEFAULT_ADR);
+    semtech_loramac_set_public_network(LORAMAC_DEFAULT_PUBLIC_NETWORK);
 
-    if (_mac_pid <= KERNEL_PID_UNDEF) {
-        DEBUG("Creation of receiver thread failed\n");
-        return -1;
-    }
+    gnrc_netif_semtech_loramac_create(loramac_stack, LORAMAC_STACKSIZE,
+                                      LORAMAC_PRIO, "loramac", (netdev_t *)dev);
 
     return 0;
 }
 
 uint8_t semtech_loramac_join(uint8_t type)
 {
-    _semtech_loramac_call(_join, (void*)&type);
+    _semtech_loramac_call(_join, &type);
 
     if (type == LORAMAC_JOIN_OTAA) {
         /* Wait until the OTAA join procedure is complete */

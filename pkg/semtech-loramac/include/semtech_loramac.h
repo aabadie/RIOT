@@ -40,6 +40,11 @@ extern "C" {
 /** @} */
 
 /**
+ * @brief   Maximum payload size of a LoRaWAN application data
+ */
+#define LORAWAN_APP_DATA_MAX_SIZE                (242U)
+
+/**
  * @brief   LoRaMAC status
  */
 enum {
@@ -49,6 +54,21 @@ enum {
     SEMTECH_LORAMAC_TX_DONE,                     /**< Transmission completed */
     SEMTECH_LORAMAC_RX_DATA,                     /**< Data received */
 };
+
+/**
+ * @brief   Pointer to Semtech LoRaMac function
+ */
+typedef void (*semtech_loramac_func_t)(void *);
+
+/**
+ * @brief   Struct containing a semtech loramac function call
+ *
+ * This function is called inside the semtech loramac thread context.
+ */
+typedef struct {
+    semtech_loramac_func_t func;            /**< the function to call. */
+    void *arg;                              /**< argument of the function **/
+} semtech_loramac_call_t;
 
 /**
  * @brief   Initializes semtech loramac

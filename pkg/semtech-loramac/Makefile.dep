@@ -1,5 +1,6 @@
 USEMODULE += random
 
+USEMODULE += gnrc_netif
 USEMODULE += semtech_loramac_contrib
 USEMODULE += semtech_loramac_mac
 USEMODULE += semtech_loramac_mac_region
