@@ -1307,12 +1307,14 @@ static void *_gnrc_netif_thread(void *args)
 
 static void _pass_on_packet(gnrc_pktsnip_t *pkt)
 {
+#ifndef MODULE_SEMTECH_LORAMAC
     /* throw away packet if no one is interested */
     if (!gnrc_netapi_dispatch_receive(pkt->type, GNRC_NETREG_DEMUX_CTX_ALL, pkt)) {
         DEBUG("gnrc_netif: unable to forward packet of type %i\n", pkt->type);
         gnrc_pktbuf_release(pkt);
         return;
     }
+#endif
 }
 
 static void _event_cb(netdev_t *dev, netdev_event_t event)
