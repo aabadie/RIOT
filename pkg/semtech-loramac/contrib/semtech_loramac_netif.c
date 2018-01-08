@@ -59,6 +59,13 @@ gnrc_netif_t *gnrc_netif_semtech_loramac_create(char *stack, int stacksize,
                                                 char priority, char *name,
                                                 netdev_t *dev)
 {
+    LoRaMacPrimitives_t primitives;
+    LoRaMacCallback_t callbacks;
+    _init_loramac(&primitives, &callbacks);
+    semtech_loramac_set_dr(LORAMAC_DEFAULT_DR);
+    semtech_loramac_set_adr(LORAMAC_DEFAULT_ADR);
+    semtech_loramac_set_public_network(LORAMAC_DEFAULT_PUBLIC_NETWORK);
+
     return gnrc_netif_create(stack, stacksize, priority, name, dev,
                              &semtech_loramac_ops);
 }
