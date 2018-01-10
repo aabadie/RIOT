@@ -62,6 +62,17 @@ size_t fmt_byte_hex(char *out, uint8_t byte)
     return 2;
 }
 
+size_t fmt_bytes_hex(char *out, const uint8_t *ptr, size_t n)
+{
+    size_t i = 0;
+    while (i < n) {
+        out += fmt_byte_hex(out, ptr[i]);
+        i++;
+    }
+
+    return (n << 1);
+}
+
 size_t fmt_strlen(const char *str)
 {
     const char *tmp = str;
@@ -93,6 +104,24 @@ size_t fmt_bytes_hex_reverse(char *out, const uint8_t *ptr, size_t n)
         out += fmt_byte_hex(out, ptr[i]);
     }
     return (n<<1);
+}
+
+void fmt_hex_bytes(uint8_t *out, const char *hex)
+{
+    const uint8_t charmap[] = {
+        0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, /* 01234567 */
+        0x08, 0x09, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, /* 89:;<=>? */
+        0x00, 0x0a, 0x0b, 0x0c, 0x0d, 0x0e, 0x0f, 0x00, /* @ABCDEFG */
+        0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, /* HIJKLMNO */
+    };
+
+    size_t len = strlen(hex);
+
+    for (uint8_t pos = 0; pos < len; pos += 2) {
+        uint8_t idx0 = ((uint8_t)hex[pos + 0] & 0x1F) ^ 0x10;
+        uint8_t idx1 = ((uint8_t)hex[pos + 1] & 0x1F) ^ 0x10;
+        out[pos / 2] = (uint8_t)(charmap[idx0] << 4) | charmap[idx1];
+    };
 }
 
 size_t fmt_u32_hex(char *out, uint32_t val)
