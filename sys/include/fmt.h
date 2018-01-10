@@ -97,10 +97,14 @@ size_t fmt_bytes_hex_reverse(char *out, const uint8_t *ptr, size_t n);
  * The sequence of hex characters must have an odd length:
  * 2 hex character => 1 byte.
  *
+ * If @p out is NULL, will only return the number of bytes that would have
+ * been written.
+ *
  * @param[out] out  Pointer to converted bytes, or NULL
  * @param[in]  hex  Pointer to input buffer
+ * @returns    strlen(hex) / 2
  */
-void fmt_hex_bytes(uint8_t *out, const char *hex);
+size_t fmt_hex_bytes(uint8_t *out, const char *hex);
 
 /**
  * @brief Convert a uint32 value to hex string.
