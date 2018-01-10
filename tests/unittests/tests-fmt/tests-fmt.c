@@ -34,6 +34,33 @@ static void test_fmt_byte_hex(void)
     TEST_ASSERT_EQUAL_STRING("FF", (char *) out);
 }
 
+static void test_fmt_bytes_hex(void)
+{
+    char out[9] = "--------";
+    uint8_t val[4] = { 9, 8, 7, 6 };
+    uint8_t bytes = 0;
+
+    bytes = fmt_bytes_hex(out, val, 1);
+    out[bytes] = '\0';
+    TEST_ASSERT_EQUAL_INT(2, bytes);
+    TEST_ASSERT_EQUAL_STRING("09", (char *) out);
+
+    bytes = fmt_bytes_hex(out, val, 2);
+    out[bytes] = '\0';
+    TEST_ASSERT_EQUAL_INT(4, bytes);
+    TEST_ASSERT_EQUAL_STRING("0908", (char *) out);
+
+    bytes = fmt_bytes_hex(out, val, 3);
+    out[bytes] = '\0';
+    TEST_ASSERT_EQUAL_INT(6, bytes);
+    TEST_ASSERT_EQUAL_STRING("090807", (char *) out);
+
+    bytes = fmt_bytes_hex(out, val, 4);
+    out[bytes] = '\0';
+    TEST_ASSERT_EQUAL_INT(8, bytes);
+    TEST_ASSERT_EQUAL_STRING("09080706", (char *) out);
+}
+
 static void test_fmt_bytes_hex_reverse(void)
 {
     char out[9] = "--------";
@@ -59,6 +86,20 @@ static void test_fmt_bytes_hex_reverse(void)
     out[bytes] = '\0';
     TEST_ASSERT_EQUAL_INT(8, bytes);
     TEST_ASSERT_EQUAL_STRING("06070809", (char *) out);
+}
+
+static void test_fmt_hex_bytes(void)
+{
+    char hex2[2] = "00";
+    uint8_t val1[1] = { 0 };
+    fmt_hex_bytes(val1, hex2);
+    TEST_ASSERT_EQUAL_INT(0, val1[0]);
+
+    char hex4[4] = "0102";
+    uint8_t val2[2] = { 0 };
+    fmt_hex_bytes(val2, hex4);
+    TEST_ASSERT_EQUAL_INT(1, val2[0]);
+    TEST_ASSERT_EQUAL_INT(2, val2[1]);
 }
 
 static void test_fmt_u32_hex(void)
@@ -376,7 +417,9 @@ Test *tests_fmt_tests(void)
 {
     EMB_UNIT_TESTFIXTURES(fixtures) {
         new_TestFixture(test_fmt_byte_hex),
+        new_TestFixture(test_fmt_bytes_hex),
         new_TestFixture(test_fmt_bytes_hex_reverse),
+        new_TestFixture(test_fmt_hex_bytes),
         new_TestFixture(test_fmt_u32_hex),
         new_TestFixture(test_fmt_u64_hex),
         new_TestFixture(test_fmt_u32_dec),
