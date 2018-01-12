@@ -1,0 +1,28 @@
+/**
+@defgroup    boards_arduino-mkrgsm1400 Arduino MKR GSM 1400
+@ingroup     boards
+@brief       Support for the Arduino MKR GSM 1400 board.
+
+### General information
+
+The [Arduino MKR GSM 1400](https://store.arduino.cc/mkr-gsm-1400) board is
+a learning and development board that provides GSM connectivity and is
+powered by an Atmel SAMD21 microcontroller.
+
+### Pinout
+
+<img src="https://www.arduino.cc/en/uploads/Main/MKR1000_pinout.png"
+     alt="Arduino MKR GSM 1400 pinout" style="height:800px;"/>
+
+### Flash the board
+
+Use `BOARD=arduino-mkrgsm1400` with the `make` command.<br/>
+Example with `hello-world` application:
+```
+     make BOARD=arduino-mkrgsm1400 -C examples/hello-world flash
+```
+
+### Accessing STDIO via UART
+
+STDIO of RIOT is directly available over the USB port.
+ */

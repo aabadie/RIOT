@@ -1,0 +1,6 @@
+USEMODULE += boards_common_arduino-mkr
+
+include $(RIOTBOARD)/common/arduino-mkr/Makefile.include
+
+# add arduino-mkrwan1400 include path
+INCLUDES += -I$(RIOTBOARD)/$(BOARD)/include
