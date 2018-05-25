@@ -149,6 +149,16 @@ typedef uint32_t gpio_t;
 #define SPI_HWCS(x)         (SPI_HWCS_MASK | x)
 
 /**
+ * @name    Use the shared I2C functions
+ * @{
+ */
+/** Use read regs function from periph common */
+#define PERIPH_I2C_NEED_READ_REG
+/** Use write regs function from periph common */
+#define PERIPH_I2C_NEED_WRITE_REG
+/** @} */
+
+/**
  * @brief   Available MUX values for configuring a pin's alternate function
  */
 typedef enum {
@@ -322,6 +332,52 @@ typedef struct {
     uint32_t rccmask;       /**< bit in the RCC peripheral enable register */
     uint8_t apbbus;         /**< APBx bus the device is connected to */
 } spi_conf_t;
+
+#if defined(CPU_FAM_STM32F0) || defined(CPU_FAM_STM32F3) || \
+    defined(CPU_FAM_STM32F7) || defined(CPU_FAM_STM32L0) || \
+    defined(CPU_FAM_STM32L4)
+
+/**
+ * @brief   Default mapping of I2C bus speed values
+ * @{
+ */
+#define HAVE_I2C_SPEED_T
+typedef enum {
+    I2C_SPEED_NORMAL,       /**< normal mode:       ~100kbit/s */
+    I2C_SPEED_FAST,         /**< fast mode:         ~400kbit/s */
+    I2C_SPEED_FAST_PLUS,    /**< fast plus mode:    ~1Mbit/s */
+} i2c_speed_t;
+/** @} */
+
+/**
+ * @brief   Structure for I2C configuration data
+ */
+typedef struct {
+    I2C_TypeDef *dev;       /**< i2c device */
+    i2c_speed_t speed;      /**< i2c bus speed */
+    gpio_t scl_pin;         /**< scl pin number */
+    gpio_t sda_pin;         /**< sda pin number */
+    gpio_af_t scl_af;       /**< scl pin alternate function value */
+    gpio_af_t sda_af;       /**< sda pin alternate function value */
+    uint8_t bus;            /**< APB bus */
+    uint32_t rcc_mask;      /**< bit in clock enable register */
+#if defined(CPU_FAM_STM32F0) || defined(CPU_FAM_STM32F3)
+    uint32_t rcc_sw_mask;   /**< bit to switch I2C clock */
+#endif
+    uint8_t irqn;           /**< I2C event interrupt number */
+} i2c_conf_t;
+
+/**
+ * @brief   Structure for I2C timing register parameters
+ */
+typedef struct {
+    uint8_t presc;          /**< Timing prescaler value */
+    uint8_t scll;           /**< SCL Low period */
+    uint8_t sclh;           /**< SCL High period */
+    uint8_t sdadel;         /**< Data hold time */
+    uint8_t scldel;         /**< Data setup time */
+} i2c_timing_param_t;
+#endif
 
 /**
  * @brief   Get the actual bus clock frequency for the APB buses
