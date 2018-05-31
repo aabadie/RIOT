@@ -50,7 +50,7 @@
 #define TICK_TIMEOUT            (0xFFFF)
 
 /* static function definitions */
-static void _i2c_init(I2C_TypeDef *i2c, uint32_t clk, int ccr);
+static void _i2c_init(I2C_TypeDef *i2c, uint32_t clk, uint32_t ccr);
 static void _start(I2C_TypeDef *dev, uint8_t address, uint8_t rw_flag, uint8_t flags);
 static inline void _clear_addr(I2C_TypeDef *dev);
 static inline void _write(I2C_TypeDef *dev, const uint8_t *data, int length);
@@ -73,7 +73,7 @@ void i2c_init(i2c_t dev)
 
     assert(i2c != NULL);
 
-    int ccr;
+    uint32_t ccr;
     /* read speed configuration */
     switch (i2c_config[dev].speed) {
         case I2C_SPEED_LOW:
@@ -91,7 +91,7 @@ void i2c_init(i2c_t dev)
             break;
 
         default:
-            break;
+            return;
     }
 
     periph_clk_en(i2c_config[dev].bus, i2c_config[dev].rcc_mask);
@@ -138,7 +138,7 @@ void i2c_init(i2c_t dev)
 #endif
 }
 
-static void _i2c_init(I2C_TypeDef *i2c, uint32_t clk, int ccr)
+static void _i2c_init(I2C_TypeDef *i2c, uint32_t clk, uint32_t ccr)
 {
     /* disable device and set ACK bit */
     i2c->CR1 = I2C_CR1_ACK;
