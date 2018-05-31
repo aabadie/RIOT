@@ -388,7 +388,7 @@ typedef struct {
  */
 #define HAVE_I2C_SPEED_T
 typedef enum {
-#if defined(CPU_FAM_STM32F4)
+#if defined(CPU_FAM_STM32F4) || defined(CPU_FAM_STM32F2)
     I2C_SPEED_LOW,          /**< low speed mode: ~10kit/s */
 #endif
     I2C_SPEED_NORMAL,       /**< normal mode:  ~100kbit/s */
@@ -416,7 +416,7 @@ typedef struct {
 #if defined(CPU_FAM_STM32F0) || defined(CPU_FAM_STM32F3)
     uint32_t rcc_sw_mask;   /**< bit to switch I2C clock */
 #endif
-#if defined(CPU_FAM_STM32F4)
+#if defined(CPU_FAM_STM32F4) || defined(CPU_FAM_STM32F2)
     uint32_t clk;           /**< bus frequency as defined in board config */
 #endif
     uint8_t irqn;           /**< I2C event interrupt number */
