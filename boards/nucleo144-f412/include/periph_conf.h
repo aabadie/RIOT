@@ -234,11 +234,11 @@ static const i2c_conf_t i2c_config[] = {
         .bus            = APB1,
         .rcc_mask       = RCC_APB1ENR_I2C1EN,
         .clk            = CLOCK_APB1,
-        .irqn           = I2C1_ER_IRQn
+        .irqn           = I2C1_EV_IRQn
     }
 };
 
-#define I2C_0_ISR           isr_i2c1_er
+#define I2C_0_ISR           isr_i2c1_ev
 
 #define I2C_NUMOF           (sizeof(i2c_config) / sizeof(i2c_config[0]))
 /** @} */
