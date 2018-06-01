@@ -26,6 +26,7 @@
  * @author      Kaspar Schleiser <kaspar@schleiser.de>
  * @author      Toon Stegen <toon.stegen@altran.com>
  * @author      Vincent Dupont <vincent@otakeys.com>
+ * @author      Víctor Ariño <victor.arino@triagnosys.com>
  * @author      Alexandre Abadie <alexandre.abadie@inria.fr>
  *
  * @}
