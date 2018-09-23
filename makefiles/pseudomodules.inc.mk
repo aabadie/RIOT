@@ -115,6 +115,10 @@ PSEUDOMODULES += si7021
 PSEUDOMODULES += rn2483
 PSEUDOMODULES += rn2903
 
+# include variants of RN487X drivers as pseudo modules
+PSEUDOMODULES += rn4870
+PSEUDOMODULES += rn4871
+
 # add all pseudo random number generator variants as pseudomodules
 PSEUDOMODULES += prng_%
 
