@@ -63,6 +63,15 @@ extern "C" {
 /** @} */
 
 /**
+ * @name    RN4871 configuration
+ * @{
+ */
+#define RN487X_PARAM_UART         UART_DEV(1)
+#define RN487X_PARAM_PIN_WAKE     GPIO_PIN(PA, 15)
+#define RN487X_PARAM_PIN_RESET    GPIO_PIN(PB, 17)
+/** @} */
+
+/**
  * @brief Initialize board specific hardware, including clock, LEDs and std-IO
  */
 void board_init(void);

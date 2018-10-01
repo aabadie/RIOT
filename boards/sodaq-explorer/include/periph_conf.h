@@ -108,7 +108,7 @@ static const uart_conf_t uart_config[] = {
         .flags    = UART_FLAG_NONE,
         .gclk_src = GCLK_CLKCTRL_GEN_GCLK0
     },
-    {
+    { /* Connected to RN4871 */
         .dev      = &SERCOM4->USART,
         .rx_pin   = GPIO_PIN(PB,13),
         .tx_pin   = GPIO_PIN(PB,14),
