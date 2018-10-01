@@ -49,6 +49,12 @@ int rn487x_cmd(int argc, char **argv) {
             return -1;
         }
     }
+    if (strcmp(argv[1], "reset") == 0) {
+        if (rn487x_reset(&rn487x_dev) != RN487X_OK) {
+            puts("Reset failed");
+            return -1;
+        }
+    }
     else {
         _print_usage();
         return -1;
