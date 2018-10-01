@@ -38,11 +38,15 @@ extern "C" {
 #ifndef RN487X_PARAM_PIN_RESET
 #define RN487X_PARAM_PIN_RESET    (GPIO_UNDEF)
 #endif
+#ifndef RN487X_PARAM_PIN_WAKE
+#define RN487X_PARAM_PIN_WAKE     (GPIO_UNDEF)
+#endif
 
 #ifndef RN487X_PARAMS
-#define RN487X_PARAMS             { .uart      = RN487X_PARAM_UART,     \
-                                    .baudrate  = RN487X_PARAM_BAUDRATE, \
-                                    .pin_reset = RN487X_PARAM_PIN_RESET }
+#define RN487X_PARAMS             { .uart      = RN487X_PARAM_UART,      \
+                                    .baudrate  = RN487X_PARAM_BAUDRATE,  \
+                                    .pin_reset = RN487X_PARAM_PIN_RESET, \
+                                    .pin_wake  = RN487X_PARAM_PIN_WAKE }
 #endif
 /**@}*/
 

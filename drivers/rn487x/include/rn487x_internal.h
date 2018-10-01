@@ -21,11 +21,14 @@
 
 #include <stdint.h>
 
+#include "xtimer.h"
 #include "rn487x.h"
 
 #ifdef __cplusplus
 extern "C" {
 #endif
+
+#define RN487X_RESP_TIMEOUT            (500U * US_PER_MS)
 
 /**
  * @brief   Process a command response
