@@ -1,3 +1,161 @@
+RIOT-2019.01 - Release Notes
+============================
+RIOT is a multi-threading operating system which enables soft real-time
+capabilities and comes with support for a range of devices that are typically
+found in the Internet of Things: 8-bit and 16-bit microcontrollers as well as
+light-weight 32-bit processors.
+
+RIOT is based on the following design principles: energy-efficiency, soft
+real-time capabilities, small memory footprint, modularity, and uniform API
+access, independent of the underlying hardware (with partial POSIX compliance).
+
+RIOT is developed by an international open-source community which is
+independent of specific vendors (e.g. similarly to the Linux community) and is
+licensed with a non-viral copyleft license (LGPLv2.1), which allows indirect
+business models around the free open-source software platform provided by RIOT.
+
+
+About this release:
+===================
+
+TODO
+
+About xxx pull requests with about xxx commits have been merged since the last
+release and about xx issues have been solved. xx people contributed with code
+in xxx days. Approximately xxxx files have been touched with 211964 insertions
+and xxx deletions.
+
+
+Notations used below:
+=====================
+    + means new feature/item
+    * means modified feature/item
+    - means removed feature/item
+
+New features and changes
+========================
+
+Community
+---------
+    TODO
+
+Documentation
+-------------
+    TODO
+
+Core
+----
+    TODO
+
+System libraries
+----------------
+    TODO
+
+Networking
+----------
+    TODO
+
+Packages
+--------
+    TODO
+
+Boards
+------
+    TODO
+
+CPU
+---
+    TODO
+
+Device Drivers
+--------------
+    TODO
+
+Build System / Tooling
+----------------------
+    TODO
+
+Testing
+-------
+    TODO
+
+
+Known Issues
+============
+
+Networking related issues
+-------------------------
+
+TODO
+
+Timer related issues
+--------------------
+
+TODO
+
+Native related issues
+---------------------
+
+TODO
+
+Other platforms related issues
+------------------------------
+
+TODO
+
+Other issues
+------------
+
+TODO
+
+Fixed Issues from the last release (2018.10)
+============================================
+
+TODO
+
+
+You can get the complete detail in the git history and in the release milestone
+[Release 2019.01](https://github.com/RIOT-OS/RIOT/issues?q=type:issue+milestone:"Release 2019.01"+state:closed).
+
+
+Acknowledgements
+================
+We would like to thank all companies (vendors) that provided us with (their)
+hardware for porting and testing RIOT-OS. Further thanks go to companies and
+institutions that directly sponsored development time. And finally, big thanks
+to all of you contributing in so many different ways to make RIOT worthwhile!
+
+More information
+================
+http://www.riot-os.org
+
+Mailing lists
+-------------
+* RIOT OS kernel developers list
+  devel@riot-os.org (http://lists.riot-os.org/mailman/listinfo/devel)
+* RIOT OS users list
+  users@riot-os.org (http://lists.riot-os.org/mailman/listinfo/users)
+* RIOT commits
+  commits@riot-os.org (http://lists.riot-os.org/mailman/listinfo/commits)
+* Github notifications
+  notifications@riot-os.org (http://lists.riot-os.org/mailman/listinfo/notifications)
+
+IRC
+---
+* Join the RIOT IRC channel at: irc.freenode.net, #riot-os
+
+License
+=======
+* The code developed by the RIOT community is licensed under the GNU Lesser
+  General Public License (LGPL) version 2.1 as published by the Free Software
+  Foundation.
+* Some external sources and packages are published under a separate license.
+
+All code files contain licensing information.
+
+
+
+
 RIOT-2018.10 - Release Notes
 ============================
 RIOT is a multi-threading operating system which enables soft real-time
