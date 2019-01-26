@@ -115,7 +115,7 @@ TODO
 
 
 You can get the complete detail in the git history and in the release milestone
-[Release 2019.01](https://github.com/RIOT-OS/RIOT/issues?q=type:issue+milestone:"Release 2019.01"+state:closed).
+[Release 2019.01](https://github.com/RIOT-OS/RIOT/milestone/25?closed=1).
 
 
 Acknowledgements
