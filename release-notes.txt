@@ -22,7 +22,7 @@ TODO
 
 About xxx pull requests with about xxx commits have been merged since the last
 release and about xx issues have been solved. xx people contributed with code
-in xxx days. Approximately xxxx files have been touched with 211964 insertions
+in xxx days. Approximately xxxx files have been touched with xxxx insertions
 and xxx deletions.
 
 
@@ -41,7 +41,7 @@ Community
 
 Documentation
 -------------
-    TODO
+    + doxygen: added configurations group
 
 Core
 ----
@@ -49,35 +49,65 @@ Core
 
 System libraries
 ----------------
-    TODO
+    + base64: add size estimation functions
 
 Networking
 ----------
-    TODO
+    + pkg_semtech-loramac: added timer calibation
+
 
 Packages
 --------
-    TODO
+    * gecko_sdk: bumped to version 2.5
 
 Boards
 ------
-    TODO
+    + added support for Kinetic USB-KW41Z
+    + added support for Makerdiary nrf52840-mdk
+    + added support for Microchip saml10-xpro and saml11-xpro
+    + added support for Nordic nrf51-dk
+    + added support for Phytec phynode-kw41z
+    + added support for SODAQ SARA AFF
+    * b-l475e-iot01a: provide RTC and RTT features
+    * stm32: factorize common I2C configurations
+    * nucleo-l433rc/nucleo-f072rb/nucleo-f767zi: provide I2C configuration
+    * nucleo-l433rc: use LPUART (USB port) as stdio
+    * nucleo-l496zg: use LPUART (USB port) as stdio
+    * frdm-k64f: updated LPTMR configuration
+    * sensebox_samd21: add MTD configuration
 
 CPU
 ---
-    TODO
+    + cortexm-common: add FPU support for cortex-m4f and cortex-m7
+    + cortexm-common: added support for cortex-m23
+    + added support for saml10 and saml11
+    + efm32: added support for 32-bit timers
+    + esp32: added esp_wifi netdev driver
+    + esp8266: added esp_wifi netdev driver
+    + stm32-common: add DMA support for all STM32
+    + stm32-common: add LPUART driver
+    * nrf5x: added management of multiple exti pins in gpio driver
+    * nrf5x: rework UART driver to allow using multiple UARTs on nrf52840
 
 Device Drivers
 --------------
-    TODO
+    + added support for CCS811 gaz sensor
+    + added support for SHT3x temperature and humidity sensor
+    * periph_eeprom: added clear and erase functions
 
 Build System / Tooling
 ----------------------
-    TODO
+    + added support for PyOCD programmer
+    + added compile_and_test_for_board script + checks
+    * updated EDBG version
+    * testbed-support: added frdm-kw41z, pba-d-01-kw2x, samr30-xpro to supported archis
+    * pyterm: correctly catch exception when serial port is busy
+    * print_toolchain_version: added 'make' version
 
 Testing
 -------
-    TODO
+    + periph_dma: added automatic test script
+    + periph_rtc: added automatic test script
 
 
 Known Issues
