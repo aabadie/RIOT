@@ -146,8 +146,8 @@ Drivers related issues:
 #10559: I2C API write_regs does not fit implementation
 #9546: dht: driver for dht11 sensor sometimes stuck in dht_read() on Atmel SAM R21
 #9419: cpu/msp430: GPIO driver doesn't work properly
-#8213: at86rf2xx: Basic mode and NETOPT_AUTOACK 
-#8045: stm32/periph/uart: extra byte transmitted on first transmission 
+#8213: at86rf2xx: Basic mode and NETOPT_AUTOACK
+#8045: stm32/periph/uart: extra byte transmitted on first transmission
 #8028: diskio: failed assertion in send_cmd() on lpc2387
 #7875: "Minor" compiling issues found by clang
 #4876: at86rf2xx: Simultaneous use of different transceiver types is not supported
@@ -209,7 +209,7 @@ Other issues:
 #10639: sys/stdio_uart: dropped data when received at once
 #10510: xtimer_set_msg: crash when using same message for 2 timers
 #10468: Tinycryt upstream rewrote history in master branch
-#10463: stm32f4discovery isn't visible as ttyUSB after flashing with tests/leds 
+#10463: stm32f4discovery isn't visible as ttyUSB after flashing with tests/leds
 #10345: frdm-k22f cannot flash after certain firmware flashed
 #10341: driver_my9221 prevents further flashing of nucleo-l073rz
 #10206: Lua_basic example doesn't flash in b-l072z-lrwan1
@@ -224,7 +224,7 @@ Other issues:
 #8436: Kinetis PhyNode: failed to flash binary > 256K
 #8107: crypto/ccm: bugs in the implementation of CCM mode
 #7220: sys/fmt: Missing tests for fmt_float, fmt_lpad
-#7199: core: "Invalid read of size 4" 
+#7199: core: "Invalid read of size 4"
 #6874: SAMD21: possible CMSIS bug ?
 #6533: tests/lwip target board for python test is hardcoded to native
 #5561: C++11 extensions in header files
