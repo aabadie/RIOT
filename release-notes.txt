@@ -243,16 +243,37 @@ Other issues:
 Fixed Issues from the last release (2018.10)
 ============================================
 
+#10875: gnrc_ipv6: crash on heavy network load on native
 #10827: boards/nrf51dk: multiple external interrupts not working
+#10768: Build is failing with latest RIOT on windows
 #10761: iotlab-m3: poor ping6 performance and a possibly broken 6lo fragmentation?
+#10753: nanocoap: options buffer overflow
 #10739: sock_dns: Security issues (including remote code execution)
+#10701: gnrc: packet space in gnrc packet buffer is not released on very heavy load
+#10672: gnrc: runs full on very heavy load
+#10634: pyterm: weird behaviour with long lines.
 #10628: Can't read data from BH1750 senseor using STM32F3Discovery
+#10614: DEBUG stops shell if used in i2c init
+#10611: Board z1: BTN0_IN is not defined
 #10598: edbg: not compiling on OS X
+#10594: cpu/esp32: esp_eth is not working correctly for packet size > 255 octets
+#10531: ESP-now: ESP_NOW_MAX_SIZE < IPv6 minimum MTU?
 #10517: Arduino UART cannot set 16 bit baudrate
+#10508: tracking issue: bionic compile errors
+#10432: ESP32 toolchain linked to in doc.txt is broken
 #10419: gnrc_icmpv6_error: Able to bounce up to 64 ICMPv6 error messages between 2 instances
+#10395: stm32f103xx: I2C has no internal pullups and af config
+#10353: cpu/nrf5x_common: hwrng hangs
+#10318: ds1307: multiple read/write regs doesn't increment pointer
+#10317: tests/trickle: nondeterministic failure
+#10287: docker: docker cannot access /etc/localtime on OS X
 #10091: Murdock fails on tests/xtimer_usleep on native
-#9977: Tracker: Implement conditional compilation of GPIO IRQ based on `periph_gpio_irq` feature
-#9405: Docker: update to Ubuntu Bionic
+#10079: Codacy: several problems (false positives)
+#10068: sam0_common flash write not working at least for SAML21J18B
+#9889: ethos: desync between ethos::last_framesize and tsrb content possible
+#9248: __libc_init_array() crash (newlib)
+#9191: Logic errors in nanocoap_get()
+#7877: SPI connection can't read 16 bit size register.
 
 
 You can get the complete detail in the git history and in the release milestone
