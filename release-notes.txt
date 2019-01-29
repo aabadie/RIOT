@@ -55,7 +55,6 @@ Networking
 ----------
     + pkg_semtech-loramac: added timer calibation
 
-
 Packages
 --------
     * gecko_sdk: bumped to version 2.5
@@ -75,6 +74,8 @@ Boards
     * nucleo-l496zg: use LPUART (USB port) as stdio
     * frdm-k64f: updated LPTMR configuration
     * sensebox_samd21: add MTD configuration
+    * nrf51: factorize files and configurations of nrf51 based boards
+    * nrf52: better factorize files and configurations of nrf52 based boards
 
 CPU
 ---
@@ -91,7 +92,7 @@ CPU
 
 Device Drivers
 --------------
-    + added support for CCS811 gaz sensor
+    + added support for CCS811 gas sensor
     + added support for SHT3x temperature and humidity sensor
     * periph_eeprom: added clear and erase functions
 
