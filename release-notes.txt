@@ -282,6 +282,7 @@ Fixed Issues from the last release (2018.10)
 #10739: sock_dns: Security issues (including remote code execution)
 #10701: gnrc: packet space in gnrc packet buffer is not released on very heavy load
 #10672: gnrc: runs full on very heavy load
+#10671: nanocoap: fix confirmable retry countdown
 #10634: pyterm: weird behaviour with long lines.
 #10628: Can't read data from BH1750 senseor using STM32F3Discovery
 #10614: DEBUG stops shell if used in i2c init
