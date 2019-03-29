@@ -16,7 +16,7 @@ BOARD_INSUFFICIENT_MEMORY := blackpill bluepill calliope-mini cc2650-launchpad \
                              airfy-beacon  arduino-mkr1000 \
                              arduino-mkrfox1200 arduino-mkrzero arduino-zero \
                              b-l072z-lrwan1  cc2538dk ek-lm4f120xl  feather-m0 \
-                             ikea-tradfri limifrog-v1 lobaro-lorabox \
+                             ikea-tradfri im880b limifrog-v1 lobaro-lorabox \
                              mbed_lpc1768  nrf6310 nucleo-f091rc  nucleo-l073rz \
                              nz32-sc151 openmote-cc2538 openmote-b pba-d-01-kw2x \
                              remote-pa remote-reva remote-revb samd21-xpro \

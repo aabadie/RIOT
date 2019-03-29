@@ -24,6 +24,7 @@ BOARD_INSUFFICIENT_MEMORY := airfy-beacon \
                              firefly \
                              hamilton \
                              ikea-tradfri \
+                             im880b \
                              limifrog-v1 maple-mini \
                              lobaro-lorabox \
                              mbed_lpc1768 \
@@ -122,6 +123,7 @@ ARM_CORTEX_M_BOARDS := airfy-beacon \
                        frdm-k64f \
                        frdm-kw41z \
                        ikea-tradfri \
+                       im880b \
                        iotlab-a8-m3 \
                        iotlab-m3 \
                        limifrog-v1 \
