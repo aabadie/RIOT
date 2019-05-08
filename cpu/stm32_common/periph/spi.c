@@ -32,6 +32,16 @@
 #include "periph/spi.h"
 #include "pm_layered.h"
 
+/* Enable push-pull output with weak pull-down to avoid current leaks */
+#ifndef MOSI_GPIO_OUT_MODE
+#define MOSI_GPIO_OUT_MODE  (GPIO_OUT | GPIO_IN_PD)
+#endif
+
+/* Enable push-pull output with weak pull-down to avoid current leaks */
+#ifndef SCLK_GPIO_OUT_MODE
+#define SCLK_GPIO_OUT_MODE  (GPIO_OUT | GPIO_IN_PD)
+#endif
+
 /**
  * @brief   Number of bits to shift the BR value in the CR1 register
  */
@@ -78,9 +88,9 @@ void spi_init_pins(spi_t bus)
     gpio_init_af(spi_config[bus].mosi_pin, GPIO_AF_OUT_PP);
     gpio_init(spi_config[bus].miso_pin, GPIO_IN);
 #else
-    gpio_init(spi_config[bus].mosi_pin, GPIO_OUT);
+    gpio_init(spi_config[bus].mosi_pin, MOSI_GPIO_OUT_MODE);
     gpio_init(spi_config[bus].miso_pin, GPIO_IN);
-    gpio_init(spi_config[bus].sclk_pin, GPIO_OUT);
+    gpio_init(spi_config[bus].sclk_pin, SCLK_GPIO_OUT_MODE);
     gpio_init_af(spi_config[bus].mosi_pin, spi_config[bus].af);
     gpio_init_af(spi_config[bus].miso_pin, spi_config[bus].af);
     gpio_init_af(spi_config[bus].sclk_pin, spi_config[bus].af);
