@@ -170,9 +170,6 @@ int main(void)
     semtech_loramac_set_rx2_freq(&loramac, RX2_FREQ);
     semtech_loramac_set_rx2_dr(&loramac, RX2_DR);
 
-    /* Store ABP parameters to EEPROM */
-    semtech_loramac_save_config(&loramac);
-
     /* Use a fast datarate, e.g. BW125/SF7 in EU868 */
     semtech_loramac_set_dr(&loramac, LORAMAC_DR_5);
 
