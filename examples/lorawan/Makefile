@@ -27,7 +27,7 @@ else
 endif
 
 # Default radio driver is Semtech SX1276 (used by the B-L072Z-LRWAN1 board)
-DRIVER ?= sx1276
+DRIVER ?= sx1272
 
 # Default region is Europe and default band is 868MHz
 REGION ?= EU868
@@ -38,7 +38,6 @@ USEPKG += semtech-loramac
 USEMODULE += $(DRIVER)
 USEMODULE += fmt
 FEATURES_REQUIRED += periph_rtc
-FEATURES_REQUIRED += periph_eeprom
 
 CFLAGS += -DREGION_$(REGION)
 CFLAGS += -DLORAMAC_ACTIVE_REGION=LORAMAC_REGION_$(REGION)
