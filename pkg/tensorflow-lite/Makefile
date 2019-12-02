@@ -3,7 +3,7 @@ PKG_URL=https://github.com/tensorflow/tensorflow
 PKG_VERSION=1768c8f2fa155d4c6406e8ff7addf374c83de7ad
 PKG_LICENSE=Apache2.0
 
-TF_MODULES   = tensorflow-lite-hello_world
+TF_MODULES   = tensorflow-lite-hello_world tensorflow-lite-magic_wand
 TF_USEMODULE = $(filter $(TF_MODULES),$(USEMODULE))
 
 .PHONY: all tensorflow-lite tensorflow-lite-%

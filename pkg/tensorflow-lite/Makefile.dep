@@ -11,3 +11,7 @@ USEMODULE += tensorflow-lite-exp-micro-kernels
 USEMODULE += tensorflow-lite-kernels
 USEMODULE += tensorflow-lite-kernels-internal
 USEMODULE += tensorflow-lite-memory
+
+ifneq (,$(filter tensorflow-lite-magic_wand,$(USEMODULE)))
+  USEMODULE += lsm6dsl
+endif

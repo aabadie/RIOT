@@ -1,0 +1,20 @@
+MODULE = tensorflow-lite-magic_wand
+
+SRCXXEXT = cc
+SRCXXEXCLUDE := $(wildcard *_test.$(SRCXXEXT))
+
+CFLAGS += -DTF_LITE_STATIC_MEMORY
+CXXEXFLAGS += -Wno-unused-parameter
+
+NO_AUTO_SRC := 1
+SRCXX := \
+    constants.cc \
+    gesture_predictor.cc \
+    magic_wand_model_data.cc \
+    main_functions.cc \
+    output_handler.cc \
+    ring_micro_features_data.cc \
+    slope_micro_features_data.cc \
+    #
+
+include $(RIOTBASE)/Makefile.base
