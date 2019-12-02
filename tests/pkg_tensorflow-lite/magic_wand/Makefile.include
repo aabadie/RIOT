@@ -1,0 +1,7 @@
+# This example requires an extended stacksize for the main thread
+CFLAGS += -DTHREAD_STACKSIZE_MAIN=2*THREAD_STACKSIZE_DEFAULT
+
+# We need special parameter for the accelerometer
+CFLAGS += -DLSM6DSL_PARAM_GYRO_ODR=LSM6DSL_DATA_RATE_26HZ
+CFLAGS += -DLSM6DSL_PARAM_ACC_ODR=LSM6DSL_DATA_RATE_26HZ
+CFLAGS += -DLSM6DSL_PARAM_ACC_FS=LSM6DSL_ACC_FS_4G

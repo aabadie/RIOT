@@ -1,0 +1,2 @@
+# This application uses the lsm6dsl accelerometer
+USEMODULE += lsm6dsl lsm6dsl_float
