@@ -135,6 +135,45 @@ int lsm6dsl_read_acc(const lsm6dsl_t *dev, lsm6dsl_3d_data_t *data)
     return LSM6DSL_OK;
 }
 
+#ifdef MODULE_LSM6DSL_FLOAT
+int lsm6dsl_read_acc_float(const lsm6dsl_t *dev, lsm6dsl_3d_data_float_t *data)
+{
+    int res;
+    uint8_t tmp;
+    uint16_t tmp_x, tmp_y, tmp_z;
+
+    i2c_acquire(BUS);
+    i2c_read_reg(BUS, ADDR, LSM6DSL_REG_STATUS_REG, &tmp, 0);
+    DEBUG("lsm6dsl status: %x\n", tmp);
+
+    res = i2c_read_reg(BUS, ADDR, LSM6DSL_REG_OUTX_L_XL, &tmp, 0);
+    tmp_x = tmp;
+    res += i2c_read_reg(BUS, ADDR, LSM6DSL_REG_OUTX_H_XL, &tmp, 0);
+    tmp_x |= tmp << 8;
+    res += i2c_read_reg(BUS, ADDR, LSM6DSL_REG_OUTY_L_XL, &tmp, 0);
+    tmp_y = tmp;
+    res += i2c_read_reg(BUS, ADDR, LSM6DSL_REG_OUTY_H_XL, &tmp, 0);
+    tmp_y |= tmp << 8;
+    res += i2c_read_reg(BUS, ADDR, LSM6DSL_REG_OUTZ_L_XL, &tmp, 0);
+    tmp_z = tmp;
+    res += i2c_read_reg(BUS, ADDR, LSM6DSL_REG_OUTZ_H_XL, &tmp, 0);
+    tmp_z |= tmp << 8;
+    i2c_release(BUS);
+
+    if (res < 0) {
+        DEBUG("[ERROR] lsm6dsl_read_acc\n");
+        return -LSM6DSL_ERROR_BUS;
+    }
+
+    assert(dev->params.acc_fs < LSM6DSL_ACC_FS_MAX);
+    data->x = (tmp_x * range_acc[dev->params.acc_fs]) / (float)INT16_MAX;
+    data->y = (tmp_y * range_acc[dev->params.acc_fs]) / (float)INT16_MAX;
+    data->z = (tmp_z * range_acc[dev->params.acc_fs]) / (float)INT16_MAX;
+
+    return LSM6DSL_OK;
+}
+#endif
+
 int lsm6dsl_read_gyro(const lsm6dsl_t *dev, lsm6dsl_3d_data_t *data)
 {
     int res;

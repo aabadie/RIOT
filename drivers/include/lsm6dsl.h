@@ -117,6 +117,17 @@ typedef struct {
     int16_t z;  /**< Z axis */
 } lsm6dsl_3d_data_t;
 
+#ifdef MODULE_LSM6DSL_FLOAT
+/**
+ * @brief   3D output data as float
+ */
+typedef struct {
+    float x;    /**< X axis */
+    float y;    /**< Y axis */
+    float z;    /**< Z axis */
+} lsm6dsl_3d_data_float_t;
+#endif
+
 /**
  * @brief   Named return values
  */
@@ -148,6 +159,19 @@ int lsm6dsl_init(lsm6dsl_t *dev, const lsm6dsl_params_t *params);
  * @return < 0 on error
  */
 int lsm6dsl_read_acc(const lsm6dsl_t *dev, lsm6dsl_3d_data_t *data);
+
+#ifdef MODULE_LSM6DSL_FLOAT
+/**
+ * @brief   Read accelerometer data as float
+ *
+ * @param[in] dev    device to read
+ * @param[out] data  accelerometer values
+ *
+ * @return LSM6DSL_OK on success
+ * @return < 0 on error
+ */
+int lsm6dsl_read_acc_float(const lsm6dsl_t *dev, lsm6dsl_3d_data_float_t *data);
+#endif
 
 /**
  * @brief   Read gyroscope data
