@@ -1,0 +1,18 @@
+ifneq (,$(filter saul_default,$(USEMODULE)))
+  USEMODULE += saul_gpio
+  USEMODULE += bmp280_i2c
+  USEMODULE += lis3mdl
+  USEMODULE += sht3x
+endif
+
+# Provide stdio over USB by default
+DEFAULT_MODULE += stdio_cdc_acm
+
+# Default auto-initialization of usbus for stdio other USB
+DEFAULT_MODULE += auto_init_usbus
+
+# This boards requires support for Arduino bootloader.
+USEMODULE += arduino_bootloader
+
+# include common nrf52 dependencies
+include $(RIOTBOARD)/common/nrf52/Makefile.dep
