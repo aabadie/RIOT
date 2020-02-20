@@ -1,0 +1,29 @@
+/**
+@defgroup    boards_adafruit-edgebadge Adafruit EdgeBadge
+@ingroup     boards
+@brief       Support for the Adafruit EdgeBadge board.
+
+### General information
+
+The [Adafruit EdgeBadge](https://www.adafruit.com/product/4400) board is
+a learning and development board that provides multiple sensors, an LCD screen and is
+designed for running Machine Leaning algorithms on a microcontroller.
+It is powered by an Atmel SAMD51 microcontroller.
+
+### Flash the board
+
+Use `BOARD=adafruit-edgebadge` with the `make` command.<br/>
+Example with `hello-world` application:
+```
+     make BOARD=adafruit-edgebadge -C examples/hello-world flash
+```
+
+In case of a crash of the firmware, one has to manually reset the board in
+bootloader mode to be able to re-flash it again: simply double tap the reset
+button before running the flash command provided above.
+
+### Accessing STDIO via UART
+
+STDIO of RIOT is directly available over the USB port.
+
+ */
