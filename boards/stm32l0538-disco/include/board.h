@@ -63,6 +63,19 @@ extern "C" {
 /** @} */
 
 /**
+ * @name e-Ink paper display
+ * @{
+ */
+#define EPD_BW_SPI_PARAM_SPI        SPI_DEV(0)
+#define EPD_BW_SPI_PARAM_CS         GPIO_PIN(PORT_A, 15)
+#define EPD_BW_SPI_PARAM_DC         GPIO_PIN(PORT_B, 11)
+#define EPD_BW_SPI_PARAM_RST        GPIO_PIN(PORT_B, 2)
+#define EPD_BW_SPI_PARAM_BUSY       GPIO_PIN(PORT_A, 8)
+#define EPD_BW_SPI_PWR_EN_PIN       GPIO_PIN(PORT_B, 10)
+#define EPD_BW_SPI_CONTROLLER       EPD_BW_SPI_CONTROLLER_GDE021A1
+/** @} */
+
+/**
  * @brief Initialize board specific hardware, including clock, LEDs and std-IO
  */
 void board_init(void);

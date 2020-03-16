@@ -29,4 +29,9 @@ void board_init(void)
     /* initialize the boards LEDs */
     gpio_init(LED0_PIN, GPIO_OUT);
     gpio_init(LED1_PIN, GPIO_OUT);
+
+#ifdef MODULE_EPD_BW_SPI
+    gpio_init(EPD_BW_SPI_PWR_EN_PIN, GPIO_OUT);
+    gpio_set(EPD_BW_SPI_PWR_EN_PIN);
+#endif
 }
