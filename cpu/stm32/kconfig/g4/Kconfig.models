@@ -6,6 +6,10 @@
 #
 
 # CPU models
+config CPU_MODEL_STM32G431KB
+    bool
+    select CPU_LINE_STM32G431XX
+
 config CPU_MODEL_STM32G431RB
     bool
     select CPU_LINE_STM32G431XX
@@ -16,5 +20,6 @@ config CPU_MODEL_STM32G474RE
 
 # Configure CPU model
 config CPU_MODEL
+    default "stm32g431kb" if CPU_MODEL_STM32G431KB
     default "stm32g431rb" if CPU_MODEL_STM32G431RB
     default "stm32g474re" if CPU_MODEL_STM32G474RE
