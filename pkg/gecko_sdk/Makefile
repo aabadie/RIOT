@@ -5,10 +5,6 @@ PKG_LICENSE=Zlib
 
 include $(RIOTBASE)/pkg/pkg.mk
 
-ifneq ($(CPU),efm32)
-  $(error This package can only be used with EFM32 CPUs)
-endif
-
 ifneq (llvm,$(TOOLCHAIN))
   CFLAGS += -Wno-int-in-bool-context
 endif

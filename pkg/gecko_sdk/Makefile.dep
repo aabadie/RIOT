@@ -1,2 +1,5 @@
 USEMODULE += gecko_sdk_emlib
 USEMODULE += gecko_sdk_emlib_extra
+
+# This package can only be used with EFM32 CPUs)
+FEATURES_REQUIRED += cpu_efm32
