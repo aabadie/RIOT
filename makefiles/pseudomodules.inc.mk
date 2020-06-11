@@ -248,4 +248,8 @@ NO_PSEUDOMODULES += auto_init_security
 NO_PSEUDOMODULES += auto_init_storage
 NO_PSEUDOMODULES += auto_init_usbus
 
+# bootloader_% are pseudomodules expect bootloader_stm32
+PSEUDOMODULES += bootloader_%
+NO_PSEUDOMODULES += bootloader_stm32
+
 # Packages may also add modules to PSEUDOMODULES in their `Makefile.include`.
