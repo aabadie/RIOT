@@ -16,6 +16,6 @@ jobs:
     steps:
     - uses: actions/checkout@master
     - name: Run static test
-      uses: aabadie/riot-actions@master
+      uses: aabadie/riot-action@v1
       with:
         cmd: make static-test
