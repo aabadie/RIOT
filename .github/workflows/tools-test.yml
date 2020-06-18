@@ -1,0 +1,25 @@
+name: tools-test
+
+on:
+  push:
+    branches:
+      - master
+    tags:
+      - '*'
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@master
+    - name: Build flatc standalone
+      uses: aabadie/riot-actions@master
+      with:
+        cmd: make -C dist/tools/flatc
+    - name: Build mosquitto_rsmb standalone
+      uses: aabadie/riot-actions@master
+      with:
+        cmd: make -C dist/tools/mosquitto_rsmb
