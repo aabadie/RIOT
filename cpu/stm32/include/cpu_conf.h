@@ -123,6 +123,8 @@ extern "C" {
 #define CPU_IRQ_NUMOF                   (63U)
 #elif defined(CPU_MODEL_STM32G070RB)
 #define CPU_IRQ_NUMOF                   (30U)
+#elif defined(CPU_MODEL_STM32G071RB)
+#define CPU_IRQ_NUMOF                   (31U)
 #else
 #error Number of IRQs not configured for this CPU
 #endif
