@@ -101,7 +101,8 @@ jobs:
           docker pull riot/riotbuild:latest
       - name: Checkout RIOT
         uses: actions/checkout@v2
-        ref: ${{ github.event.inputs.riot_version }}
+        with:
+          ref: ${{ github.event.inputs.riot_version }}
       - name: Print RIOT version
         run: |
           git log -1 --pretty
