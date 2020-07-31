@@ -1,4 +1,4 @@
-name: iotlab-ci
+name: test-on-iotlab.yml
 
 # Run 'compile_and_test_for_board.py' on IoT-LAB boards.
 #
@@ -19,6 +19,11 @@ on:
       - '[0-9][0-9][0-9][0-9].[0-9][0-9].*'
   # Allow manual trigger
   workflow_dispatch:
+    inputs:
+      riot_version:
+        description: 'RIOT version to checkout'
+        required: true
+        default: 'master'
 
 jobs:
   # Runs all tests on IoT-LAB boards
@@ -96,6 +101,10 @@ jobs:
           docker pull riot/riotbuild:latest
       - name: Checkout RIOT
         uses: actions/checkout@v2
+        ref: ${{ github.event.inputs.riot_version }}
+      - name: Print RIOT version
+        run: |
+          git log -1 --pretty
       - name: Launch IoT-LAB experiment
         run: |
           IOTLAB_EXP_ID=$(iotlab-experiment --jmespath="id" submit \
