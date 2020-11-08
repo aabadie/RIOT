@@ -21,7 +21,8 @@
 
 #include "thread.h"
 
-#include "xtimer.h"
+#include "timex.h"
+#include "ztimer.h"
 #include "log.h"
 
 #include "lvgl/lvgl.h"
@@ -42,8 +43,8 @@
 #define LVGL_INACTIVITY_PERIOD_MS   (1 * MS_PER_SEC)    /* 1s */
 #endif
 
-#ifndef LVGL_TASK_HANDLER_DELAY_US
-#define LVGL_TASK_HANDLER_DELAY_US  (5 * US_PER_MS)     /* 5ms */
+#ifndef LVGL_TASK_HANDLER_DELAY_MS
+#define LVGL_TASK_HANDLER_DELAY_MS  (5U)                /* 5ms */
 #endif
 
 #ifndef LVGL_THREAD_FLAG
@@ -77,7 +78,7 @@ static void *_task_thread(void *arg)
             lv_disp_trig_activity(NULL);
         }
 
-        xtimer_usleep(LVGL_TASK_HANDLER_DELAY_US);
+        ztimer_sleep(ZTIMER_MSEC, LVGL_TASK_HANDLER_DELAY_MS);
     }
 
     return NULL;
