@@ -1,3 +1,8 @@
 FEATURES_REQUIRED += periph_spi
 FEATURES_REQUIRED += periph_gpio
-USEMODULE += xtimer
+USEMODULE += ztimer_msec
+ifneq (,$(filter periph_rtt,$(USEMODULE)))
+  USEMODULE += ztimer_periph_rtt
+else
+  USEMODULE += ztimer_usec
+endif
