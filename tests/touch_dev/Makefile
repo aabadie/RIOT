@@ -5,6 +5,9 @@ DISABLE_MODULE += test_utils_interactive_sync
 
 USEMODULE += stmpe811
 USEMODULE += touch_dev
-USEMODULE += xtimer
+
+USEMODULE += ztimer_msec
+# Allow ztimer to sleep when the board provides an RTT
+FEATURES_OPTIONAL += periph_rtt
 
 include $(RIOTBASE)/Makefile.include
