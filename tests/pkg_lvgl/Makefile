@@ -8,6 +8,9 @@ USEPKG += lvgl
 USEMODULE += lvgl_contrib
 USEMODULE += ili9341
 
+# Allow ztimer to sleep when the board provides an RTT
+FEATURES_OPTIONAL += periph_rtt
+
 CFLAGS += -DTHREAD_STACKSIZE_MAIN=2048
 
 include $(RIOTBASE)/Makefile.include

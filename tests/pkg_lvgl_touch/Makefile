@@ -12,4 +12,7 @@ USEMODULE += ili9341
 USEMODULE += lvgl_contrib_touch
 USEMODULE += stmpe811
 
+# Allow ztimer to sleep when the board provides an RTT
+FEATURES_OPTIONAL += periph_rtt
+
 include $(RIOTBASE)/Makefile.include
