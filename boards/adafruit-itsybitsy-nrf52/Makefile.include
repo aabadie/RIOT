@@ -15,16 +15,8 @@ ifeq (nrfutil,$(PROGRAMMER))
   ROM_OFFSET = 0x26000
   ROM_LEN = 0xda000
 
-  FLASHFILE = $(HEXFILE)
-  FLASHDEPS += $(HEXFILE).zip
-  FLASHER = adafruit-nrfutil
-  FFLAGS = --verbose dfu serial -p ${PORT} -b 115200 --singlebank --package=$(HEXFILE).zip
-
+  include $(RIOTMAKE)/tools/adafruit-nrfutil.inc.mk
   include $(RIOTMAKE)/tools/usb_board_reset.mk
 endif
-
-%.hex.zip: $(HEXFILE)
-	$(call check_cmd,$(FLASHER),Flash program and preparation tool)
-	$(FLASHER) dfu genpkg --dev-type 0x0052 --sd-req 0x00B6 --application $< $@
 
 include $(RIOTBOARD)/common/nrf52/Makefile.include
