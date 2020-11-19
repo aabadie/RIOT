@@ -22,7 +22,7 @@ ifeq (nrfutil,$(PROGRAMMER))
   include $(RIOTMAKE)/tools/usb_board_reset.mk
 endif
 
-%.hex.zip: %.hex
+%.hex.zip: $(HEXFILE)
 	$(call check_cmd,$(FLASHER),Flash program and preparation tool)
 	$(FLASHER) pkg generate --hw-version 52 --sd-req 0x00 --application-version 1 --application $< $@
 
