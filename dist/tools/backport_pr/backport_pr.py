@@ -44,7 +44,7 @@ def _get_labels(pull_request):
     >>> _get_labels({'labels': [{'name': 'Process: release backport'}]})
     ['Process: release backport']
     >>> _get_labels({'labels': [{'name': 'Process: needs backport'}]})
-    ['Process: release backport']
+    ['Process: release backport', 'false']
     """
     labels = set(label['name'] for label in pull_request['labels']
                  if all(not label['name'].startswith(remove)
