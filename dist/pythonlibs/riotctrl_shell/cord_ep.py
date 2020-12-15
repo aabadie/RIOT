@@ -42,7 +42,7 @@ class CordEpRegistrationInfoParser(ShellInteractionParser):
         ...                "  lifetime: 60s\\n"
         ...                "    reg if: /resourcedirectory\\n"
         ...                "  location: /reg/1/")
-        >>> res['rdaddr', 'aie"]
+        >>> res['rdaddr', 'aie']
         'coap://[fe80::48d5:9eff:fe98:6b74]:5683'
         >>> res['epname']
         'RIOT-760D2323760D2323'
