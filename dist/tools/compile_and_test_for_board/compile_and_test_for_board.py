@@ -133,7 +133,7 @@ def _expand_apps_directories(apps_dirs, riotdir, skip=False):
     ret = []
     for app_dir in apps_dirs:
         if os.path.isdir(app_dir):
-        #  Case where the application directory exists: don't use globbing.
+            # Case where the application directory exists: don't use globbing.
             # the application directory can also be outside of riotdir and
             # relative to it.
             ret += [app_dir]
@@ -208,7 +208,7 @@ def is_in_directory(path, directory):
     >>> is_in_directory('RIOT/a/b/c', 'RIOT')
     True
     >>> is_in_directory('RIOT/../a', 'RIOT')
-    False
+    True
 
     # Also work if path is absolute but not the directory
     >>> curdir = os.path.abspath(os.curdir)
