@@ -1,0 +1,3 @@
+USEMODULE += xtimer
+USEMODULE += wolfmqtt-contrib
+USEMODULE += tsrb

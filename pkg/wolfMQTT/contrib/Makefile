@@ -1,3 +1,3 @@
-MODULE = wolf-mqtt-contrib
+MODULE = wolfmqtt-contrib
 
 include $(RIOTBASE)/Makefile.base

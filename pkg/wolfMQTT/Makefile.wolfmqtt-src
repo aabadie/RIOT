@@ -1,4 +1,4 @@
-MODULE = wolf-mqtt-src
+MODULE = wolfMQTT
 
 NO_AUTO_SRC = 1
 

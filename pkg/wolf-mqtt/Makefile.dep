@@ -1,4 +1,0 @@
-USEMODULE += xtimer
-USEMODULE += wolf-mqtt-src
-USEMODULE += wolf-contrib
-USEMODULE += tsrb
