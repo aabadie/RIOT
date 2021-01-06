@@ -1,4 +1,4 @@
-APPLICATION = wolf-mqtt-example
+APPLICATION = wolfMQTT
 
 # If no BOARD is found in the environment, use this default:
 BOARD ?= native
@@ -31,7 +31,7 @@ USEMODULE += shell
 USEMODULE += shell_commands
 USEMODULE += ps
 USEMODULE += netdev_default
-USEPKG += wolf-mqtt
+USEPKG += wolfMQTT
 
 # wolfmqtt depends on TCP support, choose the stack you want
 LWIP_IPV4 ?= 0
