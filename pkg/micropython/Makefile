@@ -11,6 +11,8 @@ PKG_BUILD_OUT_OF_SOURCE = 0
 
 include $(RIOTBASE)/pkg/pkg.mk
 
-all:
+all: $(BINDIR)/micropython.a
+
+$(BINDIR)/micropython.a:
 	@mkdir -p $(PKG_BUILD_DIR)/tmp
 	BUILD=$(PKG_BUILD_DIR) "$(MAKE)" -C $(PKG_SOURCE_DIR)/ports/riot

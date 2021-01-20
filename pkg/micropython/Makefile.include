@@ -2,6 +2,7 @@
 MP_RIOT_HEAPSIZE ?= 16384U
 
 CFLAGS += -DMP_RIOT_HEAPSIZE=$(MP_RIOT_HEAPSIZE)
+CFLAGS += -DNO_QSTR
 
 # include paths
 INCLUDES += -I$(RIOTBASE)/pkg/micropython/include
