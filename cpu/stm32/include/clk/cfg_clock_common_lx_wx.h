@@ -13,7 +13,7 @@
  * @{
  *
  * @file
- * @brief       Base STM32Lx/WB clock configuration
+ * @brief       Base STM32Lx/Wx clock configuration
  *
  * @author      Hauke Petersen <hauke.petersen@fu-berlin.de>
  * @author      Vincent Dupont <vincent@otakeys.com>

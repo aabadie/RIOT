@@ -24,8 +24,9 @@
 #include "periph_conf.h"
 
 #if defined(CPU_FAM_STM32L4) || defined(CPU_FAM_STM32F7) || \
-    defined(CPU_FAM_STM32WB) || defined(CPU_FAM_STM32G4) || \
-    defined(CPU_FAM_STM32G0) || defined(CPU_FAM_STM32L5)
+    defined(CPU_FAM_STM32WB) || defined(CPU_FAM_STM32WL) || \
+    defined(CPU_FAM_STM32G4) || defined(CPU_FAM_STM32G0) || \
+    defined(CPU_FAM_STM32L5)
 #define REG_PWR_CR          CR1
 #define BIT_CR_DBP          PWR_CR1_DBP
 #else

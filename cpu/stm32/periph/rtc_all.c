@@ -44,7 +44,7 @@
 
 /* map some EXTI register names */
 #if defined(CPU_FAM_STM32L4) || defined(CPU_FAM_STM32WB) || \
-    defined(CPU_FAM_STM32G4)
+    defined(CPU_FAM_STM32WL) || defined(CPU_FAM_STM32G4)
 #define EXTI_REG_RTSR       (EXTI->RTSR1)
 #define EXTI_REG_FTSR       (EXTI->FTSR1)
 #define EXTI_REG_PR         (EXTI->PR1)
@@ -84,7 +84,8 @@
 #define EXTI_FTSR_BIT       (EXTI_FTSR1_FT18)
 #define EXTI_RTSR_BIT       (EXTI_RTSR1_RT18)
 #define EXTI_PR_BIT         (EXTI_PR1_PIF18)
-#elif defined(CPU_FAM_STM32WB) || defined(CPU_FAM_STM32G4)
+#elif defined(CPU_FAM_STM32WB) || defined(CPU_FAM_STM32WL) || \
+      defined(CPU_FAM_STM32G4)
 #define EXTI_IMR_BIT        (EXTI_IMR1_IM17)
 #define EXTI_FTSR_BIT       (EXTI_FTSR1_FT17)
 #define EXTI_RTSR_BIT       (EXTI_RTSR1_RT17)

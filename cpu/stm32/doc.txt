@@ -4,7 +4,7 @@
 @brief           All STM32 families code and definitions
 
 This module contains the code and definitions for STM32 cpu
-families supported by RIOT: F0, F1, F2, F3, F4, F7, G0, G4, L0, L1, L4, L5 and WB.
+families supported by RIOT: F0, F1, F2, F3, F4, F7, G0, G4, L0, L1, L4, L5, WB and WL.
 
 All constants described below can be configured using `CFLAGS` from the command
 line or in the application Makefile.
@@ -30,7 +30,7 @@ system clock (but only one can be used at a time):
   To use HSI as system clock (SYSCLK), set `CONFIG_USE_CLOCK_HSI` constant to 1;
 
 - MSI (Multi-Speed Internal): This internal oscillator is only available on L0,
-  L1, L4, L5 and WB families.
+  L1, L4, L5, WB and WL families.
   To use MSI as system clock (SYSCLK), set `CONFIG_USE_CLOCK_MSI` constant to 1
   The MSI clock frequency can be configured using the `CONFIG_CLOCK_MSI`
   constant (in Hz);
@@ -50,13 +50,13 @@ system clock (but only one can be used at a time):
   `CONFIG_CLOCK_PLL_SRC_MSI` to 1.
 
   2 types of PLL are available on STM32:
-  - for stm32f[2|4|7], stm32g[0|4] and stm32[l4|l5|wb], the PLL can be
+  - for stm32f[2|4|7], stm32g[0|4] and stm32[l4|l5|wb|wl], the PLL can be
     configured with several parameters M, N, P, Q and R (optional). M is the
     input divider, N is the multiplier and P, Q and R are output dividers.
     On stm32f[2|4|7], the clock source from the P output divider is used as
     SYSCLK input, the clock source from the Q output divider can be used as
     48MHz.
-    On stm32g[0|4] and stm32[l4|l5|wb], the clock source from the R output
+    On stm32g[0|4] and stm32[l4|l5|wb|wl], the clock source from the R output
     divider is used as SYSCLK input.
 
     Constants used to configure the PLL on these families are

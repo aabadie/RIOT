@@ -40,6 +40,7 @@
 #define FLASH_SR_EOP           (FLASH_NSSR_NSEOP)
 #else
 #if defined(CPU_FAM_STM32L4) || defined(CPU_FAM_STM32WB) || \
+    defined(CPU_FAM_STM32WL) || \
     defined(CPU_FAM_STM32G4) || defined(CPU_FAM_STM32G0) || \
     defined(CPU_FAM_STM32F2) || defined(CPU_FAM_STM32F4) || \
     defined(CPU_FAM_STM32F7)

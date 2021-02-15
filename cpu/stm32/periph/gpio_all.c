@@ -45,6 +45,7 @@ static gpio_isr_ctx_t isr_ctx[EXTI_NUMOF];
 #endif /* MODULE_PERIPH_GPIO_IRQ */
 
 #if defined(CPU_FAM_STM32L4) || defined(CPU_FAM_STM32WB) || \
+    defined(CPU_FAM_STM32WL) || \
     defined(CPU_FAM_STM32G4) || defined(CPU_FAM_STM32G0) || \
     defined(CPU_FAM_STM32L5)
 #define EXTI_REG_RTSR       (EXTI->RTSR1)
@@ -99,10 +100,11 @@ static inline void port_init_clock(GPIO_TypeDef *port, gpio_t pin)
     (void)port; /* <-- Only used for when port G requires special handling */
 #if defined(CPU_FAM_STM32F0) || defined (CPU_FAM_STM32F3) || defined(CPU_FAM_STM32L1)
     periph_clk_en(AHB, (RCC_AHBENR_GPIOAEN << _port_num(pin)));
-#elif defined (CPU_FAM_STM32L0) || defined(CPU_FAM_STM32G0)
+#elif defined(CPU_FAM_STM32L0) || defined(CPU_FAM_STM32G0)
     periph_clk_en(IOP, (RCC_IOPENR_GPIOAEN << _port_num(pin)));
-#elif defined (CPU_FAM_STM32L4) || defined(CPU_FAM_STM32WB) || \
-      defined (CPU_FAM_STM32G4) || defined(CPU_FAM_STM32L5)
+#elif defined(CPU_FAM_STM32L4) || defined(CPU_FAM_STM32WB) || \
+      defined(CPU_FAM_STM32WL) || \
+      defined(CPU_FAM_STM32G4) || defined(CPU_FAM_STM32L5)
     periph_clk_en(AHB2, (RCC_AHB2ENR_GPIOAEN << _port_num(pin)));
 #ifdef PWR_CR2_IOSV
     if (port == GPIOG) {
@@ -167,10 +169,11 @@ void gpio_init_analog(gpio_t pin)
      * gpio_init first */
 #if defined(CPU_FAM_STM32F0) || defined (CPU_FAM_STM32F3) || defined(CPU_FAM_STM32L1)
     periph_clk_en(AHB, (RCC_AHBENR_GPIOAEN << _port_num(pin)));
-#elif defined (CPU_FAM_STM32L0) || defined(CPU_FAM_STM32G0)
+#elif defined(CPU_FAM_STM32L0) || defined(CPU_FAM_STM32G0)
     periph_clk_en(IOP, (RCC_IOPENR_GPIOAEN << _port_num(pin)));
-#elif defined (CPU_FAM_STM32L4) || defined(CPU_FAM_STM32WB) || \
-      defined (CPU_FAM_STM32G4) || defined(CPU_FAM_STM32L5)
+#elif defined(CPU_FAM_STM32L4) || defined(CPU_FAM_STM32WB) || \
+      defined(CPU_FAM_STM32WL) || \
+      defined(CPU_FAM_STM32G4) || defined(CPU_FAM_STM32L5)
     periph_clk_en(AHB2, (RCC_AHB2ENR_GPIOAEN << _port_num(pin)));
 #elif defined(CPU_FAM_STM32MP1)
     periph_clk_en(AHB4, (RCC_MC_AHB4ENSETR_GPIOAEN << _port_num(pin)));
