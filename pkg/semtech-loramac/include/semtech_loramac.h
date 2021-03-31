@@ -34,17 +34,17 @@ extern "C" {
  * @name    Definitions for messages exchanged between the MAC and call threads
  * @{
  */
-#define MSG_TYPE_ISR                        (0x3456) /**< radio device ISR */
-#define MSG_TYPE_RX_TIMEOUT                 (0x3457) /**< radio driver RX timeout */
-#define MSG_TYPE_TX_TIMEOUT                 (0x3458) /**< radio driver TX timeout */
-#define MSG_TYPE_MAC_TIMEOUT                (0x3459) /**< MAC timers timeout */
-#define MSG_TYPE_LORAMAC_CMD                (0x3460) /**< Command sent to the MAC */
-#define MSG_TYPE_LORAMAC_JOIN_STATUS        (0x3461) /**< Join status */
-#define MSG_TYPE_LORAMAC_TX_STATUS          (0x3462) /**< Uplink status */
-#define MSG_TYPE_LORAMAC_MLME_CONFIRM       (0x3463) /**< MAC MLME confirm event */
-#define MSG_TYPE_LORAMAC_MLME_INDICATION    (0x3464) /**< MAC MLME indication event */
-#define MSG_TYPE_LORAMAC_MCPS_CONFIRM       (0x3465) /**< MAC MCPS confirm event */
-#define MSG_TYPE_LORAMAC_MCPS_INDICATION    (0x3466) /**< MAC MCPS indication event */
+#define MSG_TYPE_ISR                        (0x3456)    /**< radio device ISR */
+#define MSG_TYPE_RX_TIMEOUT                 (0x3457)    /**< radio driver RX timeout */
+#define MSG_TYPE_TX_TIMEOUT                 (0x3458)    /**< radio driver TX timeout */
+#define MSG_TYPE_MAC_TIMEOUT                (0x3459)    /**< MAC timers timeout */
+#define MSG_TYPE_LORAMAC_CMD                (0x3460)    /**< Command sent to the MAC */
+#define MSG_TYPE_LORAMAC_JOIN_STATUS        (0x3461)    /**< Join status */
+#define MSG_TYPE_LORAMAC_TX_STATUS          (0x3462)    /**< Uplink status */
+#define MSG_TYPE_LORAMAC_MLME_CONFIRM       (0x3463)    /**< MAC MLME confirm event */
+#define MSG_TYPE_LORAMAC_MLME_INDICATION    (0x3464)    /**< MAC MLME indication event */
+#define MSG_TYPE_LORAMAC_MCPS_CONFIRM       (0x3465)    /**< MAC MCPS confirm event */
+#define MSG_TYPE_LORAMAC_MCPS_INDICATION    (0x3466)    /**< MAC MCPS indication event */
 /** @} */
 
 /**
@@ -84,17 +84,17 @@ enum {
  * @brief   LoRaMAC channel radio parameters
  */
 typedef struct {
-    uint32_t frequency;                          /**< channel center frequency */
-    uint8_t datarate;                            /**< channel datarate */
+    uint32_t frequency;                             /**< channel center frequency */
+    uint8_t datarate;                               /**< channel datarate */
 } semtech_loramac_channel_params_t;
 
 /**
  * @brief   Structure containing LoRaWAN RX data
  */
 typedef struct {
-    uint8_t payload[LORAWAN_APP_DATA_MAX_SIZE];  /**< RX payload buffer */
-    uint8_t payload_len;                         /**< Length of the RX payload */
-    uint8_t port;                                /**< RX port */
+    uint8_t payload[LORAWAN_APP_DATA_MAX_SIZE];     /**< RX payload buffer */
+    uint8_t payload_len;                            /**< Length of the RX payload */
+    uint8_t port;                                   /**< RX port */
 } semtech_loramac_rx_data_t;
 
 #if defined(MODULE_SEMTECH_LORAMAC_RX) || DOXYGEN
@@ -102,8 +102,8 @@ typedef struct {
  * @brief   LoRaMAC link check information
  */
 typedef struct {
-    uint8_t demod_margin;                        /**< Demodulation margin */
-    uint8_t nb_gateways;                         /**< number of LoRa gateways found */
+    uint8_t demod_margin;                           /**< Demodulation margin */
+    uint8_t nb_gateways;                            /**< number of LoRa gateways found */
 } semtech_loramac_link_check_info_t;
 #endif
 
@@ -111,20 +111,20 @@ typedef struct {
  * @brief   Semtech LoRaMAC descriptor
  */
 typedef struct {
-    netdev_t *netdev;                            /**< pointer to internal radio device */
-    mutex_t lock;                                /**< loramac access lock */
-    uint8_t tx_pid;                              /**< pid of sender thread */
+    netdev_t *netdev;                               /**< pointer to internal radio device */
+    mutex_t lock;                                   /**< loramac access lock */
+    uint8_t tx_pid;                                 /**< pid of sender thread */
 #if defined(MODULE_SEMTECH_LORAMAC_RX) || DOXYGEN
-    uint8_t rx_pid;                              /**< pid of receiver thread */
+    uint8_t rx_pid;                                 /**< pid of receiver thread */
 #endif
-    uint8_t port;                                /**< application TX port */
-    uint8_t cnf;                                 /**< enable/disable confirmable messages */
-    uint8_t deveui[LORAMAC_DEVEUI_LEN];          /**< device EUI */
-    uint8_t appeui[LORAMAC_APPEUI_LEN];          /**< application EUI */
-    uint8_t appkey[LORAMAC_APPKEY_LEN];          /**< application key */
+    uint8_t port;                                   /**< application TX port */
+    uint8_t cnf;                                    /**< enable/disable confirmable messages */
+    uint8_t deveui[LORAMAC_DEVEUI_LEN];             /**< device EUI */
+    uint8_t appeui[LORAMAC_APPEUI_LEN];             /**< application EUI */
+    uint8_t appkey[LORAMAC_APPKEY_LEN];             /**< application key */
 #if defined(MODULE_SEMTECH_LORAMAC_RX) || DOXYGEN
-    semtech_loramac_rx_data_t rx_data;           /**< struct handling the RX data */
-    semtech_loramac_link_check_info_t link_chk;  /**< link check information */
+    semtech_loramac_rx_data_t rx_data;              /**< struct handling the RX data */
+    semtech_loramac_link_check_info_t link_chk;     /**< link check information */
 #endif
 } semtech_loramac_t;
 
@@ -517,7 +517,7 @@ uint32_t semtech_loramac_get_uplink_counter(semtech_loramac_t *mac);
  * @brief   The magic number used to identify the LoRaWAN configuration
  */
 #ifndef SEMTECH_LORAMAC_EEPROM_MAGIC
-#define SEMTECH_LORAMAC_EEPROM_MAGIC        {0x52, 0x49, 0x4F, 0x54} /* RIOT */
+#define SEMTECH_LORAMAC_EEPROM_MAGIC        { 0x52, 0x49, 0x4F, 0x54 } /* RIOT */
 #endif
 
 /**

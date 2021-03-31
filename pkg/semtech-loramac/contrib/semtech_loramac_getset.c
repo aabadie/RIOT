@@ -63,8 +63,9 @@ void semtech_loramac_set_appskey(semtech_loramac_t *mac, const uint8_t *skey)
 {
     mutex_lock(&mac->lock);
     MibRequestConfirm_t mibReq;
+
     mibReq.Type = MIB_APP_SKEY;
-    mibReq.Param.AppSKey = (uint8_t *) skey;
+    mibReq.Param.AppSKey = (uint8_t *)skey;
     LoRaMacMibSetRequestConfirm(&mibReq);
     mutex_unlock(&mac->lock);
 }
@@ -73,6 +74,7 @@ void semtech_loramac_get_appskey(semtech_loramac_t *mac, uint8_t *skey)
 {
     mutex_lock(&mac->lock);
     MibRequestConfirm_t mibReq;
+
     mibReq.Type = MIB_APP_SKEY;
     LoRaMacMibGetRequestConfirm(&mibReq);
     memcpy(skey, mibReq.Param.AppSKey, LORAMAC_APPSKEY_LEN);
@@ -83,8 +85,9 @@ void semtech_loramac_set_nwkskey(semtech_loramac_t *mac, const uint8_t *skey)
 {
     mutex_lock(&mac->lock);
     MibRequestConfirm_t mibReq;
+
     mibReq.Type = MIB_NWK_SKEY;
-    mibReq.Param.NwkSKey = (uint8_t *) skey;
+    mibReq.Param.NwkSKey = (uint8_t *)skey;
     LoRaMacMibSetRequestConfirm(&mibReq);
     mutex_unlock(&mac->lock);
 }
@@ -93,6 +96,7 @@ void semtech_loramac_get_nwkskey(semtech_loramac_t *mac, uint8_t *skey)
 {
     mutex_lock(&mac->lock);
     MibRequestConfirm_t mibReq;
+
     mibReq.Type = MIB_NWK_SKEY;
     LoRaMacMibGetRequestConfirm(&mibReq);
     memcpy(skey, mibReq.Param.NwkSKey, LORAMAC_NWKSKEY_LEN);
@@ -103,6 +107,7 @@ void semtech_loramac_set_devaddr(semtech_loramac_t *mac, const uint8_t *addr)
 {
     mutex_lock(&mac->lock);
     MibRequestConfirm_t mibReq;
+
     mibReq.Type = MIB_DEV_ADDR;
     mibReq.Param.DevAddr = ((uint32_t)addr[0] << 24 |
                             (uint32_t)addr[1] << 16 |
@@ -117,6 +122,7 @@ void semtech_loramac_get_devaddr(semtech_loramac_t *mac, uint8_t *addr)
     mutex_lock(&mac->lock);
     DEBUG("[semtech-loramac] get device address\n");
     MibRequestConfirm_t mibReq;
+
     mibReq.Type = MIB_DEV_ADDR;
     LoRaMacMibGetRequestConfirm(&mibReq);
     addr[0] = (uint8_t)(mibReq.Param.DevAddr >> 24);
@@ -131,6 +137,7 @@ void semtech_loramac_set_class(semtech_loramac_t *mac, loramac_class_t cls)
     mutex_lock(&mac->lock);
     DEBUG("[semtech-loramac] set class %d\n", cls);
     MibRequestConfirm_t mibReq;
+
     mibReq.Type = MIB_DEVICE_CLASS;
     mibReq.Param.Class = (DeviceClass_t)cls;
     LoRaMacMibSetRequestConfirm(&mibReq);
@@ -141,8 +148,10 @@ loramac_class_t semtech_loramac_get_class(semtech_loramac_t *mac)
 {
     mutex_lock(&mac->lock);
     loramac_class_t cls;
+
     DEBUG("[semtech-loramac] get device class\n");
     MibRequestConfirm_t mibReq;
+
     mibReq.Type = MIB_DEVICE_CLASS;
     LoRaMacMibGetRequestConfirm(&mibReq);
     cls = (loramac_class_t)mibReq.Param.Class;
@@ -155,6 +164,7 @@ void semtech_loramac_set_dr(semtech_loramac_t *mac, uint8_t dr)
     mutex_lock(&mac->lock);
     DEBUG("[semtech-loramac] set dr %d\n", dr);
     MibRequestConfirm_t mibReq;
+
     mibReq.Type = MIB_CHANNELS_DEFAULT_DATARATE;
     mibReq.Param.ChannelsDatarate = dr;
     LoRaMacMibSetRequestConfirm(&mibReq);
@@ -167,6 +177,7 @@ uint8_t semtech_loramac_get_dr(semtech_loramac_t *mac)
     DEBUG("[semtech-loramac] get dr\n");
     uint8_t datarate;
     MibRequestConfirm_t mibReq;
+
     mibReq.Type = MIB_CHANNELS_DEFAULT_DATARATE;
     LoRaMacMibGetRequestConfirm(&mibReq);
     datarate = (uint8_t)mibReq.Param.ChannelsDatarate;
@@ -179,6 +190,7 @@ void semtech_loramac_set_adr(semtech_loramac_t *mac, bool adr)
     mutex_lock(&mac->lock);
     DEBUG("[semtech-loramac] set adr %d\n", adr);
     MibRequestConfirm_t mibReq;
+
     mibReq.Type = MIB_ADR;
     mibReq.Param.AdrEnable = adr;
     LoRaMacMibSetRequestConfirm(&mibReq);
@@ -189,8 +201,10 @@ bool semtech_loramac_get_adr(semtech_loramac_t *mac)
 {
     mutex_lock(&mac->lock);
     bool enable;
+
     DEBUG("[semtech-loramac] get adr\n");
     MibRequestConfirm_t mibReq;
+
     mibReq.Type = MIB_ADR;
     LoRaMacMibGetRequestConfirm(&mibReq);
     enable = mibReq.Param.AdrEnable;
@@ -203,6 +217,7 @@ void semtech_loramac_set_public_network(semtech_loramac_t *mac, bool public)
     mutex_lock(&mac->lock);
     DEBUG("[semtech-loramac] set public network %d\n", public);
     MibRequestConfirm_t mibReq;
+
     mibReq.Type = MIB_PUBLIC_NETWORK;
     mibReq.Param.EnablePublicNetwork = public;
     LoRaMacMibSetRequestConfirm(&mibReq);
@@ -213,8 +228,10 @@ bool semtech_loramac_get_public_network(semtech_loramac_t *mac)
 {
     mutex_lock(&mac->lock);
     bool enable;
+
     DEBUG("[semtech-loramac] get public network\n");
     MibRequestConfirm_t mibReq;
+
     mibReq.Type = MIB_PUBLIC_NETWORK;
     LoRaMacMibGetRequestConfirm(&mibReq);
     enable = mibReq.Param.EnablePublicNetwork;
@@ -227,6 +244,7 @@ void semtech_loramac_set_netid(semtech_loramac_t *mac, uint32_t netid)
     mutex_lock(&mac->lock);
     DEBUG("[semtech-loramac] set NetID %" PRIu32 "\n", netid);
     MibRequestConfirm_t mibReq;
+
     mibReq.Type = MIB_NET_ID;
     mibReq.Param.NetID = netid;
     LoRaMacMibSetRequestConfirm(&mibReq);
@@ -237,8 +255,10 @@ uint32_t semtech_loramac_get_netid(semtech_loramac_t *mac)
 {
     mutex_lock(&mac->lock);
     uint32_t netid;
+
     DEBUG("[semtech-loramac] get NetID\n");
     MibRequestConfirm_t mibReq;
+
     mibReq.Type = MIB_NET_ID;
     LoRaMacMibGetRequestConfirm(&mibReq);
     netid = mibReq.Param.NetID;
@@ -251,6 +271,7 @@ void semtech_loramac_set_tx_power(semtech_loramac_t *mac, uint8_t power)
     mutex_lock(&mac->lock);
     DEBUG("[semtech-loramac] set TX power %d\n", power);
     MibRequestConfirm_t mibReq;
+
     mibReq.Type = MIB_CHANNELS_TX_POWER;
     mibReq.Param.ChannelsTxPower = power;
     LoRaMacMibSetRequestConfirm(&mibReq);
@@ -261,8 +282,10 @@ uint8_t semtech_loramac_get_tx_power(semtech_loramac_t *mac)
 {
     mutex_lock(&mac->lock);
     uint8_t tx_power;
+
     DEBUG("[semtech-loramac] get TX power\n");
     MibRequestConfirm_t mibReq;
+
     mibReq.Type = MIB_CHANNELS_TX_POWER;
     LoRaMacMibGetRequestConfirm(&mibReq);
     tx_power = (uint8_t)mibReq.Param.ChannelsTxPower;
@@ -293,6 +316,7 @@ uint8_t semtech_loramac_get_tx_mode(semtech_loramac_t *mac)
 void semtech_loramac_set_system_max_rx_error(semtech_loramac_t *mac, uint32_t error)
 {
     MibRequestConfirm_t mibReq;
+
     mutex_lock(&mac->lock);
     mibReq.Type = MIB_SYSTEM_MAX_RX_ERROR;
     mibReq.Param.SystemMaxRxError = error;
@@ -303,6 +327,7 @@ void semtech_loramac_set_system_max_rx_error(semtech_loramac_t *mac, uint32_t er
 void semtech_loramac_set_min_rx_symbols(semtech_loramac_t *mac, uint8_t min_rx)
 {
     MibRequestConfirm_t mibReq;
+
     mutex_lock(&mac->lock);
     mibReq.Type = MIB_MIN_RX_SYMBOLS;
     mibReq.Param.MinRxSymbols = min_rx;
@@ -313,10 +338,12 @@ void semtech_loramac_set_min_rx_symbols(semtech_loramac_t *mac, uint8_t min_rx)
 static void _semtech_loramac_set_rx2_params(semtech_loramac_channel_params_t params)
 {
     Rx2ChannelParams_t p;
+
     p.Frequency = params.frequency;
     p.Datarate = params.datarate;
 
     MibRequestConfirm_t mibReq;
+
     mibReq.Type = MIB_RX2_DEFAULT_CHANNEL;
     mibReq.Param.Rx2DefaultChannel = p;
     LoRaMacMibSetRequestConfirm(&mibReq);
@@ -329,14 +356,16 @@ static void _semtech_loramac_set_rx2_params(semtech_loramac_channel_params_t par
 void semtech_loramac_set_rx2_freq(semtech_loramac_t *mac, uint32_t freq)
 {
     mutex_lock(&mac->lock);
-    DEBUG("[semtech-loramac] setting RX2 freq to %" PRIu32" \n", freq);
+    DEBUG("[semtech-loramac] setting RX2 freq to %" PRIu32 " \n", freq);
     Rx2ChannelParams_t p;
     MibRequestConfirm_t mibReq;
+
     mibReq.Type = MIB_RX2_DEFAULT_CHANNEL;
     LoRaMacMibGetRequestConfirm(&mibReq);
     p.Frequency = freq;
     p.Datarate = mibReq.Param.Rx2DefaultChannel.Datarate;
     semtech_loramac_channel_params_t params;
+
     params.frequency = freq;
     params.datarate = p.Datarate;
     _semtech_loramac_set_rx2_params(params);
@@ -347,8 +376,10 @@ uint32_t semtech_loramac_get_rx2_freq(semtech_loramac_t *mac)
 {
     mutex_lock(&mac->lock);
     uint32_t freq;
+
     DEBUG("[semtech-loramac] getting RX2 freq\n");
     MibRequestConfirm_t mibReq;
+
     mibReq.Type = MIB_RX2_DEFAULT_CHANNEL;
     LoRaMacMibGetRequestConfirm(&mibReq);
     freq = mibReq.Param.Rx2DefaultChannel.Frequency;
@@ -362,11 +393,13 @@ void semtech_loramac_set_rx2_dr(semtech_loramac_t *mac, uint8_t dr)
     DEBUG("[semtech-loramac] setting RX2 datarate to %d\n", dr);
     Rx2ChannelParams_t p;
     MibRequestConfirm_t mibReq;
+
     mibReq.Type = MIB_RX2_DEFAULT_CHANNEL;
     LoRaMacMibGetRequestConfirm(&mibReq);
     p.Datarate = dr;
     p.Frequency = mibReq.Param.Rx2DefaultChannel.Frequency;
     semtech_loramac_channel_params_t params;
+
     params.datarate = dr;
     params.frequency = p.Frequency;
     _semtech_loramac_set_rx2_params(params);
@@ -377,8 +410,10 @@ uint8_t semtech_loramac_get_rx2_dr(semtech_loramac_t *mac)
 {
     mutex_lock(&mac->lock);
     uint8_t datarate;
+
     DEBUG("[semtech-loramac] getting RX2 datarate\n");
     MibRequestConfirm_t mibReq;
+
     mibReq.Type = MIB_RX2_DEFAULT_CHANNEL;
     LoRaMacMibGetRequestConfirm(&mibReq);
     datarate = mibReq.Param.Rx2DefaultChannel.Datarate;
@@ -391,6 +426,7 @@ void semtech_loramac_set_uplink_counter(semtech_loramac_t *mac, uint32_t counter
     DEBUG("[semtech-loramac] reading uplink counter: %" PRIu32 " \n", counter);
     mutex_lock(&mac->lock);
     MibRequestConfirm_t mibReq;
+
     mibReq.Type = MIB_UPLINK_COUNTER;
     mibReq.Param.UpLinkCounter = counter;
     LoRaMacMibSetRequestConfirm(&mibReq);
@@ -401,8 +437,10 @@ uint32_t semtech_loramac_get_uplink_counter(semtech_loramac_t *mac)
 {
     mutex_lock(&mac->lock);
     uint32_t counter;
+
     DEBUG("[semtech-loramac] getting uplink counter\n");
     MibRequestConfirm_t mibReq;
+
     mibReq.Type = MIB_UPLINK_COUNTER;
     LoRaMacMibGetRequestConfirm(&mibReq);
     counter = mibReq.Param.UpLinkCounter;

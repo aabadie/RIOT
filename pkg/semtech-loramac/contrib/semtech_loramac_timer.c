@@ -50,6 +50,7 @@ void TimerStart(TimerEvent_t *obj)
     obj->running = 1;
     ztimer_t *timer = &(obj->dev);
     msg_t *msg = &(obj->msg);
+
     msg->type = MSG_TYPE_MAC_TIMEOUT;
     msg->content.value = (uintptr_t)obj->cb;
     ztimer_set_msg(ZTIMER_MSEC, timer, obj->timeout, msg, semtech_loramac_pid);
@@ -73,22 +74,23 @@ void TimerSetValue(TimerEvent_t *obj, uint32_t value)
 TimerTime_t TimerGetCurrentTime(void)
 {
     uint64_t CurrentTime = ztimer_now(ZTIMER_MSEC);
+
     return (TimerTime_t)CurrentTime;
 }
 
 TimerTime_t TimerGetElapsedTime(TimerTime_t savedTime)
 {
     uint64_t CurrentTime = ztimer_now(ZTIMER_MSEC);
+
     return (TimerTime_t)(CurrentTime - savedTime);
 }
 
 TimerTime_t TimerGetFutureTime(TimerTime_t eventInFuture)
 {
     uint64_t CurrentTime = ztimer_now(ZTIMER_MSEC);
+
     return (TimerTime_t)(CurrentTime + eventInFuture);
 }
 
 void TimerLowPowerHandler( void )
-{
-
-}
+{}
