@@ -48,5 +48,6 @@ rsource "umorse/Kconfig"
 rsource "utensor/Kconfig"
 rsource "wakaama/Kconfig"
 rsource "yxml/Kconfig"
+rsource "zlib-deflate-nostdlib/Kconfig"
 
 endmenu # Packages

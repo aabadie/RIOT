@@ -1,0 +1,11 @@
+/**
+ * @defgroup pkg_zlib-deflate-nostdlib   Zlib decompressor
+ * @ingroup  pkg
+ * @brief    Zlib decompressor (RFC 1950) suitable for 8- and 16-bit microcontrollers
+ *
+ * # License
+ * 
+ * Licensed under BSD 2-Clauses.
+ *
+ * @see      https://github.com/derf/zlib-deflate-nostdlib
+ */

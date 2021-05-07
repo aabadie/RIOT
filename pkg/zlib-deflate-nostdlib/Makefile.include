@@ -1,0 +1,4 @@
+INCLUDES += -I$(PKGDIRBASE)/zlib-deflate-nostdlib/src
+
+CFLAGS += -Wno-strict-prototypes
+CFLAGS += -Wno-old-style-definition
