@@ -42,10 +42,16 @@ static const timer_conf_t timer_config[] = {
         .rcc_mask = RCC_APB1ENR1_TIM2EN,
 #elif CPU_FAM_STM32MP1
         .rcc_mask = RCC_MC_APB1ENSETR_TIM2EN,
+#elif CPU_FAM_STM32H7
+        .rcc_mask = RCC_APB1LENR_TIM2EN,
 #else
         .rcc_mask = RCC_APB1ENR_TIM2EN,
 #endif
+#if CPU_FAM_STM32H7
+        .bus      = APB1L,
+#else
         .bus      = APB1,
+#endif
         .irqn     = TIM2_IRQn
     }
 };

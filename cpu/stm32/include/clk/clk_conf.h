@@ -26,7 +26,7 @@
     defined(CPU_FAM_STM32F2) || defined(CPU_FAM_STM32F3) || \
     defined(CPU_FAM_STM32F4) || defined(CPU_FAM_STM32F7) || \
     defined(CPU_FAM_STM32G0) || defined(CPU_FAM_STM32G4) || \
-    defined(CPU_FAM_STM32MP1)
+    defined(CPU_FAM_STM32MP1) || defined(CPU_FAM_STM32H7)
 #include "cfg_clock_common_fx_gx_mp1.h"
 #else /* CPU_FAM_STM32L0 || CPU_FAM_STM32L1 || CPU_FAM_STM32L4 ||
        * CPU_FAM_STM32L5 || CPU_FAM_STM32WB */
@@ -48,6 +48,8 @@
 #include "l4l5wx/cfg_clock_default.h"
 #elif defined(CPU_FAM_STM32MP1)
 #include "mp1/cfg_clock_default.h"
+#elif defined(CPU_FAM_STM32H7)
+#include "h7/cfg_clock_default.h"
 #else
 #error "No clock configuration available"
 #endif

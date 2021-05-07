@@ -35,9 +35,19 @@
  */
 static const uint8_t apbmul[] = {
 #if (CLOCK_APB1 < CLOCK_CORECLOCK)
+#if defined(CPU_FAM_STM32H7)
+    [APB1L] = 2,
+    [APB1H] = 2,
+#else
     [APB1] = 2,
+#endif
+#else
+#if defined(CPU_FAM_STM32H7)
+    [APB1L] = 1,
+    [APB1H] = 1,
 #else
     [APB1] = 1,
+#endif
 #endif
 #if (CLOCK_APB2 < CLOCK_CORECLOCK)
     [APB2] = 2
@@ -66,6 +76,14 @@ uint32_t periph_timer_clk(uint8_t bus)
 void periph_clk_en(bus_t bus, uint32_t mask)
 {
     switch (bus) {
+#if defined(CPU_FAM_STM32H7)
+        case APB1L:
+            RCC->APB1LENR |= mask;
+            break;
+        case APB1H:
+            RCC->APB1HENR |= mask;
+            break;
+#else
         case APB1:
 #if defined(CPU_FAM_STM32L4) || defined(CPU_FAM_STM32WB) || \
     defined(CPU_FAM_STM32G4) || defined(CPU_FAM_STM32L5) || \
@@ -79,6 +97,7 @@ void periph_clk_en(bus_t bus, uint32_t mask)
             RCC->APB1ENR |= mask;
 #endif
             break;
+#endif
 #if !defined(CPU_FAM_STM32G0)
         case APB2:
 #if defined(CPU_FAM_STM32MP1)
@@ -88,7 +107,7 @@ void periph_clk_en(bus_t bus, uint32_t mask)
 #endif
             break;
 #endif
-#if defined(CPU_FAM_STM32WL)
+#if defined(CPU_FAM_STM32WL) || defined(CPU_FAM_STM32H7)
         case APB3:
             RCC->APB3ENR |= mask;
             break;
@@ -119,7 +138,8 @@ void periph_clk_en(bus_t bus, uint32_t mask)
 #elif defined(CPU_FAM_STM32F2) || defined(CPU_FAM_STM32F4) || \
       defined(CPU_FAM_STM32L4) || defined(CPU_FAM_STM32F7) || \
       defined(CPU_FAM_STM32WB) || defined(CPU_FAM_STM32G4) || \
-      defined(CPU_FAM_STM32L5) || defined(CPU_FAM_STM32WL)
+      defined(CPU_FAM_STM32L5) || defined(CPU_FAM_STM32WL) || \
+      defined(CPU_FAM_STM32H7)
         case AHB1:
             RCC->AHB1ENR |= mask;
             break;
@@ -138,6 +158,11 @@ void periph_clk_en(bus_t bus, uint32_t mask)
             RCC->MC_AHB4ENSETR |= mask;
             break;
 #endif
+#if defined(CPU_FAM_STM32H7)
+        case AHB4:
+            RCC->AHB4ENR |= mask;
+            break;
+#endif
         default:
             DEBUG("unsupported bus %d\n", (int)bus);
             break;
@@ -149,6 +174,14 @@ void periph_clk_en(bus_t bus, uint32_t mask)
 void periph_clk_dis(bus_t bus, uint32_t mask)
 {
     switch (bus) {
+#if defined(CPU_FAM_STM32H7)
+        case APB1L:
+            RCC->APB1LENR &= ~(mask);
+            break;
+        case APB1H:
+            RCC->APB1HENR &= ~(mask);
+            break;
+#else
         case APB1:
 #if defined(CPU_FAM_STM32L4) || defined(CPU_FAM_STM32WB) || \
     defined(CPU_FAM_STM32G4) || defined(CPU_FAM_STM32L5) || \
@@ -163,6 +196,7 @@ void periph_clk_dis(bus_t bus, uint32_t mask)
             RCC->APB1ENR &= ~(mask);
 #endif
             break;
+#endif
 #if !defined(CPU_FAM_STM32G0)
         case APB2:
 #if defined(CPU_FAM_STM32MP1)
@@ -170,6 +204,11 @@ void periph_clk_dis(bus_t bus, uint32_t mask)
 #else
             RCC->APB2ENR &= ~(mask);
 #endif
+            break;
+#endif
+#if defined(CPU_FAM_STM32WL) || defined(CPU_FAM_STM32H7)
+        case APB3:
+            RCC->APB3ENR &= ~(mask);
             break;
 #endif
 #if defined(CPU_FAM_STM32L4) || defined(CPU_FAM_STM32WB) || \
@@ -198,7 +237,8 @@ void periph_clk_dis(bus_t bus, uint32_t mask)
 #elif defined(CPU_FAM_STM32F2) || defined(CPU_FAM_STM32F4) || \
       defined(CPU_FAM_STM32L4) || defined(CPU_FAM_STM32F7) || \
       defined(CPU_FAM_STM32WB) || defined(CPU_FAM_STM32G4) || \
-      defined(CPU_FAM_STM32L5) || defined(CPU_FAM_STM32WL)
+      defined(CPU_FAM_STM32L5) || defined(CPU_FAM_STM32WL) || \
+      defined(CPU_FAM_STM32H7)
         case AHB1:
             RCC->AHB1ENR &= ~(mask);
             break;
@@ -214,6 +254,11 @@ void periph_clk_dis(bus_t bus, uint32_t mask)
 #if defined(CPU_FAM_STM32WB)
         case AHB4:
             RCC->AHB3ENR &= ~(mask);
+            break;
+#endif
+#if defined(CPU_FAM_STM32H7)
+        case AHB4:
+            RCC->AHB4ENR &= ~(mask);
             break;
 #endif
 #endif
@@ -278,15 +323,23 @@ void periph_lpclk_dis(bus_t bus, uint32_t mask)
             break;
     }
 }
-#elif defined(CPU_FAM_STM32F2) || \
-      defined(CPU_FAM_STM32F4) || \
-      defined(CPU_FAM_STM32F7)
+#elif defined(CPU_FAM_STM32F2) || defined(CPU_FAM_STM32F4) || \
+      defined(CPU_FAM_STM32F7) || defined(CPU_FAM_STM32H7)
 void periph_lpclk_en(bus_t bus, uint32_t mask)
 {
     switch (bus) {
+#if defined(CPU_FAM_STM32H7)
+        case APB1L:
+            RCC->APB1LLPENR |= mask;
+            break;
+        case APB1H:
+            RCC->APB1HLPENR |= mask;
+            break;
+#else
         case APB1:
             RCC->APB1LPENR |= mask;
             break;
+#endif
         case APB2:
             RCC->APB2LPENR |= mask;
             break;
@@ -311,9 +364,18 @@ void periph_lpclk_en(bus_t bus, uint32_t mask)
 void periph_lpclk_dis(bus_t bus, uint32_t mask)
 {
     switch (bus) {
+#if defined(CPU_FAM_STM32H7)
+        case APB1L:
+            RCC->APB1LLPENR &= ~(mask);
+            break;
+        case APB1H:
+            RCC->APB1HLPENR &= ~(mask);
+            break;
+#else
         case APB1:
             RCC->APB1LPENR &= ~(mask);
             break;
+#endif
         case APB2:
             RCC->APB2LPENR &= ~(mask);
             break;

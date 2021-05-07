@@ -54,6 +54,8 @@
 #define PM_STOP_CONFIG  (PWR_CR1_LPMS_0)
 #elif defined(CPU_FAM_STM32F7)
 #define PM_STOP_CONFIG  (PWR_CR1_LPDS | PWR_CR1_FPDS | PWR_CR1_LPUDS)
+#elif defined(CPU_FAM_STM32H7)
+#define PM_STOP_CONFIG  (PWR_CR1_LPDS)
 #elif defined(CPU_FAM_STM32MP1)
 #define PM_STOP_CONFIG  (0)
 #else
@@ -79,6 +81,8 @@
 #define PM_STANDBY_CONFIG   (PWR_CR1_PDDS | PWR_CR1_CSBF)
 #elif defined(CPU_FAM_STM32MP1)
 #define PM_STANDBY_CONFIG   (0)
+#elif defined(CPU_FAM_STM32H7)
+#define PM_STANDBY_CONFIG   (PWR_CPUCR_PDDS_D1 | PWR_CPUCR_PDDS_D2 | PWR_CPUCR_PDDS_D3 | PWR_CPUCR_SBF)
 #else
 #define PM_STANDBY_CONFIG   (PWR_CR_PDDS | PWR_CR_CWUF | PWR_CR_CSBF)
 #endif
@@ -100,6 +104,9 @@
 #elif defined(CPU_FAM_STM32MP1)
 #define PWR_CR_REG     PWR->CR1
 #define PWR_WUP_REG    PWR->MCUWKUPENR
+#elif defined(CPU_FAM_STM32H7)
+#define PWR_CR_REG     PWR->CR1
+#define PWR_WUP_REG    PWR->CPUCR
 #else
 #define PWR_CR_REG     PWR->CR
 #define PWR_WUP_REG    PWR->CSR

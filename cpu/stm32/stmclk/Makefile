@@ -23,6 +23,8 @@ else ifneq (,$(filter $(CPU_FAM),mp1))
     # Do not use *.c as SRC if SRC is empty (see Makefile.base)
     NO_AUTO_SRC = 1
   endif
+else ifneq (,$(filter $(CPU_FAM),h7))
+  SRC += stmclk_h7.c
 endif
 
 include $(RIOTBASE)/Makefile.base

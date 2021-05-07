@@ -44,14 +44,14 @@
 #define BIT_APB_PWREN       RCC_APB1ENR1_PWREN
 #elif defined (CPU_FAM_STM32G0)
 #define BIT_APB_PWREN       RCC_APBENR1_PWREN
-#elif !defined(CPU_FAM_STM32MP1)
+#elif !defined(CPU_FAM_STM32MP1) && !defined(CPU_FAM_STM32H7)
 #define BIT_APB_PWREN       RCC_APB1ENR_PWREN
 #endif
 
 #if defined(CPU_FAM_STM32F0) || defined(CPU_FAM_STM32F1) || \
     defined(CPU_FAM_STM32F2) || defined(CPU_FAM_STM32F3) || \
     defined(CPU_FAM_STM32F4) || defined(CPU_FAM_STM32F7) || \
-    defined(CPU_FAM_STM32L1)
+    defined(CPU_FAM_STM32L1) || defined(CPU_FAM_STM32H7)
 
 #define STM32_CPU_MAX_GPIOS    (12U)
 
@@ -68,7 +68,7 @@
 #define GPIO_CLK_ENR          (RCC->AHB2ENR)
 #define GPIO_CLK_ENR_MASK     (0x00000087)
 #elif defined(CPU_FAM_STM32F2) || defined(CPU_FAM_STM32F4) || \
-      defined(CPU_FAM_STM32F7)
+      defined(CPU_FAM_STM32F7) || defined(CPU_FAM_STM32H7)
 #define GPIO_CLK              (AHB1)
 #define GPIO_CLK_ENR          (RCC->AHB1ENR)
 #define GPIO_CLK_ENR_MASK     (0x0000FFFF)
@@ -157,13 +157,13 @@ void cpu_init(void)
     cortexm_init();
     /* enable PWR module */
 #if !defined(CPU_FAM_STM32WB) && !defined(CPU_FAM_STM32MP1) &&  \
-    !defined(CPU_FAM_STM32WL)
+    !defined(CPU_FAM_STM32WL) && !defined(CPU_FAM_STM32H7)
     periph_clk_en(APB1, BIT_APB_PWREN);
 #endif
 #if defined(CPU_FAM_STM32F0) || defined(CPU_FAM_STM32F1) || \
     defined(CPU_FAM_STM32F2) || defined(CPU_FAM_STM32F3) || \
     defined(CPU_FAM_STM32F4) || defined(CPU_FAM_STM32F7) || \
-    defined(CPU_FAM_STM32L1)
+    defined(CPU_FAM_STM32L1) || defined(CPU_FAM_STM32H7)
     _gpio_init_ain();
 #endif
 #if !defined(CPU_FAM_STM32MP1) || IS_USED(MODULE_STM32MP1_ENG_MODE)

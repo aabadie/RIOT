@@ -190,6 +190,18 @@ else ifeq ($(STM32_TYPE), G)
       CCMRAM_LEN = 32K
     endif
   endif
+else ifeq ($(STM32_TYPE), H)
+  ifeq ($(STM32_FAMILY), 7)
+    ifneq (, $(filter $(STM32_MODEL), 742))
+      RAM_LEN = 692K
+    else ifneq (, $(filter $(STM32_MODEL2), 2 3))
+      RAM_LEN = 564K
+    else ifneq (, $(filter $(STM32_MODEL2), A B))
+      RAM_LEN = 1184K
+    else
+      RAM_LEN = 1024K
+    endif
+  endif
 else ifeq ($(STM32_TYPE), L)
   ifeq ($(STM32_FAMILY), 0)
     ifeq ($(STM32_MODEL2), 1)

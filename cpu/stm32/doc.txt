@@ -4,7 +4,7 @@
 @brief           All STM32 families code and definitions
 
 This module contains the code and definitions for STM32 cpu
-families supported by RIOT: F0, F1, F2, F3, F4, F7, G0, G4, L0, L1, L4, L5 and WB.
+families supported by RIOT: F0, F1, F2, F3, F4, F7, G0, G4, H7, L0, L1, L4, L5 and WB.
 
 All constants described below can be configured using `CFLAGS` from the command
 line or in the application Makefile.
@@ -50,7 +50,7 @@ system clock (but only one can be used at a time):
   `CONFIG_CLOCK_PLL_SRC_MSI` to 1.
 
   2 types of PLL are available on STM32:
-  - for stm32f[2|4|7], stm32g[0|4] and stm32[l4|l5|wb], the PLL can be
+  - for stm32f[2|4|7], stm32g[0|4], stm32h7 and stm32[l4|l5|wb], the PLL can be
     configured with several parameters M, N, P, Q and R (optional). M is the
     input divider, N is the multiplier and P, Q and R are output dividers.
     On stm32f[2|4|7], the clock source from the P output divider is used as
@@ -81,7 +81,7 @@ will have no effect on them.
 MCO (Microcontroller Clock Output) parameters:
 ----------------------------------------------
 
-For stm32f[2|4|7], clock outputs can be configured as follows:
+For stm32f[2|4|7] and stm32h7, clock outputs can be configured as follows:
 - set `CONFIG_CLOCK_ENABLE_MCO1` to enable MCO1 (on PA8) and use
   `CONFIG_CLOCK_MCO1_PRE` constant to specify the MCO1 prescaler (default to 1).
   Possible sources are HSE, HSI and PLL (the default): set 1 to

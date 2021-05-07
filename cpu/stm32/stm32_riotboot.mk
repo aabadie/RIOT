@@ -1,4 +1,4 @@
-ifneq (,$(filter $(CPU_FAM),f2 f4 f7))
+ifneq (,$(filter $(CPU_FAM),f2 f4 f7 h7))
   # STM32F2/4/7 uses sectors instead of pages, where the minimum sector length is 16KB
   # or 32KB (the first sector), depending on the CPU_MODEL. Therefore RIOTBOOT_LEN must
   # be 16KB or 32kB to cover a whole sector.
