@@ -47,6 +47,7 @@ rsource "ubasic/Kconfig"
 rsource "ucglib/Kconfig"
 rsource "umorse/Kconfig"
 rsource "utensor/Kconfig"
+rsource "uzlib/Kconfig"
 rsource "wakaama/Kconfig"
 rsource "yxml/Kconfig"
 
