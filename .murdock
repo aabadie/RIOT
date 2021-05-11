@@ -59,6 +59,7 @@ tests/pkg_tinycbor
 tests/pkg_tinycrypt
 tests/pkg_tweetnacl
 tests/pkg_umorse
+tests/pkg_uzlib
 tests/pkg_yxml
 tests/posix_sleep
 tests/prng_*
