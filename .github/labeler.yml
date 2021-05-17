@@ -1,3 +1,50 @@
-"Area: build system":
-  - Makefile.*
-  - makefiles/**/*
+"Area: boards":
+  - boards/**/*
+
+ "Area: build system":
+   - Makefile.*
+   - makefiles/**/*
+  - ./**/*.mk
+
+"Area: CI":
+  - .circleci/**/*
+  - .github/**/*.yml
+  - .murdock
+
+"Area: core":
+  - core/**/*
+
+"Area: cpu":
+  - cpu/**/*
+
+"Area: doc":
+  - ./**/*.txt
+  - doc/**/*
+  - ./*.md
+
+"Area: drivers":
+  - drivers/**/*
+
+"Area: examples":
+  - examples/**/*
+
+"Area: Kconfig":
+  - ./**/Kconfig.*
+  - ./**/Kconfig
+
+"Area: network":
+  - sys/net/**/*
+  - sys/include/net/**/*
+  - pkg/lwip/**/*
+  - pkg/openthread/**/*
+  - pkg/openwsn/**/*
+  - pkg/paho-mqtt/**/*
+
+"Area: OTA":
+  - sys/suit/**/*
+  - sys/include/suit/**/*
+  - sys/include/suit.h
+
+"Area: pkg":
+  - pkg/**/*
+  
