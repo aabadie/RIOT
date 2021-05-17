@@ -1,0 +1,13 @@
+"Area: boards":
+  - boards/*
+
+"Area: cpu":
+  - cpu/*
+
+"Area: build system":
+  - ./**/*.mk
+  - ./**/Makefile.*
+
+"Area: doc":
+  - ./**/*.txt
+  - doc/**/*
