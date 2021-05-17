@@ -2,8 +2,8 @@
   - boards/**/*
 
 "Area: build system":
-   - Makefile.*
-   - makefiles/**/*
+  - Makefile.*
+  - makefiles/**/*
   - ./**/*.mk
 
 "Area: CI":
