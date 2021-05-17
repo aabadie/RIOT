@@ -1,7 +1,7 @@
 "Area: boards":
   - boards/**/*
 
- "Area: build system":
+"Area: build system":
    - Makefile.*
    - makefiles/**/*
   - ./**/*.mk
@@ -47,4 +47,4 @@
 
 "Area: pkg":
   - pkg/**/*
-  
+
