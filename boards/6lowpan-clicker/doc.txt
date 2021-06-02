@@ -3,6 +3,8 @@
 @ingroup     boards
 @brief       Support for the MikroE 6LoWPAN Clicker
 
+This is a test
+
 ## Overview
 
 The `6lowpan clicker` is an evaluation board by Mikroe featuring a
