@@ -4,6 +4,8 @@
 # General Public License v2.1. See the file LICENSE in the top level
 # directory for more details.
 
+# This is a test
+
 config BOARD
     default "6lowpan-clicker" if BOARD_6LOWPAN_CLICKER
 
