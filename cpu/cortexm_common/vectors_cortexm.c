@@ -487,6 +487,13 @@ void debug_mon_default(void)
 }
 #endif
 
+#if defined(CPU_CORE_CORTEX_M33)
+void secure_fault_defaut(void)
+{
+    core_panic(PANIC_SECURE_FAULT, "SECURE FAULT HANDLER");
+}
+#endif
+
 void dummy_handler_default(void)
 {
     core_panic(PANIC_DUMMY_HANDLER, "DUMMY HANDLER");
@@ -543,5 +550,8 @@ ISR_VECTOR(0) const cortexm_base_t cortex_vector_base = {
         /* [-4] debug monitor exception */
         [11] = debug_mon_default,
 #endif
+#if defined(CPU_CORE_CORTEX_M33)
+        [ 6] = secure_fault_defaut,
     }
+#endif
 };
