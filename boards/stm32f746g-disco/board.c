@@ -18,9 +18,18 @@
  * @}
  */
 
+#include "kernel_defines.h"
 #include "board.h"
 #include "periph/gpio.h"
 
 void board_init(void)
 {
+    if (IS_USED(MODULE_PERIPH_LTDC)) {
+        gpio_init(LCD_DISP_PIN, GPIO_OUT);
+        gpio_set(LCD_DISP_PIN);
+    }
+    else {
+        gpio_init(BACKLIGHT_PIN, GPIO_OUT);
+        gpio_clear(BACKLIGHT_PIN);
+    }
 }
