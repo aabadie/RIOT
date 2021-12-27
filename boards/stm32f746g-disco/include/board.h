@@ -36,6 +36,16 @@ extern "C" {
 /** @} */
 
 /**
+ * @name FT5336 touch panel configuration
+ * @{
+ */
+#define FT5336_PARAM_I2C_DEV            I2C_DEV(1)              /**< I2C device */
+#define FT5336_PARAM_INT_PIN            GPIO_PIN(PORT_I, 13)    /**< Interrupt pin */
+#define FT5336_PARAM_XMAX               (480)                   /**< Max width */
+#define FT5336_PARAM_YMAX               (272)                   /**< Max height */
+/** @} */
+
+/**
  * @brief   Initialize board specific hardware
  */
 void board_init(void);
