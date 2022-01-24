@@ -263,6 +263,59 @@ static const ltdc_conf_t ltdc_config = {
 };
 /** @} */
 
+/**
+ * @name FMC SDRAM configuration
+ * @{
+ */
+/** FMC SDRAM static configuration struct */
+static const fmc_sdram_conf_t fmc_sdram_config = {
+    .bus            = AHB3,
+    .rcc_mask       = RCC_AHB3ENR_FMCEN,
+    .sdclk_pin      = GPIO_PIN(PORT_G, 8),
+    .sdcke_pins     = {
+        GPIO_PIN(PORT_C, 3),    GPIO_UNDEF,
+    },
+    .sdne_pins      = {
+        GPIO_PIN(PORT_H, 3),    GPIO_UNDEF,
+    },
+    .addr_pins         = {
+        GPIO_PIN(PORT_F, 0),    GPIO_PIN(PORT_F, 1),
+        GPIO_PIN(PORT_F, 2),    GPIO_PIN(PORT_F, 3),
+        GPIO_PIN(PORT_F, 4),    GPIO_PIN(PORT_F, 5),
+        GPIO_PIN(PORT_F, 12),   GPIO_PIN(PORT_F, 13),
+        GPIO_PIN(PORT_F, 14),   GPIO_PIN(PORT_F, 15),
+        GPIO_PIN(PORT_G, 0),    GPIO_PIN(PORT_G, 1),
+    },
+    .data_pins         = {
+        GPIO_PIN(PORT_D, 14),   GPIO_PIN(PORT_D, 15),
+        GPIO_PIN(PORT_D, 0),    GPIO_PIN(PORT_D, 1),
+        GPIO_PIN(PORT_E, 7),    GPIO_PIN(PORT_E, 8),
+        GPIO_PIN(PORT_E, 9),    GPIO_PIN(PORT_E, 10),
+        GPIO_PIN(PORT_E, 11),   GPIO_PIN(PORT_E, 12),
+        GPIO_PIN(PORT_E, 13),   GPIO_PIN(PORT_E, 14),
+        GPIO_PIN(PORT_E, 15),   GPIO_PIN(PORT_D, 8),
+        GPIO_PIN(PORT_D, 9),    GPIO_PIN(PORT_D, 10),
+        GPIO_UNDEF,             GPIO_UNDEF,
+        GPIO_UNDEF,             GPIO_UNDEF,
+        GPIO_UNDEF,             GPIO_UNDEF,
+        GPIO_UNDEF,             GPIO_UNDEF,
+        GPIO_UNDEF,             GPIO_UNDEF,
+        GPIO_UNDEF,             GPIO_UNDEF,
+    },
+    .bank_addr_pins        = {
+        GPIO_PIN(PORT_G, 4),     GPIO_PIN(PORT_G, 5),
+    },
+    .nras_pin       = GPIO_PIN(PORT_F, 11),
+    .ncas_pin       = GPIO_PIN(PORT_G, 15),
+    .sdnwe_pin      = GPIO_PIN(PORT_H, 5),
+    .nbl_pins       = {
+        GPIO_PIN(PORT_E, 0),    GPIO_PIN(PORT_E, 1),
+        GPIO_UNDEF,             GPIO_UNDEF,
+    },
+    .af             = GPIO_AF12,
+};
+/** @} */
+
 #ifdef __cplusplus
 }
 #endif
