@@ -62,6 +62,7 @@
 #include "periph/cpu_common.h"
 #include "periph/cpu_dma.h"
 #include "periph/cpu_eth.h"
+#include "periph/cpu_fmc_sdram.h"
 #include "periph/cpu_gpio.h"
 #include "periph/cpu_i2c.h"
 #include "periph/cpu_ltdc.h"

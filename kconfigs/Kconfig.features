@@ -150,6 +150,11 @@ config HAS_PERIPH_FLASHPAGE_RWEE
     help
         Indicates that the Flashpage peripheral is of the Read While Write.
 
+config HAS_PERIPH_FMC_SDRAM
+    bool
+    help
+        Indicates that a FMC SDRAM peripheral is present.
+
 config HAS_PERIPH_GPIO
     bool
     help
