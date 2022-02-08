@@ -9,3 +9,5 @@ pr:
 
 commit:
   skip_keywords: ["ci: skip", "ci: no", "ci: ignore"]
+
+failfast: true
