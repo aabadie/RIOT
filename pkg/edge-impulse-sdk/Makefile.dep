@@ -1,0 +1,17 @@
+FEATURES_REQUIRED += cpp
+
+USEMODULE += cpp11-compat
+USEMODULE += ztimer_usec
+USEMODULE += ei-classifier
+USEMODULE += ei-dsp
+USEMODULE += ei-dsp-dct
+USEMODULE += ei-dsp-image
+USEMODULE += ei-dsp-kissfft
+USEMODULE += ei-tflite-c
+USEMODULE += ei-tflite-core-api
+USEMODULE += ei-tflite-kernels
+USEMODULE += ei-tflite-kernels-internal
+USEMODULE += ei-tflite-micro
+USEMODULE += ei-tflite-micro-kernels
+USEMODULE += ei-tflite-micro-memory-planner
+USEMODULE += ei-porting

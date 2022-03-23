@@ -1,0 +1,11 @@
+/**
+ * @defgroup pkg_edge-impulse-sdk   Edge Impulse Inferencing SDK
+ * @ingroup  pkg
+ * @brief    Portable C++ library for signal processing and machine learning inferencing
+ *
+ * # License
+ *
+ * Licensed under Apache 2.0.
+ *
+ * @see      https://github.com/edgeimpulse/inferencing-sdk-cpp
+ */

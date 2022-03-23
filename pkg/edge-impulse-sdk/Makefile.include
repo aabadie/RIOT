@@ -1,0 +1,6 @@
+INCLUDES += -I$(PKGDIRBASE)
+INCLUDES += -I$(PKGDIRBASE)/edge-impulse-sdk/porting
+
+DIRS += $(RIOTPKG)/edge-impulse-sdk/porting
+
+PSEUDOMODULES += edge-impulse-sdk
