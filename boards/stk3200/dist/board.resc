@@ -1,0 +1,17 @@
+:name: Silabs STK3200
+:description: This script runs the stk3200 on RIOT.
+
+using sysbus
+$name?="stk3200"
+mach create $name
+machine LoadPlatformDescription @platforms/boards/silabs/stk3200.repl
+
+showAnalyzer sysbus.leUart0
+
+
+macro reset
+"""
+    sysbus LoadELF $image_file
+"""
+
+runMacro $reset

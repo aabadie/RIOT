@@ -4,5 +4,8 @@ JLINK_PRE_FLASH = r
 # limit the stack size so most tests and examples compile
 CFLAGS += -DTHREAD_STACKSIZE_DEFAULT=512
 
+# Tell renode on which UART stdio is available
+RENODE_SYSBUS_UART ?= sysbus.leUart0
+
 # include board common
 include $(RIOTBOARD)/common/silabs/Makefile.include
