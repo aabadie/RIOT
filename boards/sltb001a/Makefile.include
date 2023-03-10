@@ -2,5 +2,8 @@
 JLINK_DEVICE = EFR32MG1PxxxF256
 JLINK_PRE_FLASH = r
 
+# Tell renode on which UART stdio is available
+RENODE_SYSBUS_UART ?= sysbus.usart0
+
 # include board common
 include $(RIOTBOARD)/common/silabs/Makefile.include

@@ -1,0 +1,17 @@
+:name: Silabs SLTB001a
+:description: This script runs the sltb001a on RIOT.
+
+using sysbus
+$name?="sltb001a"
+mach create $name
+machine LoadPlatformDescription @platforms/boards/silabs/sltb001a.repl
+
+showAnalyzer sysbus.usart0
+
+
+macro reset
+"""
+    sysbus LoadELF $image_file
+"""
+
+runMacro $reset
