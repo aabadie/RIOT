@@ -95,6 +95,7 @@ FEATURES_EXISTING := \
     cpu_samd5x \
     cpu_saml1x \
     cpu_saml21 \
+    cpu_scum \
     cpu_stm32 \
     cpu_stm32c0 \
     cpu_stm32f0 \

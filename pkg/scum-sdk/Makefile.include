@@ -1,0 +1,3 @@
+INCLUDES += -I$(PKGDIRBASE)/scum-sdk/sdk/bsp
+
+CFLAGS += -DMODULE_OPTICAL

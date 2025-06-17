@@ -1,0 +1,4 @@
+USEPKG += scum-sdk
+# FEATURES_REQUIRED += picolibc
+
+include $(RIOTCPU)/cortexm_common/Makefile.dep

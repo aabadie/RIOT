@@ -294,6 +294,11 @@ groups:
         - name: cpu_rp2350_riscv
           help: The MCU is a Raspberry Pi RP2350 Hazard3 RISC-V.
 
+      - title: SCuM
+        features:
+        - name: cpu_scum
+          help: This is SCuM
+
       - title: Silicon Laboratories EFM32 Grouping
         features:
         - name: cpu_efm32
