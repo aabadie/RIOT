@@ -1,0 +1,19 @@
+# Load .bin file to the SCuM memory
+FLASHFILE ?= $(BINFILE)
+
+# SCuM programmer settings
+PROGRAMMER ?= scum-programmer
+PROGRAMMER_FLAGS ?= --calibrate
+PROGRAMMER_PORT ?= /dev/ttyACM0
+
+PROGRAMMERS_SUPPORTED = $(PROGRAMMER)
+
+FLASHER ?= $(PROGRAMMER)
+FFLAGS ?= --port $(PROGRAMMER_PORT) $(PROGRAMMER_FLAGS) $(FLASHFILE)
+
+# Serial port settings
+PORT ?= /dev/ttyUSB0
+BAUD ?= 19200
+
+# Because I prefer to use socat for serial communication
+# RIOT_TERMINAL ?= socat
