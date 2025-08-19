@@ -31,6 +31,8 @@ extern "C" {
 #define CONFIG_ZTIMER_USEC_BASE_FREQ    KHZ(500)
 #define CONFIG_ZTIMER_USEC_WIDTH        (32U)
 
+#define STDIO_UART_BAUDRATE             (19200)
+
 #ifdef __cplusplus
 }
 #endif
