@@ -28,6 +28,12 @@ extern "C" {
  */
 #define PERIPH_CLOCK        MHZ(16)
 
+/**
+ * @brief    The watchdog of the nRF54L family can be stopped (STOP task,
+ *           unlocked via the TSEN register)
+ */
+#define WDT_HAS_STOP        (1)
+
 #ifdef __cplusplus
 }
 #endif

@@ -2,8 +2,8 @@ MODULE = nrf5x_common_periph
 
 # The nRF54L family uses dedicated GPIO, I2C, SPI and RTT (GRTC based) driver
 # implementations, located in cpu/nrf54l/periph. The gpio.c and rtt.c sources
-# of this directory must therefore not be built for it. The UART driver is
-# shared (see uart.c).
+# of this directory must therefore not be built for it. The UART and WDT
+# drivers are shared (see uart.c and wdt.c).
 ifeq (nrf54l,$(CPU_FAM))
   SUBMODULES_NO_SRC += gpio.c rtt.c
 endif

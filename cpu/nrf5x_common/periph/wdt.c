@@ -46,6 +46,14 @@
 #define NRF_WDT NRF_WDT_S
 #endif
 
+/* The nRF54L only has numbered WDT instances: use WDT31, which unlike WDT30
+   is also accessible in non-secure mode */
+#ifdef CPU_FAM_NRF54L
+#define NRF_WDT     NRF_WDT31
+#define WDT_IRQn    WDT31_IRQn
+#define isr_wdt     isr_wdt31
+#endif
+
 /* Wrapper around vendor files inconsistency */
 #ifdef WDT_RUNSTATUS_RUNSTATUSWDT_Running
 #define WDT_RUNSTATUS_RUNSTATUS_Running WDT_RUNSTATUS_RUNSTATUSWDT_Running
@@ -65,8 +73,16 @@ void wdt_start(void)
 
 void wdt_stop(void)
 {
+#if WDT_HAS_STOP
+    DEBUG("[wdt] stop watchdog\n");
+
+    /* the STOP task is ignored unless it is unlocked first */
+    NRF_WDT->TSEN = WDT_TSEN_TSEN_Enable;
+    NRF_WDT->TASKS_STOP = 1;
+#else
     DEBUG("[wdt] stopping the watchdog is not supported\n");
     assert(0);
+#endif
 }
 
 void wdt_kick(void)
@@ -88,6 +104,12 @@ void wdt_setup_reboot(uint32_t min_time, uint32_t max_time)
     /* Check reset time limit */
     assert((max_time > NWDT_TIME_LOWER_LIMIT) || \
            (max_time < NWDT_TIME_UPPER_LIMIT));
+
+#ifdef CPU_FAM_NRF54L
+    /* the WDT counts on the 32.768 kHz LFCLK, which is not started
+       automatically on this family */
+    clock_start_lf();
+#endif
 
     /* configure watchdog behavior during sleep */
     NRF_WDT->CONFIG &= ~(WDT_CONFIG_SLEEP_Msk << WDT_CONFIG_SLEEP_Pos);

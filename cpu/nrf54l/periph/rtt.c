@@ -34,6 +34,7 @@
  */
 
 #include "cpu.h"
+#include "nrf_clock.h"
 #include "periph/rtt.h"
 #include "periph_conf.h"
 
@@ -59,12 +60,6 @@
  * larger than the worst case arming overhead so the retry loop terminates in a
  * single pass. */
 #define RTT_MIN_FUTURE      (10U)
-
-/* LFCLK source used to clock the GRTC, the board can override this (e.g.
- * CLOCK_LFCLK_SRC_SRC_LFRC when no 32.768 kHz crystal is mounted) */
-#ifndef CLOCK_LFCLK
-#  define CLOCK_LFCLK       (CLOCK_LFCLK_SRC_SRC_LFXO)
-#endif
 
 typedef struct {
     rtt_cb_t cb;
@@ -116,12 +111,7 @@ static void _arm_overflow(void)
 void rtt_init(void)
 {
     /* start the low frequency clock, the GRTC needs it as time base */
-    if (!NRF_CLOCK->LFCLK.RUN) {
-        NRF_CLOCK->LFCLK.SRC = CLOCK_LFCLK;
-        NRF_CLOCK->EVENTS_LFCLKSTARTED = 0;
-        NRF_CLOCK->TASKS_LFCLKSTART = 1;
-        while (!NRF_CLOCK->EVENTS_LFCLKSTARTED) {}
-    }
+    clock_start_lf();
 
     /* start the SYSCOUNTER */
     NRF_GRTC->TASKS_CLEAR = 1;

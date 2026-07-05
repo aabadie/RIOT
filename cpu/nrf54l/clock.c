@@ -10,10 +10,10 @@
  * @file
  * @brief       Clock handling for the nRF54L family
  *
- * Only the HFXO request interface needed by the radio is implemented: the
- * CPU core and the basic peripherals run from the internal oscillators and
- * need no configuration, and the LFCLK is handled by the GRTC based RTT
- * driver.
+ * The CPU core and the basic peripherals run from the internal oscillators
+ * and need no configuration. Only the HFXO request interface needed by the
+ * radio and the LFCLK startup used by the low frequency peripherals (GRTC,
+ * WDT) are implemented.
  *
  * @author      Alexandre Abadie <alexandre.abadie@inria.fr>
  *
@@ -26,7 +26,26 @@
 #include "irq.h"
 #include "nrf_clock.h"
 
+/* LFCLK source, the board can override this (e.g. CLOCK_LFCLK_SRC_SRC_LFRC
+ * when no 32.768 kHz crystal is mounted) */
+#ifndef CLOCK_LFCLK
+#  define CLOCK_LFCLK       (CLOCK_LFCLK_SRC_SRC_LFXO)
+#endif
+
 static unsigned _hfxo_requests = 0;
+
+void clock_start_lf(void)
+{
+    if (NRF_CLOCK->LFCLK.RUN) {
+        /* LFCLK already running, nothing to do */
+        return;
+    }
+
+    NRF_CLOCK->LFCLK.SRC = CLOCK_LFCLK;
+    NRF_CLOCK->EVENTS_LFCLKSTARTED = 0;
+    NRF_CLOCK->TASKS_LFCLKSTART = 1;
+    while (!NRF_CLOCK->EVENTS_LFCLKSTARTED) {}
+}
 
 void clock_hfxo_request(void)
 {

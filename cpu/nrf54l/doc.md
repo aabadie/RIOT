@@ -25,7 +25,7 @@ peripherals available:
 | Radio               | supported (802.15.4 nrf802154, BLE adv nrfble)  |
 | ADC (SAADC)         | not yet supported                               |
 | Flash (RRAMC)       | not yet supported (no periph_flashpage)         |
-| WDT                 | not yet supported                               |
+| WDT                 | supported (WDT31 instance, can be stopped)      |
 | RNG/crypto (CRACEN) | not yet supported                               |
 | Temperature         | not yet supported                               |
 | QDEC                | not yet supported                               |
