@@ -26,7 +26,7 @@ peripherals available:
 | ADC (SAADC)         | supported (AIN0-AIN7 on port P1)                |
 | Flash (RRAMC)       | not yet supported (no periph_flashpage)         |
 | WDT                 | supported (WDT31 instance, can be stopped)      |
-| RNG/crypto (CRACEN) | not yet supported                               |
+| RNG/crypto (CRACEN) | TRNG supported (periph_hwrng), no crypto        |
 | Temperature         | not yet supported                               |
 | QDEC                | not yet supported                               |
 | NFC (NFCT)          | not yet supported                               |
