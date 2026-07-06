@@ -145,6 +145,30 @@ static const pwm_conf_t pwm_config[] = {
 /** @} */
 
 /**
+ * @name    ADC configuration
+ *
+ * The analog inputs AIN0-AIN3 (P1.04-P1.07) and AIN4-AIN7 (P1.11-P1.14) are
+ * exposed as ADC lines 0-7. Most of these pins are shared with other
+ * peripherals or board features (P1.04/P1.05: secondary UART, P1.06/P1.07
+ * and P1.11: SPI, P1.13: BTN0, P1.14: LED3), the conflicting function must
+ * not be used at the same time.
+ * @{
+ */
+static const gpio_t adc_config[] = {
+    GPIO_PIN(1, 4),     /* AIN0 */
+    GPIO_PIN(1, 5),     /* AIN1 */
+    GPIO_PIN(1, 6),     /* AIN2 */
+    GPIO_PIN(1, 7),     /* AIN3 */
+    GPIO_PIN(1, 11),    /* AIN4 */
+    GPIO_PIN(1, 12),    /* AIN5 */
+    GPIO_PIN(1, 13),    /* AIN6 */
+    GPIO_PIN(1, 14),    /* AIN7 */
+};
+
+#define ADC_NUMOF           ARRAY_SIZE(adc_config) /**< ADC configuration NUMOF */
+/** @} */
+
+/**
  * @name    Real time counter configuration
  *
  * The RTT is based on the GRTC, a 52-bit counter with a fixed frequency of

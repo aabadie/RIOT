@@ -5,6 +5,7 @@ CPU_FAM  = nrf54l
 # Note: nrf5x_common/Makefile.features is not included on purpose, as most of
 # the features listed there (flashpage, rtt, ...) are not yet supported on the
 # nRF54L family
+FEATURES_PROVIDED += periph_adc
 FEATURES_PROVIDED += periph_cpuid
 FEATURES_PROVIDED += periph_gpio periph_gpio_irq
 FEATURES_PROVIDED += periph_rtt_overflow

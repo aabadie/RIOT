@@ -23,7 +23,7 @@ peripherals available:
 | PWM                 | supported (PWM2x instances)                     |
 | RTT (GRTC)          | supported (1 MHz, lower 32 bit of SYSCOUNTER)   |
 | Radio               | supported (802.15.4 nrf802154, BLE adv nrfble)  |
-| ADC (SAADC)         | not yet supported                               |
+| ADC (SAADC)         | supported (AIN0-AIN7 on port P1)                |
 | Flash (RRAMC)       | not yet supported (no periph_flashpage)         |
 | WDT                 | supported (WDT31 instance, can be stopped)      |
 | RNG/crypto (CRACEN) | not yet supported                               |

@@ -20,6 +20,7 @@ reset button.
 | LEDs      | LED0: P2.09, LED1: P1.10, LED2: P2.07, LED3: P1.14        |
 | Buttons   | BTN0: P1.13, BTN1: P1.09, BTN2: P1.08, BTN3: P0.04        |
 | Console   | UARTE30, TX: P0.00, RX: P0.01 (115200 baud)               |
+| ADC       | AIN0-AIN3: P1.04-P1.07, AIN4-AIN7: P1.11-P1.14            |
 
 ## Links
 
