@@ -6,11 +6,11 @@ DISABLE_MODULE += test_utils_interactive_sync
 
 USEPKG += lvgl
 USEMODULE += lvgl_contrib
-USEMODULE += lvgl_extra_widget_chart
-USEMODULE += lvgl_extra_widget_win
-USEMODULE += lvgl_extra_layout_flex
-USEMODULE += lvgl_extra_theme_default
-USEMODULE += lvgl_extra_theme_default_dark
+USEMODULE += lvgl_widget_chart
+USEMODULE += lvgl_widget_label
+USEMODULE += lvgl_layout_flex
+USEMODULE += lvgl_theme_default
+USEMODULE += lvgl_theme_default_dark
 
 include $(RIOTBASE)/Makefile.include
 

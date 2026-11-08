@@ -9,11 +9,11 @@ USEMODULE += lvgl_contrib
 
 # Add touch capabilities
 USEMODULE += lvgl_contrib_touch
-USEMODULE += lvgl_widget_btn
+USEMODULE += lvgl_widget_button
 USEMODULE += lvgl_widget_label
-USEMODULE += lvgl_extra_theme_default
+USEMODULE += lvgl_theme_default
 # uncomment the following to enable growing button (needs more RAM)
-# USEMODULE += lvgl_extra_theme_default_grow
+# USEMODULE += lvgl_theme_default_grow
 
 USEMODULE += random
 
