@@ -94,6 +94,15 @@ extern "C" {
 #define OPENTHREAD_RX_SENSITIVITY   (-100)
 #endif
 
+#ifndef OPENTHREAD_SRC_MATCH_ENTRIES
+/**
+ * @brief   Entries of the source address match table, for the short and for
+ *          the extended addresses: the children with pending frames, at most
+ *          `OPENTHREAD_CONFIG_MLE_MAX_CHILDREN` (10 by default)
+ */
+#define OPENTHREAD_SRC_MATCH_ENTRIES    (10U)
+#endif
+
 #ifndef OPENTHREAD_RCP_UART_DEV
 /**
  * @brief   UART of the spinel link of the Radio Co-Processor

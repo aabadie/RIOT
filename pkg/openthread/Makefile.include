@@ -6,6 +6,8 @@ PSEUDOMODULES += openthread_soft_ack
 PSEUDOMODULES += openthread_border_router
 
 INCLUDES += -I$(PKGDIRBASE)/openthread/include
+# frame utilities of the platforms of OpenThread (mac_frame.h)
+INCLUDES += -I$(PKGDIRBASE)/openthread/examples/platforms/utils
 INCLUDES += -I$(OPENTHREAD_DIR)/include
 
 ifneq (,$(filter openthread_contrib,$(USEMODULE)))
