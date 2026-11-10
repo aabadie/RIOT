@@ -40,9 +40,15 @@ else
   endif
 endif
 OT_MODULES += mbedcrypto mbedtls openthread-platform-utils-static
+# X.509 certificates of the CoAP secure API (ECDHE-ECDSA cipher suite)
+ifneq (,$(filter openthread_coaps,$(USEMODULE)))
+  OT_MODULES += mbedx509
+endif
 
 # Enable CoAP
 OT_COAP ?= ON
+# Enable the CoAP secure API (CoAP over DTLS) with openthread_coaps
+OT_COAPS ?= $(if $(filter openthread_coaps,$(USEMODULE)),ON,OFF)
 # Enable the border router API with openthread_border_router
 OT_BORDER_ROUTER ?= $(if $(filter openthread_border_router,$(USEMODULE)),ON,OFF)
 # Enable SLAAC: addresses in the on-mesh prefixes of the border routers
@@ -83,6 +89,7 @@ OT_LIB_DIR_openthread-spinel-rcp = src/lib/spinel
 OT_LIB_DIR_openthread-platform-utils-static = examples/platforms/utils
 OT_LIB_DIR_mbedtls = third_party/mbedtls/repo/library
 OT_LIB_DIR_mbedcrypto = third_party/mbedtls/repo/library
+OT_LIB_DIR_mbedx509 = third_party/mbedtls/repo/library
 
 ifeq (llvm,$(TOOLCHAIN))
   OT_C_FLAGS += -target $(TARGET_ARCH_LLVM)
@@ -113,6 +120,7 @@ OT_CMAKE_OPTIONS = \
   -DOT_RCP=$(OT_RCP) \
   -DOT_JOINER=$(OT_JOINER) \
   -DOT_COAP=$(OT_COAP) \
+  -DOT_COAPS=$(OT_COAPS) \
   -DOT_BORDER_ROUTER=$(OT_BORDER_ROUTER) \
   -DOT_PING_SENDER=$(OT_PING_SENDER) \
   -DOT_SLAAC=$(OT_SLAAC) \

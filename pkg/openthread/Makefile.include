@@ -4,6 +4,8 @@ OPENTHREAD_DIR = $(RIOTBASE)/pkg/openthread
 PSEUDOMODULES += openthread_soft_ack
 # border router of the Thread network over ethos (see contrib/border_router.c)
 PSEUDOMODULES += openthread_border_router
+# CoAP secure API of OpenThread (CoAP over DTLS)
+PSEUDOMODULES += openthread_coaps
 # device type and CLI, the libraries are built by the package
 PSEUDOMODULES += openthread_cli_ftd
 PSEUDOMODULES += openthread_cli_mtd
@@ -44,3 +46,6 @@ ARCHIVES += $(addprefix $(BINDIR)/,$(addsuffix .a,\
 ARCHIVES += $(BINDIR)/openthread-platform-utils-static.a
 ARCHIVES += $(BINDIR)/mbedcrypto.a
 ARCHIVES += $(BINDIR)/mbedtls.a
+ifneq (,$(filter openthread_coaps,$(USEMODULE)))
+  ARCHIVES += $(BINDIR)/mbedx509.a
+endif

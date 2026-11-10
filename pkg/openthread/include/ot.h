@@ -45,6 +45,10 @@
  * `gnrc_border_router` (`ethos_uhcpd.py`, `start_network.sh`): the prefix
  * of the host is published as an on-mesh prefix with a default route.
  *
+ * With `openthread_coaps`, the CoAP secure API of OpenThread is built (CoAP
+ * over DTLS, `otCoapSecure*`, with a PSK or X.509 certificates), and the
+ * `coaps` commands of the CLI.
+ *
  * With `openthread_rcp`, the node is the Radio Co-Processor of an OpenThread
  * host (e.g. the border router `otbr-agent`): spinel over HDLC on
  * @ref OPENTHREAD_RCP_UART_DEV. stdio must not use this UART (`stdio_null`).
