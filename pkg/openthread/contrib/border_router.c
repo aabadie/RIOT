@@ -99,6 +99,32 @@ static bool _is_mesh_local(const uint8_t *addr)
     return (prefix != NULL) && !memcmp(addr, prefix->m8, sizeof(prefix->m8));
 }
 
+/* multicast address with a scope up to realm-local: the Thread network */
+static bool _is_mesh_multicast(const uint8_t *addr)
+{
+    return (addr[0] == 0xff) && ((addr[1] & 0x0f) <= 3);
+}
+
+/* @p addr is a unicast address of the node */
+static bool _is_own_address(const uint8_t *addr)
+{
+    otIp6Address ip6;
+
+    memcpy(ip6.mFields.m8, addr, sizeof(ip6.mFields.m8));
+    return otIp6HasUnicastAddress(openthread_get_instance(), &ip6);
+}
+
+/* the node routes the datagram between the host and the Thread network:
+ * decrement its hop limit, false if it expired */
+static bool _decrement_hop_limit(uint8_t *ip)
+{
+    if (ip[7] <= 1) {
+        return false;
+    }
+    ip[7]--;
+    return true;
+}
+
 static uint16_t _upper_csum(const uint8_t *ip, const uint8_t *payload, uint16_t len,
                             uint8_t proto)
 {
@@ -284,6 +310,10 @@ static void _handle_ipv6(uint8_t *ip, size_t len)
         }
         return;
     }
+    /* routed to the Thread network, unless the node is the destination */
+    if (!_is_own_address(dst) && !_decrement_hop_limit(ip)) {
+        return;
+    }
 
     otInstance *ot = openthread_get_instance();
     otMessage *msg = otIp6NewMessage(ot, NULL);
@@ -303,13 +333,11 @@ static void _handle_ipv6(uint8_t *ip, size_t len)
 static void _ethos_rx(void)
 {
     netdev_t *netdev = &ethos.netdev;
-    int len = netdev->driver->recv(netdev, NULL, 0, NULL);
+    /* one frame: without buffer, ethos gives the size of all the buffered
+     * bytes (escaped, several frames), not the size of the frame */
+    int len = netdev->driver->recv(netdev, _frame, sizeof(_frame), NULL);
 
-    if ((len <= 0) || (len > (int)sizeof(_frame))) {
-        netdev->driver->recv(netdev, NULL, len, NULL);
-        return;
-    }
-    len = netdev->driver->recv(netdev, _frame, len, NULL);
+    /* errors (frame too long, dropped by ethos) and hello frames too */
     if ((len < (int)(ETH_HDR_LEN + IPV6_HDR_LEN))
         || (byteorder_bebuftohs(&_frame[12]) != ETHERTYPE_IPV6)) {
         return;
@@ -344,7 +372,10 @@ static void _ethos_cb(netdev_t *netdev, netdev_event_t event)
     }
 }
 
-/* IPv6 datagram that OpenThread gives to the host */
+/* IPv6 datagram that OpenThread gives to the host: not the ones to the
+ * Thread network, nor to the node itself (OpenThread gives the datagrams to
+ * the node it doesn't handle, they would come back from the host), the hop
+ * limit of the routed ones is decremented */
 static void _ot_receive(otMessage *msg, void *ctx)
 {
     (void)ctx;
@@ -353,7 +384,9 @@ static void _ot_receive(otMessage *msg, void *ctx)
 
     if ((len >= IPV6_HDR_LEN) && (len <= IPV6_MTU) && _host_mac_known
         && (otMessageRead(msg, 0, ip, len) == len)
-        && !_is_link_local(&ip[24]) && !_is_mesh_local(&ip[24])) {
+        && !_is_link_local(&ip[24]) && !_is_mesh_local(&ip[24])
+        && !_is_mesh_multicast(&ip[24]) && !_is_own_address(&ip[24])
+        && (_is_own_address(&ip[8]) || _decrement_hop_limit(ip))) {
         memcpy(&_frame[0], _host_mac, 6);
         memcpy(&_frame[6], ethos.mac_addr, 6);
         _frame[12] = ETHERTYPE_IPV6 >> 8;
