@@ -70,7 +70,6 @@ OT_C_FLAGS += -Wno-unused-parameter
 OT_CXXFLAGS += -Wno-class-memaccess
 OT_CXXFLAGS += -DOPENTHREAD_TARGET_RIOT
 
-OT_MODULES_ARCHIVES = $(addsuffix .a,$(addprefix $(BINDIR)/,$(OT_MODULES)))
 
 # build directory of each library
 OT_LIB_DIR_openthread-ftd = src/core
@@ -91,15 +90,45 @@ ifeq (llvm,$(TOOLCHAIN))
   OT_CXXFLAGS += $(GCC_CXX_INCLUDES)
 endif
 
-all: $(OT_MODULES_ARCHIVES)
-	@:
+# OpenThread is built with an external platform: the platform layer is in
+# contrib/, the applications of OpenThread (cli, ncp, rcp) are not built.
+OT_CMAKE_OPTIONS = \
+  -DCMAKE_TRY_COMPILE_TARGET_TYPE=STATIC_LIBRARY \
+  -DCMAKE_C_COMPILER="$(CC)" \
+  -DCMAKE_C_COMPILER_AR="$(AR)" \
+  -DCMAKE_C_COMPILER_RANLIB="$(RANLIB)" \
+  -DCMAKE_C_FLAGS="$(OT_C_FLAGS)" \
+  -DCMAKE_CXX_COMPILER="$(CXX)" \
+  -DCMAKE_CXX_FLAGS="$(OT_C_FLAGS) $(OT_CXXFLAGS) -fno-exceptions -fno-rtti" \
+  -DCMAKE_NM="$(NM)" \
+  -DCMAKE_STRIP="$(STRIP)" \
+  -DCMAKE_BUILD_TYPE=MinSizeRel \
+  -DOT_PLATFORM=external \
+  -DOT_PLATFORM_CONFIG="$(RIOTBASE)/pkg/openthread/include/platform_config.h" \
+  -DOT_APP_CLI=OFF \
+  -DOT_APP_NCP=OFF \
+  -DOT_APP_RCP=OFF \
+  -DOT_FTD=$(OT_FTD) \
+  -DOT_MTD=$(OT_MTD) \
+  -DOT_RCP=$(OT_RCP) \
+  -DOT_JOINER=$(OT_JOINER) \
+  -DOT_COAP=$(OT_COAP) \
+  -DOT_BORDER_ROUTER=$(OT_BORDER_ROUTER) \
+  -DOT_PING_SENDER=$(OT_PING_SENDER) \
+  -DOT_SLAAC=$(OT_SLAAC) \
+  -DOT_TCP=OFF \
+  -DOT_PLATFORM_DEFINES="$(subst $(OT_SPACE),;,$(strip $(OT_PLATFORM_DEFINES)))"
 
-# all the libraries are built by one make call, with the core library
-$(OT_MODULES_ARCHIVES): $(PKG_BUILD_DIR)/$(OT_LIB_DIR_$(OT_CORE_LIB))/lib$(OT_CORE_LIB).a
-	@cp $(PKG_BUILD_DIR)/$(OT_LIB_DIR_$(basename $(notdir $@)))/lib$(basename $(notdir $@)).a $@
+# the options and the source directory of the build: it is configured again
+# when they change (another RIOTBASE needs a new cmake cache)
+OT_CMAKE_OPTIONS_FILE = $(PKG_BUILD_DIR)/riot-cmake-options
 
-$(PKG_BUILD_DIR)/$(OT_LIB_DIR_$(OT_CORE_LIB))/lib$(OT_CORE_LIB).a: $(PKG_BUILD_DIR)/Makefile
+# the build of OpenThread runs every time: it rebuilds what changed (options,
+# headers of RIOT), the archives are copied when they changed
+all: $(PKG_BUILD_DIR)/Makefile
 	$(QQ)"$(MAKE)" -C $(PKG_BUILD_DIR) $(OT_MODULES)
+	$(Q)$(foreach m,$(OT_MODULES),cmp -s $(PKG_BUILD_DIR)/$(OT_LIB_DIR_$(m))/lib$(m).a $(BINDIR)/$(m).a \
+	  || cp $(PKG_BUILD_DIR)/$(OT_LIB_DIR_$(m))/lib$(m).a $(BINDIR)/$(m).a;)
 
 # mbedtls is a git submodule of OpenThread, fetched at the revision pinned by
 # OpenThread
@@ -108,32 +137,10 @@ OT_MBEDTLS_DIR = $(PKG_SOURCE_DIR)/third_party/mbedtls/repo
 $(OT_MBEDTLS_DIR)/CMakeLists.txt: $(PKG_PREPARED)
 	$(Q)$(GIT_IN_PKG) submodule update $(GIT_QUIET) --init --recursive --depth 1 third_party/mbedtls/repo
 
-# OpenThread is built with an external platform: the platform layer is in
-# contrib/, the applications of OpenThread (cli, ncp, rcp) are not built.
-$(PKG_BUILD_DIR)/Makefile: $(OT_MBEDTLS_DIR)/CMakeLists.txt
-	cmake -Wno-dev -B$(PKG_BUILD_DIR) -H$(PKG_SOURCE_DIR) \
-	 -DCMAKE_TRY_COMPILE_TARGET_TYPE=STATIC_LIBRARY \
-	 -DCMAKE_C_COMPILER="$(CC)" \
-	 -DCMAKE_C_COMPILER_AR="$(AR)" \
-	 -DCMAKE_C_COMPILER_RANLIB="$(RANLIB)" \
-	 -DCMAKE_C_FLAGS="$(OT_C_FLAGS)" \
-	 -DCMAKE_CXX_COMPILER="$(CXX)" \
-	 -DCMAKE_CXX_FLAGS="$(OT_C_FLAGS) $(OT_CXXFLAGS) -fno-exceptions -fno-rtti" \
-	 -DCMAKE_NM="$(NM)" \
-	 -DCMAKE_STRIP="$(STRIP)" \
-	 -DCMAKE_BUILD_TYPE=MinSizeRel \
-	 -DOT_PLATFORM=external \
-	 -DOT_PLATFORM_CONFIG="$(RIOTBASE)/pkg/openthread/include/platform_config.h" \
-	 -DOT_APP_CLI=OFF \
-	 -DOT_APP_NCP=OFF \
-	 -DOT_APP_RCP=OFF \
-	 -DOT_FTD=$(OT_FTD) \
-	 -DOT_MTD=$(OT_MTD) \
-	 -DOT_RCP=$(OT_RCP) \
-	 -DOT_JOINER=$(OT_JOINER) \
-	 -DOT_COAP=$(OT_COAP) \
-	 -DOT_BORDER_ROUTER=$(OT_BORDER_ROUTER) \
-	 -DOT_PING_SENDER=$(OT_PING_SENDER) \
-	 -DOT_SLAAC=$(OT_SLAAC) \
-	 -DOT_TCP=OFF \
-	 -DOT_PLATFORM_DEFINES="$(subst $(OT_SPACE),;,$(strip $(OT_PLATFORM_DEFINES)))"
+$(OT_CMAKE_OPTIONS_FILE): FORCE
+	$(Q)mkdir -p $(PKG_BUILD_DIR)
+	$(Q)echo '-H$(PKG_SOURCE_DIR) $(OT_CMAKE_OPTIONS)' | '$(LAZYSPONGE)' $(LAZYSPONGE_FLAGS) '$@'
+
+$(PKG_BUILD_DIR)/Makefile: $(OT_MBEDTLS_DIR)/CMakeLists.txt $(OT_CMAKE_OPTIONS_FILE)
+	$(Q)rm -f $(PKG_BUILD_DIR)/CMakeCache.txt
+	cmake -Wno-dev -B$(PKG_BUILD_DIR) -H$(PKG_SOURCE_DIR) $(OT_CMAKE_OPTIONS)
