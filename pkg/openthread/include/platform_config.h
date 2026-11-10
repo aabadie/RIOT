@@ -63,6 +63,17 @@ extern "C" {
  */
 #define OPENTHREAD_CONFIG_CLI_LOG_INPUT_OUTPUT_ENABLE 0
 
+/**
+ * @def OPENTHREAD_CONFIG_PLATFORM_USEC_TIMER_ENABLE
+ *
+ * Microsecond alarm (otPlatAlarmMicro*, on ZTIMER_USEC): the SubMac times
+ * the ACK timeout and the CSMA-CA backoffs done in software with it, instead
+ * of rounding them to milliseconds
+ */
+#ifndef OPENTHREAD_CONFIG_PLATFORM_USEC_TIMER_ENABLE
+#define OPENTHREAD_CONFIG_PLATFORM_USEC_TIMER_ENABLE 1
+#endif
+
 #if OPENTHREAD_RADIO
 /**
  * @name    SubMac of the Radio Co-Processor
