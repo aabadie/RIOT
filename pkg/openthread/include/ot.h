@@ -40,12 +40,12 @@
  * The radio is driven through the IEEE 802.15.4 Radio HAL: every radio of
  * RIOT with a Radio HAL implementation can be used.
  *
- * With `openthread_border_router` (and `openthread-ftd`), the node is the
+ * With `openthread_border_router` (and `openthread_ftd`), the node is the
  * border router of the Thread network over ethos, with the host tools of
  * `gnrc_border_router` (`ethos_uhcpd.py`, `start_network.sh`): the prefix
  * of the host is published as an on-mesh prefix with a default route.
  *
- * With `openthread-rcp`, the node is the Radio Co-Processor of an OpenThread
+ * With `openthread_rcp`, the node is the Radio Co-Processor of an OpenThread
  * host (e.g. the border router `otbr-agent`): spinel over HDLC on
  * @ref OPENTHREAD_RCP_UART_DEV. stdio must not use this UART (`stdio_null`).
  *
@@ -106,7 +106,7 @@ extern "C" {
 #ifndef OPENTHREAD_RCP_UART_DEV
 /**
  * @brief   UART of the spinel link of the Radio Co-Processor
- *          (`openthread-rcp`), not usable by stdio
+ *          (`openthread_rcp`), not usable by stdio
  */
 #define OPENTHREAD_RCP_UART_DEV     UART_DEV(0)
 #endif
@@ -191,7 +191,7 @@ int openthread_radio_init(ieee802154_dev_t *dev);
 /**
  * @brief   Initialize the spinel link of the Radio Co-Processor
  *
- * @internal Called from the OpenThread thread, with `openthread-rcp`.
+ * @internal Called from the OpenThread thread, with `openthread_rcp`.
  *
  * @param[in]  instance  OpenThread instance
  */

@@ -2,7 +2,7 @@ MODULE := openthread_contrib
 
 SRC := $(wildcard *.c)
 # spinel over HDLC, only in the Radio Co-Processor
-ifeq (,$(filter openthread-rcp,$(USEMODULE)))
+ifeq (,$(filter openthread_rcp,$(USEMODULE)))
   SRC := $(filter-out rcp.c,$(SRC))
 endif
 # border router over ethos

@@ -3,7 +3,7 @@ BOARD ?= nrf52840dk
 include ../Makefile.pkg_common
 
 USEPKG += openthread
-USEMODULE += openthread-rcp
+USEMODULE += openthread_rcp
 
 # the radio of the board, a ZEP socket on native
 ifneq (,$(filter native native32 native64,$(BOARD)))

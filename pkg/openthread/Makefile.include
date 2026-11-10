@@ -4,6 +4,18 @@ OPENTHREAD_DIR = $(RIOTBASE)/pkg/openthread
 PSEUDOMODULES += openthread_soft_ack
 # border router of the Thread network over ethos (see contrib/border_router.c)
 PSEUDOMODULES += openthread_border_router
+# device type and CLI, the libraries are built by the package
+PSEUDOMODULES += openthread_cli_ftd
+PSEUDOMODULES += openthread_cli_mtd
+PSEUDOMODULES += openthread_ftd
+PSEUDOMODULES += openthread_mtd
+PSEUDOMODULES += openthread_rcp
+# their deprecated names, with hyphens (see Makefile.dep)
+PSEUDOMODULES += openthread-cli-ftd
+PSEUDOMODULES += openthread-cli-mtd
+PSEUDOMODULES += openthread-ftd
+PSEUDOMODULES += openthread-mtd
+PSEUDOMODULES += openthread-rcp
 
 INCLUDES += -I$(PKGDIRBASE)/openthread/include
 # frame utilities of the platforms of OpenThread (mac_frame.h)
@@ -20,12 +32,14 @@ ifneq (,$(filter cortex-m0% cortex-m3%,$(CPU_CORE)))
   TOOLCHAINS_BLACKLIST += llvm
 endif
 
-ARCHIVES += $(addprefix $(BINDIR)/,$(addsuffix .a,$(filter openthread-%,$(USEMODULE))))
-ifneq (,$(filter openthread-rcp,$(USEMODULE)))
-  ARCHIVES += $(BINDIR)/openthread-radio.a
-  ARCHIVES += $(BINDIR)/openthread-hdlc.a
-  ARCHIVES += $(BINDIR)/openthread-spinel-rcp.a
-endif
+# libraries of the device type and of the CLI (the cmake targets have hyphens)
+OPENTHREAD_LIBS_openthread_ftd = openthread-ftd
+OPENTHREAD_LIBS_openthread_mtd = openthread-mtd
+OPENTHREAD_LIBS_openthread_cli_ftd = openthread-cli-ftd
+OPENTHREAD_LIBS_openthread_cli_mtd = openthread-cli-mtd
+OPENTHREAD_LIBS_openthread_rcp = openthread-rcp openthread-radio openthread-hdlc openthread-spinel-rcp
+ARCHIVES += $(addprefix $(BINDIR)/,$(addsuffix .a,\
+              $(foreach m,$(filter openthread_%,$(USEMODULE)),$(OPENTHREAD_LIBS_$(m)))))
 # settings in RAM (examples/platforms/utils of OpenThread)
 ARCHIVES += $(BINDIR)/openthread-platform-utils-static.a
 ARCHIVES += $(BINDIR)/mbedcrypto.a

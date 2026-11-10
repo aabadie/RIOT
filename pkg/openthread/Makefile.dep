@@ -1,3 +1,8 @@
+# deprecated module names, with hyphens
+OPENTHREAD_DEPRECATED_MODULES = openthread-cli-ftd openthread-cli-mtd openthread-ftd \
+                                openthread-mtd openthread-rcp
+USEMODULE += $(subst -,_,$(filter $(OPENTHREAD_DEPRECATED_MODULES),$(USEMODULE)))
+
 USEMODULE += event
 USEMODULE += luid
 USEMODULE += openthread_contrib
@@ -18,13 +23,13 @@ ifneq (,$(filter kw2xrf mrf24j40,$(USEMODULE)))
   USEMODULE += bhp_event
 endif
 
-ifneq (,$(filter openthread-cli-%,$(USEMODULE)))
+ifneq (,$(filter openthread_cli_%,$(USEMODULE)))
   USEMODULE += shell_cmds_default
 endif
 
 ifneq (,$(filter openthread_border_router,$(USEMODULE)))
-  ifeq (,$(filter openthread-ftd,$(USEMODULE)))
-    $(error openthread_border_router needs openthread-ftd)
+  ifeq (,$(filter openthread_ftd,$(USEMODULE)))
+    $(error openthread_border_router needs openthread_ftd)
   endif
   # IPv6 and stdio over ethos, as gnrc_border_router
   USEMODULE += ethos
@@ -32,7 +37,7 @@ ifneq (,$(filter openthread_border_router,$(USEMODULE)))
   USEMODULE += inet_csum
 endif
 
-ifneq (,$(filter openthread-rcp,$(USEMODULE)))
+ifneq (,$(filter openthread_rcp,$(USEMODULE)))
   # spinel over HDLC on a UART, see OPENTHREAD_RCP_UART_DEV
   FEATURES_REQUIRED += periph_uart
   USEMODULE += tsrb

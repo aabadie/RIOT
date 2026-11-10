@@ -6,26 +6,26 @@ PKG_LICENSE=BSD-3-Clause
 
 include $(RIOTBASE)/pkg/pkg.mk
 
-ifneq (,$(filter openthread-ftd,$(USEMODULE)))
+ifneq (,$(filter openthread_ftd,$(USEMODULE)))
   TD = ftd
   OT_FTD := ON
   OT_MTD := OFF
   OT_RCP := OFF
   OT_JOINER := OFF
-else ifneq (,$(filter openthread-mtd,$(USEMODULE)))
+else ifneq (,$(filter openthread_mtd,$(USEMODULE)))
   TD = mtd
   OT_FTD := OFF
   OT_MTD := ON
   OT_RCP := OFF
   OT_JOINER := ON
-else ifneq (,$(filter openthread-rcp,$(USEMODULE)))
+else ifneq (,$(filter openthread_rcp,$(USEMODULE)))
   TD = rcp
   OT_FTD := OFF
   OT_MTD := OFF
   OT_RCP := ON
   OT_JOINER := OFF
 else
-  $(error "Please use either USEMODULE=openthread-ftd, openthread-mtd or openthread-rcp")
+  $(error "Please use either USEMODULE=openthread_ftd, openthread_mtd or openthread_rcp")
 endif
 
 ifeq (rcp,$(TD))
@@ -35,7 +35,7 @@ ifeq (rcp,$(TD))
 else
   OT_CORE_LIB = openthread-$(TD)
   OT_MODULES = openthread-$(TD)
-  ifneq (,$(filter openthread-cli-$(TD),$(USEMODULE)))
+  ifneq (,$(filter openthread_cli_$(TD),$(USEMODULE)))
     OT_MODULES += openthread-cli-$(TD)
   endif
 endif
