@@ -56,18 +56,16 @@ OT_SLAAC ?= ON
 # Enable the ping sender (CLI ping)
 OT_PING_SENDER ?= ON
 
-# Number of message buffers of OpenThread (include/platform_config.h): empty
-# for the default of the device type
-OPENTHREAD_NUM_MESSAGE_BUFFERS ?=
 OT_PLATFORM_DEFINES = OPENTHREAD_SETTINGS_RAM=1
-ifneq (,$(OPENTHREAD_NUM_MESSAGE_BUFFERS))
-  OT_PLATFORM_DEFINES += OPENTHREAD_CONFIG_NUM_MESSAGE_BUFFERS=$(OPENTHREAD_NUM_MESSAGE_BUFFERS)
-endif
 # cmake list
 OT_EMPTY :=
 OT_SPACE := $(OT_EMPTY) $(OT_EMPTY)
 
 OT_C_FLAGS = $(CFLAGS_CPU)
+# OpenThread is built with the macros of the application (riotbuild.h): the
+# OPENTHREAD_CONFIG_* values of its CFLAGS take precedence over the ones of
+# include/platform_config.h and of OpenThread
+OT_C_FLAGS += -include $(RIOTBUILD_CONFIG_HEADER_C)
 OT_C_FLAGS += -fdata-sections
 OT_C_FLAGS += -ffunction-sections -Os
 OT_C_FLAGS += -fshort-enums

@@ -53,6 +53,13 @@
  * host (e.g. the border router `otbr-agent`): spinel over HDLC on
  * @ref OPENTHREAD_RCP_UART_DEV. stdio must not use this UART (`stdio_null`).
  *
+ * The configuration values of OpenThread (`OPENTHREAD_CONFIG_*`, see the
+ * `src/core/config/` headers of OpenThread) are set by the application with
+ * its CFLAGS, e.g. `CFLAGS += -DOPENTHREAD_CONFIG_MLE_MAX_CHILDREN=5`:
+ * OpenThread is built with the macros of the application (`riotbuild.h`),
+ * they take precedence over the defaults of the package
+ * (`include/platform_config.h`) and of OpenThread.
+ *
  * When `OPENTHREAD_PANID` and `OPENTHREAD_CHANNEL` are defined, OpenThread
  * starts at boot with an active dataset built from them (and the defaults of
  * the other `OPENTHREAD_*` dataset macros): the nodes built with the same

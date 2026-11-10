@@ -27,6 +27,9 @@ extern "C" {
  * hundred bytes, a fragmented datagram) takes several buffers while it is
  * sent: the FTD, which also forwards the messages of its children and
  * neighbors, gets the default of OpenThread.
+ *
+ * As the other values of this file, the application can set it with its
+ * CFLAGS: `CFLAGS += -DOPENTHREAD_CONFIG_NUM_MESSAGE_BUFFERS=24`.
  */
 #ifndef OPENTHREAD_CONFIG_NUM_MESSAGE_BUFFERS
 #if OPENTHREAD_FTD
@@ -45,7 +48,9 @@ extern "C" {
  *
  * @see https://openthread.io/releases/thread-reference-20170716/group/plat-logging
  */
+#ifndef OPENTHREAD_CONFIG_LOG_LEVEL
 #define OPENTHREAD_CONFIG_LOG_LEVEL OT_LOG_LEVEL_NONE
+#endif
 
 /**
  * @def OPENTHREAD_CONFIG_PLATFORM_ASSERT_MANAGEMENT
@@ -53,7 +58,9 @@ extern "C" {
  * The assertions of OpenThread call otPlatAssertFail(), implemented with the
  * assert() of RIOT
  */
+#ifndef OPENTHREAD_CONFIG_PLATFORM_ASSERT_MANAGEMENT
 #define OPENTHREAD_CONFIG_PLATFORM_ASSERT_MANAGEMENT 1
+#endif
 
 /**
  * @def OPENTHREAD_CONFIG_CLI_LOG_INPUT_OUTPUT_ENABLE
@@ -61,7 +68,9 @@ extern "C" {
  * The CLI prints on the RIOT shell: don't copy its input and output to the
  * logs (enabled by default on the native boards)
  */
+#ifndef OPENTHREAD_CONFIG_CLI_LOG_INPUT_OUTPUT_ENABLE
 #define OPENTHREAD_CONFIG_CLI_LOG_INPUT_OUTPUT_ENABLE 0
+#endif
 
 /**
  * @def OPENTHREAD_CONFIG_PLATFORM_USEC_TIMER_ENABLE
