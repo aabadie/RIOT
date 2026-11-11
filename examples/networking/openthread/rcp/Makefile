@@ -1,7 +1,7 @@
-APPLICATION = openthread
+APPLICATION = openthread_rcp
 
 # If no BOARD is found in the environment, use this default:
-BOARD ?= samr21-xpro
+BOARD ?= nrf52840dk
 
 # These are the boards that OpenThread stack has been tested on
 BOARDS_SUPPORTED := \
@@ -29,45 +29,25 @@ BOARDS_SUPPORTED := \
 # This has to be the absolute path to the RIOT base directory:
 RIOTBASE ?= $(CURDIR)/../../../..
 
-# Change this to 0 show compiler invocation lines by default:
-QUIET ?= 1
-
+# RCP: the Radio Co-Processor of an OpenThread host, Thread runs on the host
 USEPKG += openthread
+USEMODULE += openthread_rcp
 
-# FTD: A Full Thread Device has router functionality compiled in
-#
-# MTD: A Minimal Thread Device does not have router functionality
-# compiled in. As a result, it is not necessary to configure the
-# routerrole on an MTD. At the same time, an MTD may or may not be sleepy.
-#
-# Use FTD by default
-OPENTHREAD_TYPE ?= ftd
-
-USEMODULE += openthread_$(OPENTHREAD_TYPE)
-
-# Comment the following line in order to disable the OpenThread CLI
-USEMODULE += openthread_cli_$(OPENTHREAD_TYPE)
-
-# the radio of the board, a ZEP socket on native (with
-# dist/tools/zep_dispatch)
+# the radio of the board, a ZEP socket on native (dist/tools/zep_dispatch)
 ifneq (,$(filter native native32 native64,$(BOARD)))
   USEMODULE += socket_zep
 else
   USEMODULE += netdev_default
 endif
 
-#Define PANID, CHANNEL and UART_BAUDRATE used by default
-OPENTHREAD_PANID ?= 0xbeef
-OPENTHREAD_CHANNEL ?= 26
+# the UART of stdio carries the spinel link
+USEMODULE += stdio_null
 
-CFLAGS += -DOPENTHREAD_PANID=$(OPENTHREAD_PANID)
-CFLAGS += -DOPENTHREAD_CHANNEL=$(OPENTHREAD_CHANNEL)
+# baudrate of the spinel link, e.g. 500000 for the A8-M3 of IoT-LAB
+OPENTHREAD_RCP_UART_BAUDRATE ?= 115200
+CFLAGS += -DOPENTHREAD_RCP_UART_BAUDRATE=$(OPENTHREAD_RCP_UART_BAUDRATE)
 
-USEMODULE += random
-USEMODULE += ps
-
-#required for C++ compiling
-CXXEXFLAGS += -fno-rtti
-USEMODULE += cpp11-compat
+# Change this to 0 show compiler invocation lines by default:
+QUIET ?= 1
 
 include $(RIOTBASE)/Makefile.include

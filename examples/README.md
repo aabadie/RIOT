@@ -88,6 +88,15 @@ Here is a quick overview of the examples available in the RIOT:
 | [emcute_mqttsn](./networking/mqtt/emcute_mqttsn/README.md) | This application demonstrates the usage of the emCute (MQTT-SN) module in RIOT. |
 | [paho-mqtt](./networking/mqtt/paho-mqtt/README.md) | This example demonstrates the usage of the Paho MQTT client library in RIOT. |
 
+### OpenThread
+
+| Example | Description |
+|---------|-------------|
+| [openthread_ftd](./networking/openthread/ftd/README.md) | OpenThread Full Thread Device: router or leader of a Thread network, with a CoAP server. |
+| [openthread_mtd](./networking/openthread/mtd/README.md) | OpenThread Minimal Thread Device: sleepy end device of a Thread network, with a CoAP server. |
+| [openthread_border_router](./networking/openthread/border_router/README.md) | OpenThread border router between a Thread network and a Linux host, over ethos. |
+| [openthread_rcp](./networking/openthread/rcp/README.md) | OpenThread Radio Co-Processor of a Linux host running OpenThread (`ot-cli`, `otbr-agent`). |
+
 ### CoRE Resource Directory
 
 | Example | Description |
@@ -128,7 +137,6 @@ Here is a quick overview of the examples available in the RIOT:
 | Example | Description |
 |---------|-------------|
 | [lorawan](./networking/misc/lorawan/README.md) | This application shows a basic LoRaWAN use-case with RIOT. |
-| [openthread](./networking/misc/openthread/README.md) | This example demonstrates the usage of the OpenThread stack in RIOT. |
 | [lwm2m](./networking/misc/lwm2m/README.md) | Example of a LWM2M client on RIOT |
 | [ccn-lite-relay](./networking/misc/ccn-lite-relay/README.md) | This application demonstrates how to use the Content-Centric Networking stack from [CCN-Lite](http://www.ccn-lite.net/) on RIOT |
 | [telnet_server](./networking/misc/telnet_server/README.md) | Simple telnet server that listens on port 23 over IPv6. |
