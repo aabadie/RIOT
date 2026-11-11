@@ -60,6 +60,13 @@
  * they take precedence over the defaults of the package
  * (`include/platform_config.h`) and of OpenThread.
  *
+ * The alarms of OpenThread run on `ZTIMER_MSEC` and `ZTIMER_USEC`. The
+ * microsecond alarm is only set while OpenThread times something itself: the
+ * CSMA-CA backoffs on radios without CSMA-CA in hardware, the delay before a
+ * retransmission, an energy scan. With `ztimer_ondemand_timer`, the timer
+ * behind `ZTIMER_USEC` is stopped the rest of the time, e.g. on a sleepy end
+ * device.
+ *
  * When `OPENTHREAD_PANID` and `OPENTHREAD_CHANNEL` are defined, OpenThread
  * starts at boot with an active dataset built from them (and the defaults of
  * the other `OPENTHREAD_*` dataset macros): the nodes built with the same
@@ -198,6 +205,15 @@ void openthread_bootstrap(void);
  * @retval  negative errno on error
  */
 int openthread_radio_init(ieee802154_dev_t *dev);
+
+/**
+ * @brief   Initialize the alarms: the millisecond clock runs while OpenThread
+ *          runs, also with ztimer_ondemand
+ *
+ * @internal Called from the OpenThread thread, before the OpenThread
+ *           instance is initialized.
+ */
+void openthread_alarm_init(void);
 
 /**
  * @brief   Initialize the spinel link of the Radio Co-Processor

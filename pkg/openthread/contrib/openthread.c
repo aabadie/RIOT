@@ -191,6 +191,8 @@ static void *_openthread_thread(void *arg)
         return NULL;
     }
 
+    openthread_alarm_init();
+
     _instance = otInstanceInitSingle();
     assert(_instance);
 
