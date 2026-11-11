@@ -14,14 +14,4 @@ defaults target the client mode over TCP, e.g. towards a zenoh router
 needs `-DZ_FEATURE_UNICAST_PEER=1`, a listening socket accepts a single
 connection.
 
-With GNRC, reads use the `sock_tcp` timeouts. A write waits for the current
-read timeout (`Z_CONFIG_SOCKET_TIMEOUT`, 100 ms) as GNRC TCP serializes the
-calls on a connection. Closing a socket waits for the end of the TCP
-connection: if the remote side doesn't close its side, e.g. a zenoh-pico peer
-until its session is closed, the close waits for
-`CONFIG_GNRC_TCP_CONNECTION_TIMEOUT_DURATION_MS` (120 s by default).
-
-`tests/pkg/zenoh-pico` runs two sessions in peer mode on the IPv6 loopback
-address: publication, query, and close of the listening session first.
-
 License: EPL-2.0 OR Apache-2.0.
