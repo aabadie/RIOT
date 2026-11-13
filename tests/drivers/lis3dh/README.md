@@ -9,3 +9,10 @@ This test application will initialize the accelerometer with the following param
 
 After initialization, the sensor reads the acceleration values every 100ms
 and prints them to the STDOUT.
+
+The sensor is on SPI by default. For a sensor on I2C, build with:
+
+    DRIVER=lis3dh_i2c make BOARD=<board> flash term
+
+The test uses the INT1 pin of the sensor, `LIS3DH_PARAM_INT1` must be set
+for the board.

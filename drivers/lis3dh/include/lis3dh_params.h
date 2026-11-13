@@ -27,6 +27,12 @@ extern "C" {
  * @name    Set default configuration parameters
  * @{
  */
+#ifndef LIS3DH_PARAM_I2C
+#define LIS3DH_PARAM_I2C            (I2C_DEV(0))
+#endif
+#ifndef LIS3DH_PARAM_ADDR
+#define LIS3DH_PARAM_ADDR           (LIS3DH_I2C_ADDR_SA0_HIGH)
+#endif
 #ifndef LIS3DH_PARAM_SPI
 #define LIS3DH_PARAM_SPI            (SPI_DEV(0))
 #endif
@@ -50,6 +56,14 @@ extern "C" {
 #endif
 
 #ifndef LIS3DH_PARAMS
+#if MODULE_LIS3DH_I2C
+#define LIS3DH_PARAMS               { .i2c   = LIS3DH_PARAM_I2C,   \
+                                      .addr  = LIS3DH_PARAM_ADDR,  \
+                                      .int1  = LIS3DH_PARAM_INT1,  \
+                                      .int2  = LIS3DH_PARAM_INT2,  \
+                                      .scale = LIS3DH_PARAM_SCALE, \
+                                      .odr   = LIS3DH_PARAM_ODR }
+#else
 #define LIS3DH_PARAMS               { .spi   = LIS3DH_PARAM_SPI,   \
                                       .cs    = LIS3DH_PARAM_CS,    \
                                       .clk   = LIS3DH_PARAM_CLK,   \
@@ -57,6 +71,7 @@ extern "C" {
                                       .int2  = LIS3DH_PARAM_INT2,  \
                                       .scale = LIS3DH_PARAM_SCALE, \
                                       .odr   = LIS3DH_PARAM_ODR }
+#endif
 #endif
 #ifndef LIS3DH_SAUL_INFO
 #define LIS3DH_SAUL_INFO            { .name = "lis3dh" }

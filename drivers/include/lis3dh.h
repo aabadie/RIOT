@@ -12,6 +12,12 @@
  * @brief       Device driver for the LIS3DH accelerometer
  *
  * This driver provides @ref drivers_saul capabilities.
+ *
+ * The sensor is connected either to a SPI bus, the default, or to an I2C
+ * bus. Select the bus with one of these modules:
+ *
+ * - `lis3dh_spi`: SPI bus (selected when only `lis3dh` is used)
+ * - `lis3dh_i2c`: I2C bus
  * @{
  *
  * @file
@@ -23,8 +29,12 @@
 
 #include <stdint.h>
 
-#include "periph/spi.h"
 #include "periph/gpio.h"
+#if MODULE_LIS3DH_I2C
+#include "periph/i2c.h"
+#else
+#include "periph/spi.h"
+#endif
 
 #ifdef __cplusplus
 extern "C" {
@@ -633,7 +643,19 @@ extern "C" {
  * @brief   Mask of the address bits in the address byte during transfers.
  */
 #define LIS3DH_SPI_ADDRESS_MASK                  (0x3F)
+/**
+ * @brief   Register auto increment bit of the sub-address in I2C transfers
+ */
+#define LIS3DH_I2C_AUTO_INC_MASK                 (1 << 7)
 /** @} */ /* Register address bitfield macros */
+
+/**
+ * @name    I2C addresses
+ * @{
+ */
+#define LIS3DH_I2C_ADDR_SA0_LOW                  (0x18) /**< SDO/SA0 pin low */
+#define LIS3DH_I2C_ADDR_SA0_HIGH                 (0x19) /**< SDO/SA0 pin high */
+/** @} */
 
 /**
  * @brief   Length of scalar measurement data in bytes.
@@ -722,9 +744,15 @@ extern "C" {
  * @brief   Configuration parameters for LIS3DH devices
  */
 typedef struct {
+#if MODULE_LIS3DH_I2C || DOXYGEN
+    i2c_t i2c;              /**< I2C device the sensor is connected to */
+    uint8_t addr;           /**< I2C address of the sensor */
+#endif
+#if !MODULE_LIS3DH_I2C || DOXYGEN
     spi_t spi;              /**< SPI device the sensor is connected to */
     spi_clk_t clk;          /**< designated clock speed of the SPI bus */
     gpio_t cs;              /**< Chip select pin */
+#endif
     gpio_t int1;            /**< INT1 pin */
     gpio_t int2;            /**< INT2 (DRDY) pin */
     uint8_t scale;          /**< Default sensor scale: 2, 4, 8, or 16 (G) */

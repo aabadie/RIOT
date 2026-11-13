@@ -1,2 +1,14 @@
+# SPI is the default bus
+ifeq (,$(filter lis3dh_i2c,$(USEMODULE)))
+  USEMODULE += lis3dh_spi
+endif
+
+ifneq (,$(filter lis3dh_spi,$(USEMODULE)))
+  FEATURES_REQUIRED += periph_spi
+endif
+
+ifneq (,$(filter lis3dh_i2c,$(USEMODULE)))
+  FEATURES_REQUIRED += periph_i2c
+endif
+
 FEATURES_REQUIRED += periph_gpio
-FEATURES_REQUIRED += periph_spi

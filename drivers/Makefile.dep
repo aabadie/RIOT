@@ -92,6 +92,10 @@ ifneq (,$(filter lis2dh12%,$(USEMODULE)))
   USEMODULE += lis2dh12
 endif
 
+ifneq (,$(filter lis3dh_%,$(USEMODULE)))
+  USEMODULE += lis3dh
+endif
+
 ifneq (,$(filter llcc68,$(USEMODULE)))
   USEMODULE += sx126x
 endif

@@ -9,7 +9,7 @@
  * @{
  *
  * @file
- * @brief       Implementation of LIS3DH SPI driver
+ * @brief       Implementation of the LIS3DH driver, on SPI or I2C
  *
  * @author      Joakim Nohlgård <joakim.nohlgard@eistec.se>
  * @author      Hauke Petersen <hauke.petersen@fu-berlin.de>
@@ -17,7 +17,6 @@
 
 #include <stddef.h>
 #include <stdint.h>
-#include "periph/spi.h"
 #include "lis3dh.h"
 
 #define ENABLE_DEBUG 0
@@ -25,9 +24,14 @@
 
 #define SPI_MODE            SPI_MODE_3
 
+#if MODULE_LIS3DH_I2C
+#define DEV_I2C        (dev->params.i2c)
+#define DEV_ADDR       (dev->params.addr)
+#else
 #define DEV_SPI        (dev->params.spi)
 #define DEV_CS         (dev->params.cs)
 #define DEV_CLK        (dev->params.clk)
+#endif
 #define DEV_SCALE      (dev->params.scale)
 
 static inline int lis3dh_write_bits(const lis3dh_t *dev, const uint8_t reg,
@@ -41,16 +45,21 @@ int lis3dh_init(lis3dh_t *dev, const lis3dh_params_t *params)
 {
     dev->params = *params;
 
-    uint8_t test;
+    uint8_t test = 0;
 
+#if !MODULE_LIS3DH_I2C
     /* initialize the chip select line */
     if (spi_init_cs(DEV_SPI, DEV_CS) != SPI_OK) {
         DEBUG("[lis3dh] error while initializing CS pin\n");
         return -1;
     }
+#endif
 
     /* test connection to the device */
-    lis3dh_read_regs(dev, LIS3DH_REG_WHO_AM_I, 1, &test);
+    if (lis3dh_read_regs(dev, LIS3DH_REG_WHO_AM_I, 1, &test) < 0) {
+        DEBUG("[lis3dh] error reading the who am i reg\n");
+        return -1;
+    }
     if (test != LIS3DH_WHO_AM_I_RESPONSE) {
         /* chip is not responding correctly */
         DEBUG("[lis3dh] error reading the who am i reg [0x%02x]\n", (int)test);
@@ -82,17 +91,11 @@ int lis3dh_init(lis3dh_t *dev, const lis3dh_params_t *params)
 int lis3dh_read_xyz(const lis3dh_t *dev, lis3dh_data_t *acc_data)
 {
     uint8_t i;
-    /* Set READ MULTIPLE mode */
-    static const uint8_t addr = (LIS3DH_REG_OUT_X_L | LIS3DH_SPI_READ_MASK |
-                                 LIS3DH_SPI_MULTI_MASK);
 
-    /* Acquire exclusive access to the bus. */
-    spi_acquire(DEV_SPI, DEV_CS, SPI_MODE, DEV_CLK);
-    /* Perform the transaction */
-    spi_transfer_regs(DEV_SPI, DEV_CS, addr,
-                      NULL, acc_data, sizeof(lis3dh_data_t));
-    /* Release the bus for other threads. */
-    spi_release(DEV_SPI);
+    if (lis3dh_read_regs(dev, LIS3DH_REG_OUT_X_L, sizeof(lis3dh_data_t),
+                         (uint8_t *)acc_data) < 0) {
+        return -1;
+    }
 
     /* Scale to milli-G */
     for (i = 0; i < 3; ++i) {
@@ -228,6 +231,16 @@ int lis3dh_get_fifo_level(const lis3dh_t *dev)
 static int lis3dh_read_regs(const lis3dh_t *dev, const uint8_t reg,
                             const uint8_t len, uint8_t *buf)
 {
+#if MODULE_LIS3DH_I2C
+    /* Set the auto increment bit for multi byte reads */
+    uint8_t addr = (len > 1) ? (reg | LIS3DH_I2C_AUTO_INC_MASK) : reg;
+
+    i2c_acquire(DEV_I2C);
+    int res = i2c_read_regs(DEV_I2C, DEV_ADDR, addr, buf, len, 0);
+    i2c_release(DEV_I2C);
+
+    return (res == 0) ? 0 : -1;
+#else
     /* Set READ MULTIPLE mode */
     uint8_t addr = (reg & LIS3DH_SPI_ADDRESS_MASK) | LIS3DH_SPI_READ_MASK |
                     LIS3DH_SPI_MULTI_MASK;
@@ -240,6 +253,7 @@ static int lis3dh_read_regs(const lis3dh_t *dev, const uint8_t reg,
     spi_release(DEV_SPI);
 
     return 0;
+#endif
 }
 
 /**
@@ -254,6 +268,13 @@ static int lis3dh_read_regs(const lis3dh_t *dev, const uint8_t reg,
 static int lis3dh_write_reg(const lis3dh_t *dev, const uint8_t reg,
                             const uint8_t value)
 {
+#if MODULE_LIS3DH_I2C
+    i2c_acquire(DEV_I2C);
+    int res = i2c_write_reg(DEV_I2C, DEV_ADDR, reg, value, 0);
+    i2c_release(DEV_I2C);
+
+    return (res == 0) ? 0 : -1;
+#else
     /* Set WRITE SINGLE mode */
     uint8_t addr = ((reg & LIS3DH_SPI_ADDRESS_MASK) | LIS3DH_SPI_WRITE_MASK |
                     LIS3DH_SPI_SINGLE_MASK);
@@ -266,6 +287,7 @@ static int lis3dh_write_reg(const lis3dh_t *dev, const uint8_t reg,
     spi_release(DEV_SPI);
 
     return 0;
+#endif
 }
 
 /**
