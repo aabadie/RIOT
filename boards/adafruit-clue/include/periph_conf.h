@@ -64,13 +64,7 @@ static const uart_conf_t uart_config[] = {
  * @brief   I2C configuration.
  */
 static const i2c_conf_t i2c_config[] = {
-    {   /* External connectors */
-        .dev = NRF_TWIM0,
-        .scl = GPIO_PIN(0, 0),      /* D19 */
-        .sda = GPIO_PIN(0, 30),     /* D20 */
-        .speed = I2C_SPEED_NORMAL
-    },
-    {   /* On board sensors */
+    {   /* On board sensors and edge connector (D19 SCL, D20 SDA) */
         .dev = NRF_TWIM1,
         .scl = GPIO_PIN(0, 25),
         .sda = GPIO_PIN(0, 24),

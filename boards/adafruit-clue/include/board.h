@@ -48,7 +48,7 @@ extern "C" {
  * @name    APDS9960 sensor configuration
  * @{
  */
-#define APDS99XX_PARAM_DEV     I2C_DEV(1)       /**< I2C device */
+#define APDS99XX_PARAM_DEV     I2C_DEV(0)       /**< I2C device */
 #define APDS99XX_PARAM_INT_PIN GPIO_PIN(0, 9)   /**< Interrupt pin */
 /** @} */
 
@@ -56,14 +56,14 @@ extern "C" {
  * @name    BMP280 sensor configuration
  * @{
  */
-#define BMX280_PARAM_I2C_DEV   I2C_DEV(1)   /**< I2C device */
+#define BMX280_PARAM_I2C_DEV   I2C_DEV(0)   /**< I2C device */
 /** @} */
 
 /**
  * @name    LIS3MDL 3-axis magnetometer
  * @{
  */
-#define LIS3MDL_PARAM_I2C      I2C_DEV(1)   /**< I2C device */
+#define LIS3MDL_PARAM_I2C      I2C_DEV(0)   /**< I2C device */
 #define LIS3MDL_PARAM_ADDR     (0x1C)       /**< I2C address */
 /** @} */
 
@@ -71,7 +71,7 @@ extern "C" {
  * @name    STH31 temperature and humidity sensor
  * @{
  */
-#define SHT3X_PARAM_I2C_DEV    I2C_DEV(1)          /**< I2C device */
+#define SHT3X_PARAM_I2C_DEV    I2C_DEV(0)          /**< I2C device */
 #define SHT3X_PARAM_I2C_ADDR   (SHT3X_I2C_ADDR_1)  /**< I2C address */
 /** @} */
 
