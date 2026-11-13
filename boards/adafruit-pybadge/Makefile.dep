@@ -1,5 +1,11 @@
 ifneq (,$(filter saul_default,$(USEMODULE)))
   USEMODULE += saul_gpio
+  USEMODULE += lis3dh
+endif
+
+# The accelerometer is on I2C
+ifneq (,$(filter lis3dh,$(USEMODULE)))
+  USEMODULE += lis3dh_i2c
 endif
 
 ifneq (,$(filter disp_dev,$(USEMODULE)))

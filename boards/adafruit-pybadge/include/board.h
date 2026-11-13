@@ -45,6 +45,36 @@ extern "C" {
 #define BUTTON_LATCH        GPIO_PIN(PB, 0)                     /**< Latch pin */
 #define BUTTON_CLK          GPIO_PIN(PB, 31)                    /**< Clock pin */
 #define BUTTON_OUT          GPIO_PIN(PB, 30)                    /**< Serial output pin */
+
+#define SN74HC165_PARAM_PL      BUTTON_LATCH    /**< Parallel load pin */
+#define SN74HC165_PARAM_CLK     BUTTON_CLK      /**< Clock pin */
+#define SN74HC165_PARAM_Q7      BUTTON_OUT      /**< Serial output pin */
+/** @} */
+
+/**
+ * @name    Button bits in the value read with @ref sn74hc165_read
+ *
+ * A bit is set while the button is pressed.
+ * @{
+ */
+#define BUTTON_MASK_LEFT    (1U << 0)                           /**< Left button */
+#define BUTTON_MASK_UP      (1U << 1)                           /**< Up button */
+#define BUTTON_MASK_DOWN    (1U << 2)                           /**< Down button */
+#define BUTTON_MASK_RIGHT   (1U << 3)                           /**< Right button */
+#define BUTTON_MASK_SELECT  (1U << 4)                           /**< Select button */
+#define BUTTON_MASK_START   (1U << 5)                           /**< Start button */
+#define BUTTON_MASK_A       (1U << 6)                           /**< A button */
+#define BUTTON_MASK_B       (1U << 7)                           /**< B button */
+/** @} */
+
+/**
+ * @name    LIS3DH accelerometer, on I2C
+ * @{
+ */
+#define LIS3DH_PARAM_I2C    I2C_DEV(0)                          /**< I2C device */
+#define LIS3DH_PARAM_ADDR   (0x19)                              /**< I2C address */
+#define LIS3DH_PARAM_INT1   GPIO_UNDEF                          /**< INT1 pin, not used */
+#define LIS3DH_PARAM_INT2   GPIO_UNDEF                          /**< INT2 pin, not used */
 /** @} */
 
 /**

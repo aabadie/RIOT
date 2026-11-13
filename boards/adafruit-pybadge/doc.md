@@ -9,7 +9,13 @@ learning and development board that provides 5 Neopixel LEDs, an accelerometer,
 a light sensor, a speaker, several buttons and an LCD screen.
 It is powered by an Atmel SAMD51 microcontroller.
 
-The display, RGB LEDs, buttons and accelerometer of this board are currently not supported.
+The display and the RGB LEDs of this board are currently not supported.
+
+The 8 buttons are read through a 74HC165 shift register with the
+`sn74hc165` driver, the board configures its pins and the `BUTTON_MASK_*`
+macros give the bit of each button in the value returned by
+`sn74hc165_read()`. The LIS3DH accelerometer is on I2C, at address 0x19: use
+the `lis3dh` module, the board selects its I2C variant.
 
 The [Adafruit PyBadge LC](https://www.adafruit.com/product/3939) and
 [Adafruit EdgeBadge](https://www.adafruit.com/product/4400)) are
