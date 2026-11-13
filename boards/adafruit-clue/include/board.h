@@ -68,6 +68,17 @@ extern "C" {
 /** @} */
 
 /**
+ * @name    LSM6DS accelerometer and gyroscope
+ *
+ * Early boards have a LSM6DS33, later ones a LSM6DS3TR-C, both at the same
+ * address and handled by the lsm6dsxx driver.
+ * @{
+ */
+#define LSM6DSXX_PARAM_I2C     I2C_DEV(0)   /**< I2C device */
+#define LSM6DSXX_PARAM_ADDR    (0x6A)       /**< I2C address */
+/** @} */
+
+/**
  * @name    STH31 temperature and humidity sensor
  * @{
  */
