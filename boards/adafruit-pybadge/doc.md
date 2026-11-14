@@ -21,7 +21,9 @@ The [Adafruit PyBadge LC](https://www.adafruit.com/product/3939) and
 [Adafruit EdgeBadge](https://www.adafruit.com/product/4400)) are
 variants of the Pybadge with small differences:
 
-- EdgeBadge provides an extra microphone (not supported)
+- EdgeBadge provides an extra PDM microphone, on SERCOM3 (the pins of
+  `SPI_DEV(2)`), supported by the `periph_pdm` driver. The PyBadge has no
+  microphone: on it, the driver only gives noise.
 - PyBadgeLC only have one Neopixel LED (instead of 5)
 Both are compatible with the PyBadge RIOT port and the current port can easily
 be adapted/extended with their respective differences.

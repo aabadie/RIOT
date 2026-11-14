@@ -148,6 +148,21 @@ extern "C" {
 
 #define BOOTLOADER_UF2    1     /**< This board uses the UF2 bootloader */
 
+/**
+ * @name    PDM microphone of the EdgeBadge
+ *
+ * Clock range of a MP34DT01-M type MEMS microphone, unverified for the
+ * microphone of the EdgeBadge.
+ * @{
+ */
+#ifndef PDM_MIC_CLK_MIN_HZ
+#  define PDM_MIC_CLK_MIN_HZ    1000000
+#endif
+#ifndef PDM_MIC_CLK_MAX_HZ
+#  define PDM_MIC_CLK_MAX_HZ    3250000
+#endif
+/** @} */
+
 #ifdef __cplusplus
 }
 #endif

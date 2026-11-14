@@ -186,8 +186,8 @@ static const spi_conf_t spi_config[] = {
         .mosi_pad = SPI_PAD_MOSI_3_SCK_1,
         .gclk_src = SAM0_GCLK_PERIPH,
 #ifdef MODULE_PERIPH_DMA
-        .tx_trigger = SERCOM4_DMAC_ID_TX,
-        .rx_trigger = SERCOM4_DMAC_ID_RX,
+        .tx_trigger = SERCOM3_DMAC_ID_TX,
+        .rx_trigger = SERCOM3_DMAC_ID_RX,
 #endif
     },
 #ifdef MODULE_PERIPH_SPI_ON_QSPI
@@ -211,6 +211,26 @@ static const spi_conf_t spi_config[] = {
 };
 
 #define SPI_NUMOF           ARRAY_SIZE(spi_config)
+/** @} */
+
+/**
+ * @name    PDM microphone of the EdgeBadge
+ *
+ * The microphone uses the SERCOM of SPI_DEV(2): use one or the other.
+ * @{
+ */
+static const pdm_conf_t pdm_config = {
+    .dev      = &(SERCOM3->SPI),
+    .clk_pin  = GPIO_PIN(PA, 16),
+    .data_pin = GPIO_PIN(PA, 18),
+    .clk_mux  = GPIO_MUX_D,
+    .data_mux = GPIO_MUX_D,
+    .clk_pad  = SPI_PAD_MOSI_3_SCK_1,
+    .data_pad = SPI_PAD_MISO_2,
+    .gclk_src = SAM0_GCLK_PERIPH,
+};
+
+#define PDM_ISR             isr_sercom3_0   /**< data register empty */
 /** @} */
 
 /**
