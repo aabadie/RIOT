@@ -293,6 +293,27 @@ struct sam0_aux_cfg_mapping {
 #define SAM0_SDHC1_PIN_SDCK     GPIO_PIN(PA, 21)    /**< Clock          */
 /** @} */
 
+/**
+ * @brief   PDM microphone on a SERCOM in SPI master mode
+ *
+ * The SCK pin of the SERCOM is the PDM clock, its MISO pin reads the PDM
+ * data. The SERCOM cannot be used as a SPI bus at the same time. The board
+ * must also define `PDM_ISR` as the first interrupt of the SERCOM
+ * (`isr_sercomN_0`, data register empty), and PDM_MIC_CLK_MIN_HZ and
+ * PDM_MIC_CLK_MAX_HZ, the clock range of the microphone (in Hz) from its
+ * datasheet.
+ */
+typedef struct {
+    SercomSpi *dev;             /**< SERCOM device used */
+    gpio_t clk_pin;             /**< PDM clock pin, SCK of the SERCOM */
+    gpio_t data_pin;            /**< PDM data pin, MISO of the SERCOM */
+    gpio_mux_t clk_mux;         /**< alternate function of the clock pin */
+    gpio_mux_t data_mux;        /**< alternate function of the data pin */
+    spi_mosipad_t clk_pad;      /**< pads of MOSI and SCK, MOSI is unused */
+    spi_misopad_t data_pad;     /**< pad of MISO */
+    uint8_t gclk_src;           /**< GCLK generator of the SERCOM */
+} pdm_conf_t;
+
 #ifdef __cplusplus
 }
 #endif
