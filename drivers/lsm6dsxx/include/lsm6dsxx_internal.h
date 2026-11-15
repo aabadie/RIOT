@@ -157,6 +157,8 @@ extern "C" {
 #define LSM6DSXX_CTRL_FS_MASK                (0x0C)
 
 #define LSM6DSXX_CTRL3_C_BOOT                (0x80)
+#define LSM6DSXX_CTRL3_C_BDU                 (0x40)
+#define LSM6DSXX_CTRL3_C_IF_INC              (0x04)
 /** @} */
 
 /**

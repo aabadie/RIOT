@@ -74,14 +74,19 @@ int lsm6dsxx_init(lsm6dsxx_t *dev, const lsm6dsxx_params_t *params)
         dev->temperature_scaling_factor = 8;
     }
     else {
+        i2c_release(BUS);
         DEBUG("[ERROR] lsm6dsxx_init: WHO_AM_I\n");
         return -LSM6DSXX_ERROR_DEV;
     }
 
+    /* Block data update: the two bytes of a value come from the same sample,
+       and the address increments in a burst read */
+    res = i2c_write_reg(BUS, ADDR, LSM6DSXX_REG_CTRL3_C,
+                        LSM6DSXX_CTRL3_C_BDU | LSM6DSXX_CTRL3_C_IF_INC, 0);
     /* Set acc odr / full scale */
     tmp = (dev->params.acc_odr << LSM6DSXX_CTRL_ODR_SHIFT) |
           (dev->params.acc_fs << LSM6DSXX_CTRL_FS_SHIFT);
-    res = i2c_write_reg(BUS, ADDR, LSM6DSXX_REG_CTRL1_XL, tmp, 0);
+    res += i2c_write_reg(BUS, ADDR, LSM6DSXX_REG_CTRL1_XL, tmp, 0);
     /* Set gyro odr / full scale */
     tmp = (dev->params.gyro_odr << LSM6DSXX_CTRL_ODR_SHIFT) |
           (dev->params.gyro_fs << LSM6DSXX_CTRL_FS_SHIFT);
@@ -106,26 +111,14 @@ int lsm6dsxx_init(lsm6dsxx_t *dev, const lsm6dsxx_params_t *params)
 
 int lsm6dsxx_read_acc(const lsm6dsxx_t *dev, lsm6dsxx_3d_data_t *data)
 {
-    int res;
-    uint8_t tmp;
-
     i2c_acquire(BUS);
-    i2c_read_reg(BUS, ADDR, LSM6DSXX_REG_STATUS_REG, &tmp, 0);
-    DEBUG("lsm6dsxx status: %x\n", tmp);
-
-    res = i2c_read_reg(BUS, ADDR, LSM6DSXX_REG_OUTX_L_XL, &tmp, 0);
-    data->x = tmp;
-    res += i2c_read_reg(BUS, ADDR, LSM6DSXX_REG_OUTX_H_XL, &tmp, 0);
-    data->x |= tmp << 8;
-    res += i2c_read_reg(BUS, ADDR, LSM6DSXX_REG_OUTY_L_XL, &tmp, 0);
-    data->y = tmp;
-    res += i2c_read_reg(BUS, ADDR, LSM6DSXX_REG_OUTY_H_XL, &tmp, 0);
-    data->y |= tmp << 8;
-    res += i2c_read_reg(BUS, ADDR, LSM6DSXX_REG_OUTZ_L_XL, &tmp, 0);
-    data->z = tmp;
-    res += i2c_read_reg(BUS, ADDR, LSM6DSXX_REG_OUTZ_H_XL, &tmp, 0);
-    data->z |= tmp << 8;
+    uint8_t buf[6];
+    /* x, y and z in one burst, little endian */
+    int res = i2c_read_regs(BUS, ADDR, LSM6DSXX_REG_OUTX_L_XL, buf, sizeof(buf), 0);
     i2c_release(BUS);
+    data->x = (int16_t)(buf[0] | (buf[1] << 8));
+    data->y = (int16_t)(buf[2] | (buf[3] << 8));
+    data->z = (int16_t)(buf[4] | (buf[5] << 8));
 
     if (res < 0) {
         DEBUG("[ERROR] lsm6dsxx_read_acc\n");
@@ -142,26 +135,14 @@ int lsm6dsxx_read_acc(const lsm6dsxx_t *dev, lsm6dsxx_3d_data_t *data)
 
 int lsm6dsxx_read_gyro(const lsm6dsxx_t *dev, lsm6dsxx_3d_data_t *data)
 {
-    int res;
-    uint8_t tmp;
-
     i2c_acquire(BUS);
-    i2c_read_reg(BUS, ADDR, LSM6DSXX_REG_STATUS_REG, &tmp, 0);
-    DEBUG("lsm6dsxx status: %x\n", tmp);
-
-    res = i2c_read_reg(BUS, ADDR, LSM6DSXX_REG_OUTX_L_G, &tmp, 0);
-    data->x = tmp;
-    res += i2c_read_reg(BUS, ADDR, LSM6DSXX_REG_OUTX_H_G, &tmp, 0);
-    data->x |= tmp << 8;
-    res += i2c_read_reg(BUS, ADDR, LSM6DSXX_REG_OUTY_L_G, &tmp, 0);
-    data->y = tmp;
-    res += i2c_read_reg(BUS, ADDR, LSM6DSXX_REG_OUTY_H_G, &tmp, 0);
-    data->y |= tmp << 8;
-    res += i2c_read_reg(BUS, ADDR, LSM6DSXX_REG_OUTZ_L_G, &tmp, 0);
-    data->z = tmp;
-    res += i2c_read_reg(BUS, ADDR, LSM6DSXX_REG_OUTZ_H_G, &tmp, 0);
-    data->z |= tmp << 8;
+    uint8_t buf[6];
+    /* x, y and z in one burst, little endian */
+    int res = i2c_read_regs(BUS, ADDR, LSM6DSXX_REG_OUTX_L_G, buf, sizeof(buf), 0);
     i2c_release(BUS);
+    data->x = (int16_t)(buf[0] | (buf[1] << 8));
+    data->y = (int16_t)(buf[2] | (buf[3] << 8));
+    data->z = (int16_t)(buf[4] | (buf[5] << 8));
 
     if (res < 0) {
         DEBUG("[ERROR] lsm6dsxx_read_gyro\n");
