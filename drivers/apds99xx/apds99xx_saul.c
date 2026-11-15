@@ -27,9 +27,13 @@ static int read_prx(const void *dev, phydat_t *res)
 
 static int read_als(const void *dev, phydat_t *res)
 {
-    if (apds99xx_read_als_raw((const apds99xx_t *)dev, (uint16_t*)res) == 0) {
+    uint16_t raw;
+    if (apds99xx_read_als_raw((const apds99xx_t *)dev, &raw) == 0) {
+        /* the counts go up to 65535, phydat_fit() scales them to int16_t */
+        int32_t value = raw;
         res->unit = UNIT_CTS;
         res->scale = 0;
+        phydat_fit(res, &value, 1);
         return 1;
     }
     return -ECANCELED;
@@ -38,9 +42,12 @@ static int read_als(const void *dev, phydat_t *res)
 #if MODULE_APDS9900 || MODULE_APDS9901 || MODULE_APDS9930
 static int read_lux(const void *dev, phydat_t *res)
 {
-    if (apds99xx_read_illuminance((const apds99xx_t *)dev, (uint16_t*)res) == 0) {
+    uint16_t lux;
+    if (apds99xx_read_illuminance((const apds99xx_t *)dev, &lux) == 0) {
+        int32_t value = lux;
         res->unit = UNIT_LUX;
         res->scale = 0;
+        phydat_fit(res, &value, 1);
         return 1;
     }
     return -ECANCELED;
@@ -52,11 +59,10 @@ static int read_rgb(const void *dev, phydat_t *res)
 {
     apds99xx_rgb_t rgb;
     if (apds99xx_read_rgb_raw((const apds99xx_t *)dev, &rgb) == 0) {
-        res->val[0] = (int16_t)rgb.red;
-        res->val[1] = (int16_t)rgb.green;
-        res->val[2] = (int16_t)rgb.blue;
+        const int32_t values[] = { rgb.red, rgb.green, rgb.blue };
         res->unit = UNIT_CTS;
         res->scale = 0;
+        phydat_fit(res, values, 3);
         return 3;
     }
     return -ECANCELED;
