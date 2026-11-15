@@ -98,6 +98,7 @@ static void _init(usbus_t *usbus, usbus_handler_t *handler)
     usbus_hid_device_t *hid = (usbus_hid_device_t *)handler;
 
     hid->tx_ready.handler = _handle_tx_ready;
+    usbus_handler_set_flag(handler, USBUS_HANDLER_FLAG_RESET);
 
     hid->hid_descr.next = NULL;
     hid->hid_descr.funcs = &_hid_descriptor;
@@ -147,9 +148,17 @@ static void _event_handler(usbus_t *usbus, usbus_handler_t *handler,
                            usbus_event_usb_t event)
 {
     (void)usbus;
-    (void)handler;
+    usbus_hid_device_t *hid = (usbus_hid_device_t *)handler;
 
     switch (event) {
+    case USBUS_EVENT_USB_RESET:
+        /* a report sent before the reset never completes, release the
+           writer waiting for it */
+        if (hid->occupied) {
+            hid->occupied = 0;
+            mutex_unlock(&hid->in_lock);
+        }
+        break;
     default:
         DEBUG("USB HID unhandled event: 0x%x\n", event);
         break;
