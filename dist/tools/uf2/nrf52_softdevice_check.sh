@@ -50,6 +50,12 @@ fi
 # "SoftDevice: not found"
 SOFTDEVICE=$(grep "^SoftDevice" "${INFO_FILE}" | cut -d ' ' -f2- | tr -d '\r')
 
+# Older bootloaders (e.g. 0.2.9) have no SoftDevice line, they give the
+# SoftDevice they were built for in the line "Bootloader: s140 6.1.1"
+if [ -z "${SOFTDEVICE}" ]; then
+    SOFTDEVICE=$(grep "^Bootloader" "${INFO_FILE}" | cut -d ' ' -f2- | tr -d '\r')
+fi
+
 if [ "${SOFTDEVICE}" != "not found" ] && [ "${UF2_SOFTDEV}" = "DROP" ]; then
     echo -e "\033[0;31mYou have the UF2_SOFTDEV=DROP option set. This will"\
     "override any currently installed SoftDevice on your board."
