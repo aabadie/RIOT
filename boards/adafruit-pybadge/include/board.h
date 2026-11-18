@@ -72,7 +72,7 @@ extern "C" {
  * @{
  */
 #define LIS3DH_PARAM_I2C    I2C_DEV(0)                          /**< I2C device */
-#define LIS3DH_PARAM_ADDR   (0x19)                              /**< I2C address */
+#define LIS3DH_PARAM_ADDR   (0x18)                              /**< I2C address, SDO low */
 #define LIS3DH_PARAM_INT1   GPIO_UNDEF                          /**< INT1 pin, not used */
 #define LIS3DH_PARAM_INT2   GPIO_UNDEF                          /**< INT2 pin, not used */
 /** @} */
