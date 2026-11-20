@@ -8,8 +8,12 @@ include $(RIOTBASE)/pkg/pkg.mk
 
 # the RIOT platform layer replaces src/system/<platform>, the other platform
 # specific sources are compiled out with ZENOH_GENERIC
-ZENOH_PICO_SRC = $(shell cd $(PKG_SOURCE_DIR) && \
-  find src -name '*.c' ! -path 'src/system/*' -o -path 'src/system/common/*.c' | sort)
+ZENOH_PICO_SRC_ALL = $(wildcard $(addprefix $(PKG_SOURCE_DIR)/src/,\
+  *.c */*.c */*/*.c */*/*/*.c))
+ZENOH_PICO_SRC = $(filter-out src/system/%,\
+  $(ZENOH_PICO_SRC_ALL:$(PKG_SOURCE_DIR)/%=%))
+ZENOH_PICO_SRC += $(patsubst $(PKG_SOURCE_DIR)/%,%,\
+  $(wildcard $(PKG_SOURCE_DIR)/src/system/common/*.c))
 
 # upstream code is not warning free with the flags used by RIOT
 CFLAGS += -Wno-unused-parameter

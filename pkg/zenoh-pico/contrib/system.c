@@ -38,18 +38,18 @@
  *          tasks), the subscriber and queryable callbacks run in the read task
  */
 #ifndef CONFIG_ZENOH_PICO_TASK_STACKSIZE
-#   define CONFIG_ZENOH_PICO_TASK_STACKSIZE    (THREAD_STACKSIZE_DEFAULT * 4)
+#  define CONFIG_ZENOH_PICO_TASK_STACKSIZE (THREAD_STACKSIZE_DEFAULT * 4)
 #endif
 
 /*------------------ Random ------------------*/
 uint8_t z_random_u8(void)
 {
-    return random_uint32();
+    return (uint8_t)random_uint32();
 }
 
 uint16_t z_random_u16(void)
 {
-    return random_uint32();
+    return (uint16_t)random_uint32();
 }
 
 uint32_t z_random_u32(void)
@@ -88,9 +88,9 @@ void z_free(void *ptr)
 /**
  * @brief   Priority of the tasks started by zenoh-pico
  */
-#ifndef CONFIG_ZENOH_PICO_TASK_PRIORITY
-#define CONFIG_ZENOH_PICO_TASK_PRIORITY     (THREAD_PRIORITY_MAIN - 1)
-#endif
+#  ifndef CONFIG_ZENOH_PICO_TASK_PRIORITY
+#    define CONFIG_ZENOH_PICO_TASK_PRIORITY (THREAD_PRIORITY_MAIN - 1)
+#  endif
 
 struct _z_riot_task {
     kernel_pid_t pid;

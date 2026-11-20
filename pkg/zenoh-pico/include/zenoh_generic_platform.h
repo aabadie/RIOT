@@ -26,14 +26,14 @@
 #include "zenoh-pico/config.h"
 
 #if Z_FEATURE_MULTI_THREAD == 1
-#include "list.h"
-#include "mutex.h"
-#include "rmutex.h"
-#include "sched.h"
+#  include "list.h"
+#  include "mutex.h"
+#  include "rmutex.h"
+#  include "sched.h"
 #endif
 
 #if Z_FEATURE_LINK_TCP == 1
-#include "net/sock/tcp.h"
+#  include "net/sock/tcp.h"
 #endif
 
 #ifdef __cplusplus

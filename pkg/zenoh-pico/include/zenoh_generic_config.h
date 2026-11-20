@@ -21,238 +21,238 @@
 
 /** @brief Maximum size of a fragmented message, in bytes */
 #ifndef Z_FRAG_MAX_SIZE
-#   define Z_FRAG_MAX_SIZE 2048
+#  define Z_FRAG_MAX_SIZE 2048
 #endif
 
 /** @brief Size of the unicast batches, in bytes */
 #ifndef Z_BATCH_UNICAST_SIZE
-#   define Z_BATCH_UNICAST_SIZE 1024
+#  define Z_BATCH_UNICAST_SIZE 1024
 #endif
 
 /** @brief Size of the multicast batches, in bytes */
 #ifndef Z_BATCH_MULTICAST_SIZE
-#    define Z_BATCH_MULTICAST_SIZE 1024
+#  define Z_BATCH_MULTICAST_SIZE 1024
 #endif
 
 /** @brief Socket read timeout, in ms */
 #ifndef Z_CONFIG_SOCKET_TIMEOUT
-#    define Z_CONFIG_SOCKET_TIMEOUT 100
+#  define Z_CONFIG_SOCKET_TIMEOUT 100
 #endif
 
 /** @brief Transport lease, in ms */
 #ifndef Z_TRANSPORT_LEASE
-#    define Z_TRANSPORT_LEASE 10000
+#  define Z_TRANSPORT_LEASE 10000
 #endif
 
 /** @brief Number of keep alive messages per lease */
 #ifndef Z_TRANSPORT_LEASE_EXPIRE_FACTOR
-#    define Z_TRANSPORT_LEASE_EXPIRE_FACTOR 3
+#  define Z_TRANSPORT_LEASE_EXPIRE_FACTOR 3
 #endif
 
 /** @brief Maximum number of tasks of the zenoh-pico runtime */
 #ifndef Z_RUNTIME_MAX_TASKS
-#    define Z_RUNTIME_MAX_TASKS 16
+#  define Z_RUNTIME_MAX_TASKS 16
 #endif
 
 /** @brief Sleep of the idle read task, in ms */
 #ifndef Z_RUNTIME_IDLE_READ_TASK_SLEEP
-#    define Z_RUNTIME_IDLE_READ_TASK_SLEEP 0
+#  define Z_RUNTIME_IDLE_READ_TASK_SLEEP 0
 #endif
 
 /** @brief Accept timeout, in ms */
 #ifndef Z_TRANSPORT_ACCEPT_TIMEOUT
-#    define Z_TRANSPORT_ACCEPT_TIMEOUT 1000
+#  define Z_TRANSPORT_ACCEPT_TIMEOUT 1000
 #endif
 
 /** @brief Connect timeout, in ms */
 #ifndef Z_TRANSPORT_CONNECT_TIMEOUT
-#    define Z_TRANSPORT_CONNECT_TIMEOUT 10000
+#  define Z_TRANSPORT_CONNECT_TIMEOUT 10000
 #endif
 
 
 /** @brief Enable the connectivity feature */
 #ifndef Z_FEATURE_CONNECTIVITY
-#    define Z_FEATURE_CONNECTIVITY 0
+#  define Z_FEATURE_CONNECTIVITY 0
 #endif
 
 /** @brief Enable the multi thread feature */
 #ifndef Z_FEATURE_MULTI_THREAD
-#    define Z_FEATURE_MULTI_THREAD 1
+#  define Z_FEATURE_MULTI_THREAD 1
 #endif
 
 /** @brief Enable the publication feature */
 #ifndef Z_FEATURE_PUBLICATION
-#    define Z_FEATURE_PUBLICATION 1
+#  define Z_FEATURE_PUBLICATION 1
 #endif
 
 /** @brief Enable the advanced publication feature */
 #ifndef Z_FEATURE_ADVANCED_PUBLICATION
-#    define Z_FEATURE_ADVANCED_PUBLICATION 0
+#  define Z_FEATURE_ADVANCED_PUBLICATION 0
 #endif
 
 /** @brief Enable the subscription feature */
 #ifndef Z_FEATURE_SUBSCRIPTION
-#    define Z_FEATURE_SUBSCRIPTION 1
+#  define Z_FEATURE_SUBSCRIPTION 1
 #endif
 
 /** @brief Enable the advanced subscription feature */
 #ifndef Z_FEATURE_ADVANCED_SUBSCRIPTION
-#    define Z_FEATURE_ADVANCED_SUBSCRIPTION 0
+#  define Z_FEATURE_ADVANCED_SUBSCRIPTION 0
 #endif
 
 /** @brief Enable the query feature */
 #ifndef Z_FEATURE_QUERY
-#    define Z_FEATURE_QUERY 1
+#  define Z_FEATURE_QUERY 1
 #endif
 
 /** @brief Enable the queryable feature */
 #ifndef Z_FEATURE_QUERYABLE
-#    define Z_FEATURE_QUERYABLE 1
+#  define Z_FEATURE_QUERYABLE 1
 #endif
 
 /** @brief Enable the liveliness feature */
 #ifndef Z_FEATURE_LIVELINESS
-#    define Z_FEATURE_LIVELINESS 0
+#  define Z_FEATURE_LIVELINESS 0
 #endif
 
 /** @brief Enable the raweth transport feature */
 #ifndef Z_FEATURE_RAWETH_TRANSPORT
-#    define Z_FEATURE_RAWETH_TRANSPORT 0
+#  define Z_FEATURE_RAWETH_TRANSPORT 0
 #endif
 
 /** @brief Enable the interest feature */
 #ifndef Z_FEATURE_INTEREST
-#    define Z_FEATURE_INTEREST 1
+#  define Z_FEATURE_INTEREST 1
 #endif
 
 /** @brief Enable the link tcp feature */
 #ifndef Z_FEATURE_LINK_TCP
-#    define Z_FEATURE_LINK_TCP 1
+#  define Z_FEATURE_LINK_TCP 1
 #endif
 
 /** @brief Enable the link bluetooth feature */
 #ifndef Z_FEATURE_LINK_BLUETOOTH
-#    define Z_FEATURE_LINK_BLUETOOTH 0
+#  define Z_FEATURE_LINK_BLUETOOTH 0
 #endif
 
 /** @brief Enable the link ws feature */
 #ifndef Z_FEATURE_LINK_WS
-#    define Z_FEATURE_LINK_WS 0
+#  define Z_FEATURE_LINK_WS 0
 #endif
 
 /** @brief Enable the link serial feature */
 #ifndef Z_FEATURE_LINK_SERIAL
-#    define Z_FEATURE_LINK_SERIAL 0
+#  define Z_FEATURE_LINK_SERIAL 0
 #endif
 
 /** @brief Enable the link serial usb feature */
 #ifndef Z_FEATURE_LINK_SERIAL_USB
-#    define Z_FEATURE_LINK_SERIAL_USB 0
+#  define Z_FEATURE_LINK_SERIAL_USB 0
 #endif
 
 /** @brief Enable the link tls feature */
 #ifndef Z_FEATURE_LINK_TLS
-#    define Z_FEATURE_LINK_TLS 0
+#  define Z_FEATURE_LINK_TLS 0
 #endif
 
 /** @brief Enable the scouting feature */
 #ifndef Z_FEATURE_SCOUTING
-#    define Z_FEATURE_SCOUTING 0
+#  define Z_FEATURE_SCOUTING 0
 #endif
 
 /** @brief Enable the link udp multicast feature */
 #ifndef Z_FEATURE_LINK_UDP_MULTICAST
-#    define Z_FEATURE_LINK_UDP_MULTICAST 0
+#  define Z_FEATURE_LINK_UDP_MULTICAST 0
 #endif
 
 /** @brief Enable the link udp unicast feature */
 #ifndef Z_FEATURE_LINK_UDP_UNICAST
-#    define Z_FEATURE_LINK_UDP_UNICAST 0
+#  define Z_FEATURE_LINK_UDP_UNICAST 0
 #endif
 
 /** @brief Enable the multicast transport feature */
 #ifndef Z_FEATURE_MULTICAST_TRANSPORT
-#    define Z_FEATURE_MULTICAST_TRANSPORT 0
+#  define Z_FEATURE_MULTICAST_TRANSPORT 0
 #endif
 
 /** @brief Enable the unicast transport feature */
 #ifndef Z_FEATURE_UNICAST_TRANSPORT
-#    define Z_FEATURE_UNICAST_TRANSPORT 1
+#  define Z_FEATURE_UNICAST_TRANSPORT 1
 #endif
 
 /** @brief Enable the fragmentation feature */
 #ifndef Z_FEATURE_FRAGMENTATION
-#    define Z_FEATURE_FRAGMENTATION 1
+#  define Z_FEATURE_FRAGMENTATION 1
 #endif
 
 /** @brief Enable the encoding values feature */
 #ifndef Z_FEATURE_ENCODING_VALUES
-#    define Z_FEATURE_ENCODING_VALUES 1
+#  define Z_FEATURE_ENCODING_VALUES 1
 #endif
 
 /** @brief Enable the tcp nodelay feature */
 #ifndef Z_FEATURE_TCP_NODELAY
-#    define Z_FEATURE_TCP_NODELAY 0
+#  define Z_FEATURE_TCP_NODELAY 0
 #endif
 
 /** @brief Enable the local subscriber feature */
 #ifndef Z_FEATURE_LOCAL_SUBSCRIBER
-#    define Z_FEATURE_LOCAL_SUBSCRIBER 0
+#  define Z_FEATURE_LOCAL_SUBSCRIBER 0
 #endif
 
 /** @brief Enable the local queryable feature */
 #ifndef Z_FEATURE_LOCAL_QUERYABLE
-#    define Z_FEATURE_LOCAL_QUERYABLE 0
+#  define Z_FEATURE_LOCAL_QUERYABLE 0
 #endif
 
 /** @brief Enable the session check feature */
 #ifndef Z_FEATURE_SESSION_CHECK
-#    define Z_FEATURE_SESSION_CHECK 1
+#  define Z_FEATURE_SESSION_CHECK 1
 #endif
 
 /** @brief Enable the batching feature */
 #ifndef Z_FEATURE_BATCHING
-#    define Z_FEATURE_BATCHING 1
+#  define Z_FEATURE_BATCHING 1
 #endif
 
 /** @brief Enable the batch tx mutex feature */
 #ifndef Z_FEATURE_BATCH_TX_MUTEX
-#    define Z_FEATURE_BATCH_TX_MUTEX 0
+#  define Z_FEATURE_BATCH_TX_MUTEX 0
 #endif
 
 /** @brief Enable the batch peer mutex feature */
 #ifndef Z_FEATURE_BATCH_PEER_MUTEX
-#    define Z_FEATURE_BATCH_PEER_MUTEX 0
+#  define Z_FEATURE_BATCH_PEER_MUTEX 0
 #endif
 
 /** @brief Enable the matching feature */
 #ifndef Z_FEATURE_MATCHING
-#    define Z_FEATURE_MATCHING 0
+#  define Z_FEATURE_MATCHING 0
 #endif
 
 /** @brief Enable the rx cache feature */
 #ifndef Z_FEATURE_RX_CACHE
-#    define Z_FEATURE_RX_CACHE 0
+#  define Z_FEATURE_RX_CACHE 0
 #endif
 
 /** @brief Enable the unicast peer feature */
 #ifndef Z_FEATURE_UNICAST_PEER
-#    define Z_FEATURE_UNICAST_PEER 0
+#  define Z_FEATURE_UNICAST_PEER 0
 #endif
 
 /** @brief Enable the auto reconnect feature */
 #ifndef Z_FEATURE_AUTO_RECONNECT
-#    define Z_FEATURE_AUTO_RECONNECT 1
+#  define Z_FEATURE_AUTO_RECONNECT 1
 #endif
 
 /** @brief Enable the multicast declarations feature */
 #ifndef Z_FEATURE_MULTICAST_DECLARATIONS
-#    define Z_FEATURE_MULTICAST_DECLARATIONS 0
+#  define Z_FEATURE_MULTICAST_DECLARATIONS 0
 #endif
 
 /** @brief Enable the admin space feature */
 #ifndef Z_FEATURE_ADMIN_SPACE
-#    define Z_FEATURE_ADMIN_SPACE 0
+#  define Z_FEATURE_ADMIN_SPACE 0
 #endif
 
 /** @} */

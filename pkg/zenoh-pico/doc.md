@@ -13,5 +13,3 @@ defaults target the client mode over TCP, e.g. towards a zenoh router
 `tcp/[fe80::1%5]:7447` for a link local address of interface 5. Peer mode
 needs `-DZ_FEATURE_UNICAST_PEER=1`, a listening socket accepts a single
 connection.
-
-License: EPL-2.0 OR Apache-2.0.
