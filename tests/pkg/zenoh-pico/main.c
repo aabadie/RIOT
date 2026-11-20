@@ -91,15 +91,16 @@ static int _open(z_owned_session_t *s, uint8_t key, const char *locator)
 }
 
 /* elapsed times of more than 2^32 us: 71.6 minutes, the limit of a 32 bit
- * unsigned long */
+ * unsigned long, the clock is in milliseconds */
 static void test_zenoh_pico_elapsed(void)
 {
-    z_clock_t epoch = US_PER_SEC;
-    z_clock_t instant = epoch + (1ULL << 32) + 5 * US_PER_MS;
-    uint64_t us = instant - epoch;
+    z_clock_t epoch = MS_PER_SEC;
+    z_clock_t instant = epoch + (1ULL << 32) / US_PER_MS + 5;
+    uint64_t ms = instant - epoch;
+    uint64_t us = ms * US_PER_MS;
 
-    TEST_ASSERT(zp_clock_elapsed_ms_since(&instant, &epoch) == us / US_PER_MS);
-    TEST_ASSERT(zp_clock_elapsed_s_since(&instant, &epoch) == us / US_PER_SEC);
+    TEST_ASSERT(zp_clock_elapsed_ms_since(&instant, &epoch) == ms);
+    TEST_ASSERT(zp_clock_elapsed_s_since(&instant, &epoch) == ms / MS_PER_SEC);
     TEST_ASSERT(zp_clock_elapsed_us_since(&instant, &epoch)
                 == ((us > ULONG_MAX) ? ULONG_MAX : (unsigned long)us));
     /* an instant before the epoch */
