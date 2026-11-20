@@ -63,12 +63,12 @@ typedef struct {
 #endif
 
 /**
- * @brief   Monotonic clock, in microseconds since boot (ZTIMER64_USEC)
+ * @brief   Monotonic clock, in milliseconds since boot (ZTIMER64_MSEC)
  */
 typedef uint64_t z_clock_t;
 
 /**
- * @brief   System time, in microseconds since boot as RIOT has no wall clock
+ * @brief   System time, in milliseconds since boot as RIOT has no wall clock
  *          by default
  */
 typedef uint64_t z_time_t;

@@ -305,13 +305,13 @@ static void _condvar_wait(_z_condvar_t *cv, _z_mutex_t *m, ztimer64_t *timer, ui
     sched_set_status(me, STATUS_COND_BLOCKED);
     thread_add_to_list(&cv->queue, me);
     if (timer) {
-        ztimer64_set(ZTIMER64_USEC, timer, duration);
+        ztimer64_set(ZTIMER64_MSEC, timer, duration);
     }
     irq_restore(state);
     thread_yield_higher();
 
     if (timer) {
-        ztimer64_remove(ZTIMER64_USEC, timer);
+        ztimer64_remove(ZTIMER64_MSEC, timer);
     }
     mutex_lock(m);
 }
@@ -364,9 +364,18 @@ z_result_t _z_condvar_wait_until(_z_condvar_t *cv, _z_mutex_t *m, const z_clock_
 #endif /* Z_FEATURE_MULTI_THREAD == 1 */
 
 /*------------------ Sleep ------------------*/
+/* microseconds to milliseconds, rounded up: a sleep or a deadline is never
+ * shorter than requested */
+static uint64_t _us_to_ms(uint64_t us)
+{
+    return (us + US_PER_MS - 1) / US_PER_MS;
+}
+
+/* zenoh-pico only sleeps for a few microseconds in wait loops: the
+ * millisecond timer keeps the low power modes available */
 z_result_t z_sleep_us(size_t time)
 {
-    ztimer64_sleep(ZTIMER64_USEC, time);
+    ztimer64_sleep(ZTIMER64_MSEC, _us_to_ms(time));
     return _Z_RES_OK;
 }
 
@@ -385,18 +394,18 @@ z_result_t z_sleep_s(size_t time)
 /*------------------ Instant ------------------*/
 z_clock_t z_clock_now(void)
 {
-    return ztimer64_now(ZTIMER64_USEC);
+    return ztimer64_now(ZTIMER64_MSEC);
 }
 
-/* elapsed microseconds between two instants, 0 if @p to is before @p from */
-static uint64_t _elapsed_us(uint64_t to, uint64_t from)
+/* elapsed milliseconds between two instants, 0 if @p to is before @p from */
+static uint64_t _elapsed_ms(uint64_t to, uint64_t from)
 {
     return (to > from) ? to - from : 0;
 }
 
 /* the elapsed times are unsigned long, 32 bits on most boards: 2^32 us are
  * 71.6 minutes, the times saturate instead of wrapping, and the
- * milliseconds and seconds are computed on 64 bits */
+ * microseconds are computed on 64 bits */
 static unsigned long _saturate(uint64_t value)
 {
     return (value > ULONG_MAX) ? ULONG_MAX : (unsigned long)value;
@@ -404,17 +413,17 @@ static unsigned long _saturate(uint64_t value)
 
 unsigned long zp_clock_elapsed_us_since(z_clock_t *instant, z_clock_t *epoch)
 {
-    return _saturate(_elapsed_us(*instant, *epoch));
+    return _saturate(_elapsed_ms(*instant, *epoch) * US_PER_MS);
 }
 
 unsigned long zp_clock_elapsed_ms_since(z_clock_t *instant, z_clock_t *epoch)
 {
-    return _saturate(_elapsed_us(*instant, *epoch) / US_PER_MS);
+    return _saturate(_elapsed_ms(*instant, *epoch));
 }
 
 unsigned long zp_clock_elapsed_s_since(z_clock_t *instant, z_clock_t *epoch)
 {
-    return _saturate(_elapsed_us(*instant, *epoch) / US_PER_SEC);
+    return _saturate(_elapsed_ms(*instant, *epoch) / MS_PER_SEC);
 }
 
 unsigned long z_clock_elapsed_us(z_clock_t *instant)
@@ -440,51 +449,51 @@ unsigned long z_clock_elapsed_s(z_clock_t *instant)
 
 void z_clock_advance_us(z_clock_t *clock, unsigned long duration)
 {
-    *clock += duration;
+    *clock += _us_to_ms(duration);
 }
 
 void z_clock_advance_ms(z_clock_t *clock, unsigned long duration)
 {
-    *clock += (uint64_t)duration * US_PER_MS;
+    *clock += duration;
 }
 
 void z_clock_advance_s(z_clock_t *clock, unsigned long duration)
 {
-    *clock += (uint64_t)duration * US_PER_SEC;
+    *clock += (uint64_t)duration * MS_PER_SEC;
 }
 
 /*------------------ Time ------------------*/
 z_time_t z_time_now(void)
 {
-    return ztimer64_now(ZTIMER64_USEC);
+    return ztimer64_now(ZTIMER64_MSEC);
 }
 
 const char *z_time_now_as_str(char *const buf, unsigned long buflen)
 {
-    snprintf(buf, buflen, "%lu", (unsigned long)(z_time_now() / US_PER_MS));
+    snprintf(buf, buflen, "%lu", (unsigned long)z_time_now());
     return buf;
 }
 
 unsigned long z_time_elapsed_us(z_time_t *time)
 {
-    return _saturate(_elapsed_us(z_time_now(), *time));
+    return _saturate(_elapsed_ms(z_time_now(), *time) * US_PER_MS);
 }
 
 unsigned long z_time_elapsed_ms(z_time_t *time)
 {
-    return _saturate(_elapsed_us(z_time_now(), *time) / US_PER_MS);
+    return _saturate(_elapsed_ms(z_time_now(), *time));
 }
 
 unsigned long z_time_elapsed_s(z_time_t *time)
 {
-    return _saturate(_elapsed_us(z_time_now(), *time) / US_PER_SEC);
+    return _saturate(_elapsed_ms(z_time_now(), *time) / MS_PER_SEC);
 }
 
 z_result_t _z_get_time_since_epoch(_z_time_since_epoch *t)
 {
     z_time_t now = z_time_now();
 
-    t->secs = now / US_PER_SEC;
-    t->nanos = (now % US_PER_SEC) * NS_PER_US;
+    t->secs = now / MS_PER_SEC;
+    t->nanos = (now % MS_PER_SEC) * NS_PER_MS;
     return _Z_RES_OK;
 }
