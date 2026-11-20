@@ -7,8 +7,8 @@ BOARD ?= nrf52840dk
 RIOTBASE ?= $(CURDIR)/../../../..
 
 USEPKG += zenoh-pico
-# peer mode, two nodes communicate without a zenoh router: it must be set for
-# the package and the application
+# also add peer mode to the build, two nodes communicate without a zenoh
+# router: it must be set for the package and the application
 CFLAGS += -DZ_FEATURE_UNICAST_PEER=1
 
 # IPv6 over the network interfaces of the board (6LoWPAN over IEEE 802.15.4,
